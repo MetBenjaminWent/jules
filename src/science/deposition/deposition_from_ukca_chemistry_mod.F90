@@ -49,7 +49,8 @@ USE jules_deposition_mod, ONLY: ndry_dep_species
 
 USE um_types, ONLY: real_jlslsm
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -190,14 +191,12 @@ REAL(KIND=real_jlslsm) ::                                                      &
   soil_sand(land_points)
     ! fraction of soil that is sand
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER   :: RoutineName=                                  &
   'DEPOSITION_FROM_UKCA_CHEMISTRY'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF ( .NOT. ALLOCATED(speci_jules) .AND. .NOT. ALLOCATED(nldepd_jules) ) THEN
 
@@ -280,7 +279,7 @@ CALL diagnostics_dep( row_length, rows, bl_levels,                             &
   dep_vd_ij, dep_vd_gb, dep_loss_rate_ij, stashwork50 )
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE deposition_from_ukca_chemistry

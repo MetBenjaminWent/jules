@@ -45,7 +45,8 @@ USE jules_surface_mod,        ONLY: l_aggregate
 USE ancil_info,               ONLY: nsoilt
 
 USE parkind1,                 ONLY: jprb, jpim
-USE yomhook,                  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -92,15 +93,13 @@ REAL(KIND=real_jlslsm) ::                                                      &
   infil_t(land_pts,ntype)
     ! Max infiltration rate on surface types (kg m-2 s-1).
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='INFILTRATION_RATE'
 
 !End of header
 !-----------------------------------------------------------------------------
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !=============================================================================
 ! *NOTICE REGARDING SOIL TILING**
@@ -191,7 +190,7 @@ ELSE
 
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE infiltration_rate
 END MODULE infiltration_rate_mod

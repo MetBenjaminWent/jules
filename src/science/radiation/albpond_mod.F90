@@ -13,7 +13,8 @@ MODULE albpond_mod
 USE jules_sea_seaice_mod, ONLY: albpondv_cice
 
 USE parkind1,             ONLY: jprb, jpim
-USE yomhook,              ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -99,13 +100,11 @@ REAL(KIND=real_jlslsm), PARAMETER :: rfd = 0.0659
          ! For air over water (with refractive indexes of 1 and 1.33)
          ! this is a constant number.
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ALBPOND_MAL'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Calculate the sin of transmitted angle (Snell's law)
 angle_air = ACOS(cos_zenith_angle)
@@ -176,7 +175,7 @@ pond_albedo(4) = rfd + f_out**2 * bottom_albedo(4) /                           &
 ! Apply limits to the diffuse_albedo
 IF (pond_albedo(4) > bottom_albedo(4)) pond_albedo(4) = bottom_albedo(4)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 END SUBROUTINE albpond_mal
 

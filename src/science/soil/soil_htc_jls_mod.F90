@@ -42,7 +42,8 @@ USE jules_surface_types_mod, ONLY: lake
 USE jules_irrig_mod,   ONLY: l_irrig_dmd
 
 USE parkind1,               ONLY: jprb, jpim
-USE yomhook,                ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -234,13 +235,11 @@ LOGICAL ::                                                                     &
   iter(npnts)
     ! .T. on points requiring iterations.
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SOIL_HTC'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Initialisations
@@ -718,7 +717,7 @@ DO jj = 1, soil_pts, j_block
 END DO
 !$OMP END PARALLEL DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE soil_htc
 END MODULE soil_htc_mod

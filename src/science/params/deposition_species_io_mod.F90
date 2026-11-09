@@ -172,7 +172,8 @@ USE check_iostat_mod, ONLY: check_iostat
 USE UM_parcore,       ONLY: mype
 
 USE parkind1,         ONLY: jprb, jpim
-USE yomhook,          ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -184,15 +185,13 @@ INTEGER :: mpl_nml_type
 INTEGER :: errorstatus
 INTEGER :: icode
 INTEGER :: ispecies
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER ::                                                 &
   RoutineName='READ_NML_JULES_DEPOSITION_SPECIES'
 
 CHARACTER(LEN=errormessagelength) :: iomessage
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
 
 ! set number of each type of variable in my_namelist_species type
 INTEGER, PARAMETER :: no_of_types = 2
@@ -216,7 +215,7 @@ END TYPE my_namelist_species
 
 TYPE (my_namelist_species) :: my_nml
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! All PEs - set IO status as needed for tests
@@ -315,7 +314,7 @@ END DO ! Loop over ispecies
 
 CALL mpl_type_free(mpl_nml_type,icode)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 END SUBROUTINE read_nml_jules_deposition_species

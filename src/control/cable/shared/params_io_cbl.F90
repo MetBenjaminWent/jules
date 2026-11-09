@@ -182,7 +182,8 @@ SUBROUTINE params_io_assoc_cbl(pars_io, pars_io_data)
 
   !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -190,13 +191,11 @@ IMPLICIT NONE
 TYPE(params_io_type), INTENT(IN OUT)              :: pars_io
 TYPE(params_io_data_type), INTENT(IN OUT), TARGET :: pars_io_data
 !local:needed by dr_hook
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*), PARAMETER :: RoutineName='PARAMS_IO_ASSOC_CBL'
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 CALL params_io_nullify_cbl(pars_io)
 
@@ -257,7 +256,7 @@ pars_io % soilin_sucs    =>   pars_io_data % soilin_sucs
 pars_io % soilin_rhosoil =>   pars_io_data % soilin_rhosoil
 pars_io % soilin_css     =>   pars_io_data % soilin_css
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 END SUBROUTINE params_io_assoc_cbl
@@ -269,20 +268,19 @@ SUBROUTINE params_io_nullify_cbl(pars_io)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
 !Arguments
 TYPE(params_io_type), INTENT(IN OUT) :: pars_io
 !local:needed by dr_hook
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 CHARACTER(LEN=*), PARAMETER :: RoutineName='PARAMS_IO_NULLIFY_CBL'
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! Veg parameters I/O:
 NULLIFY( pars_io%vegin_canst1 )
@@ -341,7 +339,7 @@ NULLIFY( pars_io%soilin_sucs )
 NULLIFY( pars_io%soilin_rhosoil )
 NULLIFY( pars_io%soilin_css )
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 
 RETURN
 END SUBROUTINE params_io_nullify_cbl

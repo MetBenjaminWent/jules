@@ -106,7 +106,8 @@ USE update_mod,     ONLY: l_imogen
 #endif
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -519,14 +520,12 @@ REAL(KIND=real_jlslsm), ALLOCATABLE ::                                         &
     ! fraction of saturation.
 
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='HYDROL'
 
 ! End of header---------------------------------------------------------------
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Set up water tracer working arrays
 CALL wtrac_alloc_hyd(land_pts, nsoilt, sm_levels, n_wtrac_jls, wtrac_hy)
@@ -1264,7 +1263,7 @@ DEALLOCATE(sthf_soilt_old)
 DEALLOCATE(sthu_soilt_old)
 
 !-----------------------------------------------------------------------------
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE hydrol
 END MODULE hydrol_mod

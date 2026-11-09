@@ -120,7 +120,8 @@ SUBROUTINE chemvars_alloc(land_pts, t_i_length, t_j_length, npft, ntype,       &
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -131,15 +132,13 @@ LOGICAL, INTENT(IN) :: l_deposition
 TYPE(chemvars_data_type), INTENT(IN OUT) :: chemvars_data
 
 !Local variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CHEMVARS_ALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 
 ! ==== from bvoc_vars module ====
@@ -216,7 +215,7 @@ IF (l_deposition) THEN
 END IF
 
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE chemvars_alloc
 
@@ -226,7 +225,8 @@ SUBROUTINE chemvars_dealloc(chemvars_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -236,15 +236,13 @@ TYPE(chemvars_data_type), INTENT(IN OUT) :: chemvars_data
 
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CHEMVARS_DEALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DEALLOCATE(chemvars_data%isoprene_gb)
 DEALLOCATE(chemvars_data%isoprene_pft)
@@ -282,7 +280,7 @@ IF ( ALLOCATED(chemvars_data%dep_ra_ij) ) THEN
 END IF
 
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE chemvars_dealloc
@@ -292,7 +290,8 @@ SUBROUTINE chemvars_assoc(chemvars,chemvars_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -305,15 +304,13 @@ TYPE(chemvars_type), INTENT(IN OUT) :: chemvars
 
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CHEMVARS_ASSOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL chemvars_nullify(chemvars)
 
@@ -352,7 +349,7 @@ IF ( ALLOCATED(chemvars_data%dep_ra_ij) ) THEN
   chemvars%dep_flux_ij       => chemvars_data%dep_flux_ij
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE chemvars_assoc
 
@@ -361,7 +358,8 @@ SUBROUTINE chemvars_nullify(chemvars)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -372,15 +370,13 @@ TYPE(chemvars_type), INTENT(IN OUT) :: chemvars
 
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CHEMVARS_NULLIFY'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(chemvars%isoprene_gb)
 NULLIFY(chemvars%isoprene_pft)
@@ -416,7 +412,7 @@ NULLIFY(chemvars%dep_ftl_1_ij)
 NULLIFY(chemvars%dep_sinlat_ij)
 NULLIFY(chemvars%dep_ustar_ij)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 
 RETURN
 END SUBROUTINE chemvars_nullify

@@ -142,7 +142,8 @@ USE imogen_run, ONLY: l_daily_metdata_climatol
 USE theta_field_sizes, ONLY: t_i_length, t_j_length
 
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -153,15 +154,13 @@ INTEGER :: mdused
 
 TYPE(imgn_drive_data_type), INTENT(IN OUT) :: imgn_drive_data
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='IMGN_DRIVE_ALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF (l_daily_metdata_climatol) THEN
   mdused = md
@@ -239,7 +238,7 @@ imgn_drive_data%pstar_ij_drive(:,:,:,:,:) = rmdi
 imgn_drive_data%swdown_ij_drive(:,:,:,:,:) = rmdi
 imgn_drive_data%lwdown_ij_drive(:,:,:,:,:) = rmdi
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE imgn_drive_alloc
 
@@ -248,21 +247,20 @@ SUBROUTINE imgn_drive_dealloc(imgn_drive_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
 TYPE(imgn_drive_data_type), INTENT(IN OUT) :: imgn_drive_data
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='IMGN_DRIVE_DEALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DEALLOCATE( imgn_drive_data%tl1_ij_clim)
 DEALLOCATE( imgn_drive_data%ql1_ij_clim)
@@ -299,7 +297,7 @@ DEALLOCATE( imgn_drive_data%pstar_ij_drive)
 DEALLOCATE( imgn_drive_data%swdown_ij_drive)
 DEALLOCATE( imgn_drive_data%lwdown_ij_drive)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE imgn_drive_dealloc
 
@@ -308,22 +306,21 @@ SUBROUTINE imgn_drive_assoc(imgn_drive, imgn_drive_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
 TYPE(imgn_drive_type), INTENT(IN OUT) :: imgn_drive
 TYPE(imgn_drive_data_type), INTENT(IN OUT), TARGET :: imgn_drive_data
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='IMGN_DRIVE_ASSOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL imgn_drive_nullify(imgn_drive)
 
@@ -362,7 +359,7 @@ imgn_drive%pstar_ij_drive => imgn_drive_data%pstar_ij_drive
 imgn_drive%swdown_ij_drive => imgn_drive_data%swdown_ij_drive
 imgn_drive%lwdown_ij_drive => imgn_drive_data%lwdown_ij_drive
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE imgn_drive_assoc
 
@@ -371,21 +368,20 @@ SUBROUTINE imgn_drive_nullify(imgn_drive)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
 TYPE(imgn_drive_type), INTENT(IN OUT) :: imgn_drive
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='IMGN_DRIVE_NULLIFY'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY( imgn_drive%tl1_ij_clim)
 NULLIFY( imgn_drive%ql1_ij_clim)
@@ -422,7 +418,7 @@ NULLIFY( imgn_drive%pstar_ij_drive)
 NULLIFY( imgn_drive%swdown_ij_drive)
 NULLIFY( imgn_drive%lwdown_ij_drive)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE imgn_drive_nullify
 

@@ -86,7 +86,8 @@ USE descent, ONLY: gamma_eq, iter_eq
 USE ancil_info, ONLY: nsoilt
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -376,15 +377,13 @@ REAL(KIND=real_jlslsm) ::                                                      &
     ! Mixing term for calculating respiration correction (kgC/m^2/360days)
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='VEG2'
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Initialisations
@@ -944,7 +943,7 @@ IF ( ( l_triffid .AND. asteps_since_triffid == 0 ) .AND.                       &
   END DO
 END IF  !  TRIFFID step and 4-pool soil C
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE veg2

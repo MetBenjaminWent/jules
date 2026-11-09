@@ -56,7 +56,8 @@ USE um_stashcode_mod,         ONLY: stashcode_lai, stashcode_canopy_height,    &
 USE ancil_mod, ONLY: num_ancil_requests, ancil_requests
 USE cancila_mod, ONLY: update
 
-USE yomhook,                  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1,                 ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -71,15 +72,13 @@ INTEGER :: field
 INTEGER :: field_lai, field_canht, field_z0msoil
 LOGICAL :: update_lai, update_canht, update_z0msoil
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='UPDATE_VEG'
 
 ! Update vegetation parameters if required
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 field_lai       = 0
 update_lai      = .FALSE.
@@ -128,7 +127,7 @@ IF (update_lai .OR. update_canht .OR. update_z0msoil ) THEN
 
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE update_veg

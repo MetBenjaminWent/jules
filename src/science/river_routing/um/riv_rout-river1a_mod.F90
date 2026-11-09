@@ -35,7 +35,8 @@ SUBROUTINE riv_rout_1a(global_row_length, global_rows,                         &
      inlandout_trip, inlandout_atm, g_river_row_length, g_river_rows,          &
      global_land_frac,first, cmessage)
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 USE conversions_mod, ONLY: rsec_per_day
 USE riv_directions, ONLY: open_sea_dirs, river_outflow_dir,                    &
@@ -252,12 +253,10 @@ INTEGER :: ERROR
 ! debugging variables
 INTEGER :: icode
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 inlandout = 0.0
 inlandout_trip = 0.0
@@ -640,7 +639,7 @@ DO j = 1,river_rows
   END DO
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE riv_rout_1a
 

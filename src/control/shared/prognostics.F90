@@ -278,7 +278,8 @@ SUBROUTINE prognostics_alloc(land_pts, t_i_length, t_j_length,                 &
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -297,15 +298,13 @@ TYPE(progs_data_type), INTENT(IN OUT) :: progs_data
 !Local variables
 INTEGER :: temp_size, temp_tiles, temp_layers
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='PROGNOSTICS_ALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !seed_rain is allocated elsewhere
 
@@ -498,7 +497,7 @@ progs_data%snow_grnd_surft(:,:)       = 0.0
 progs_data%snow_mass_ij(:,:)          = 0.0
 progs_data%snow_mass_sea_sicat(:,:,:) = 0.0
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE prognostics_alloc
 
@@ -507,7 +506,8 @@ SUBROUTINE prognostics_dealloc(progs_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -515,15 +515,13 @@ TYPE(progs_data_type), INTENT(IN OUT) :: progs_data
   !Instance of the data type we need to deallocate
 
 !Local variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='PROGNOSTICS_DEALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 !  ====prognostics module common====
 DEALLOCATE(progs_data%nsnow_surft)
@@ -602,7 +600,7 @@ DEALLOCATE(progs_data%snow_mass_ij)
 DEALLOCATE(progs_data%snow_mass_sea_sicat)
 DEALLOCATE(progs_data%plantNumDensity)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE prognostics_dealloc
 
@@ -611,7 +609,8 @@ SUBROUTINE prognostics_assoc(progs,progs_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -622,15 +621,13 @@ TYPE(progs_data_type), INTENT(IN OUT), TARGET :: progs_data
   !Instance of the data type we are associtating to
 
 !Local variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='PROGNOSTICS_ASSOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL prognostics_nullify(progs)
 
@@ -696,7 +693,7 @@ IF (ALLOCATED(progs_data%seed_rain)) THEN
 END IF
 
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE prognostics_assoc
 
@@ -706,7 +703,8 @@ SUBROUTINE prognostics_nullify(progs)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -714,15 +712,13 @@ TYPE(progs_type), INTENT(IN OUT) :: progs
   !Instance of the pointer type we are nullifying
 
 !Local variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='PROGNOSTICS_NULLIFY'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(progs%nsnow_surft)
 NULLIFY(progs%rho_snow_grnd_surft)
@@ -782,7 +778,7 @@ NULLIFY(progs%t_home_gb)
 NULLIFY(progs%t_growth_gb)
 NULLIFY(progs%f_nsc_pft)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE prognostics_nullify
 

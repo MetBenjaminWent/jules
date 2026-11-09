@@ -58,7 +58,8 @@ SUBROUTINE wtrac_alloc_extra(land_pts, nsurft, n_wtrac_jls, wtrac_ex)
 USE jules_water_tracers_mod, ONLY: l_wtrac_jls
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -70,13 +71,11 @@ TYPE(wtrac_ex_type), INTENT (IN OUT) :: wtrac_ex
 
 INTEGER :: i, n, i_wt                         ! Loop counters
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WTRAC_ALLOC_EXTRA'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Allocate water tracer arrays
 IF (l_wtrac_jls) THEN
@@ -106,7 +105,7 @@ ELSE
   ALLOCATE(wtrac_ex%melt_surft(1,1,1))
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE wtrac_alloc_extra
@@ -122,26 +121,25 @@ SUBROUTINE wtrac_dealloc_extra(wtrac_ex)
 !
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
 TYPE(wtrac_ex_type), INTENT (IN OUT) :: wtrac_ex
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WTRAC_DEALLOC_EXTRA'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! Deallocate water tracer arrays
 DEALLOCATE(wtrac_ex%melt_surft)
 DEALLOCATE(wtrac_ex%lake_snow_melt)
 DEALLOCATE(wtrac_ex%snow_melt)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE wtrac_dealloc_extra

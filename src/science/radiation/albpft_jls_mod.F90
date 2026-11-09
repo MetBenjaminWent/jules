@@ -43,7 +43,8 @@ USE jules_vegetation_mod, ONLY: can_rad_mod
 USE ancil_info, ONLY: rad_nband
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE ereport_mod, ONLY: ereport
 
@@ -199,16 +200,14 @@ REAL(KIND=real_jlslsm) :: omega_arr(2),  alpa_arr(2),                          &
 INTEGER ::                                                                     &
  band,i,j,l,n               ! Loop counters.
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ALBPFT'
 
 INTEGER ::              errcode            ! Error code
 CHARACTER(LEN=80) :: ERRMSG             ! Error message text
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Check the consistency of the options.
 IF ( albpft_call < 0 .OR. albpft_call > 2) THEN
@@ -600,7 +599,7 @@ END DO  !  pfts
 
 !$OMP END PARALLEL
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE albpft
 END MODULE albpft_mod

@@ -112,7 +112,8 @@ USE jules_water_tracers_mod,  ONLY: l_wtrac_imp_jls, standard_ratio_wtrac
 USE sf_land_imp_wtrac_mod,    ONLY: sf_land_imp_wtrac
 
 USE parkind1,                 ONLY: jprb, jpim
-USE yomhook,                  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE jules_print_mgr,          ONLY: jules_message, jules_print
 
@@ -460,13 +461,11 @@ LOGICAL, PARAMETER :: using_lfric = .FALSE.
 
 INTEGER :: errorstatus
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='JULES_LAND_SF_IMPLICIT'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------
 
@@ -960,7 +959,7 @@ IF (l_wtrac_imp_jls) THEN
   END DO
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 END SUBROUTINE jules_land_sf_implicit

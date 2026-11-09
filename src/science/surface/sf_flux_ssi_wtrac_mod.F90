@@ -37,7 +37,8 @@ SUBROUTINE sf_flux_ssi_wtrac (i_wt, ssi_pts, sea_pts, sea_index,               &
  dtstar, resf, r_sfc_wtrac, ssi_type, q_elev_wtrac, fqw_1_wtrac)
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -105,13 +106,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
 ,epot
              ! Potential evaporation for water tracers
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SF_FLUX_SSI_WTRAC'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEL DO IF(sea_pts > 1)                                              &
 !$OMP SCHEDULE(STATIC)                                                         &
@@ -169,7 +168,7 @@ DO k = 1,sea_pts
 END DO
 !$OMP END PARALLEL DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 END SUBROUTINE sf_flux_ssi_wtrac

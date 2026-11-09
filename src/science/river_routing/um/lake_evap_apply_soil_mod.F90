@@ -38,7 +38,8 @@ SUBROUTINE lake_evap_apply_soil                                                &
 
 USE umPrintMgr, ONLY: umPrint, umMessage
 
-USE yomhook,  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -94,13 +95,11 @@ INTEGER ::  i,j,l                 ! Counters
 
 CHARACTER(LEN=22) :: message_error
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='LAKE_EVAP_APPLY_SOIL'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Set up soil fields on full field arrays.
 
@@ -153,8 +152,7 @@ DO l = 1, land_points
   sthu(l) = sthu_dsm_ij(i,j)
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,                &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE lake_evap_apply_soil
 END MODULE lake_evap_apply_soil_mod

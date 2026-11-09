@@ -96,7 +96,8 @@ USE jules_surface_mod, ONLY:                                                   &
    iter,o2,cmass
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE crop_utils_mod, ONLY:                                                      &
    stemc_from_prognostics,                                                     &
@@ -565,13 +566,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
 ,act_v_tmp(n_photo_coef)
    ! Coefficients governing the acclimation of activation energy for Vcmax.
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SF_STOM'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Initialisation.
@@ -1709,7 +1708,7 @@ IF ( l_fapar_diag ) THEN
   apar_diag(:) = fapar_diag(:) * ipar(:)
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE sf_stom
 
@@ -1733,7 +1732,8 @@ USE jules_vegetation_mod, ONLY:                                                &
 USE pftparm, ONLY: fd, jv25_ratio, neff, vint, vsl
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -1805,16 +1805,14 @@ REAL ::                                                                        &
     ! Maximum rate of carboxylation of Rubisco at the reference temperature,
     ! ignoring the effects of acclimation and N allocation (mol CO2/m2/s).
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CALC_PHOTO_PARAMETERS'
 
 !-----------------------------------------------------------------------------
 !end of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Calculate some constants.
@@ -1935,7 +1933,7 @@ END DO
 !$OMP END DO NOWAIT
 !$OMP END PARALLEL
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE calc_photo_parameters
@@ -1948,7 +1946,8 @@ SUBROUTINE calc_electron_flux( land_pts, veg_pts, veg_index, i2, jmax, je )
 ! Calculate the electron flux for the Farquhar model.
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -1997,16 +1996,14 @@ REAL(KIND=real_jlslsm) ::                                                      &
    ! The reciprocal of the denominator.
 
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CALC_ELECTRON_FLUX'
 
 !-----------------------------------------------------------------------------
 !end of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Calculate a constant.
@@ -2025,7 +2022,7 @@ DO m = 1,veg_pts
            ) * recip_denom
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 
 END SUBROUTINE calc_electron_flux

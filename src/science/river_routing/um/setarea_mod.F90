@@ -32,7 +32,8 @@ SUBROUTINE setarea(nx, ny, area, jmax, offset_ny)
 
 USE arealat1_mod, ONLY: arealat1
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 USE ereport_mod, ONLY: ereport
 USE jules_rivers_mod, ONLY: trip_globe_shape, globe_spherical, globe_ellipsoidal
@@ -47,9 +48,7 @@ REAL(KIND=real_jlslsm), INTENT(OUT) :: area(nx, ny)
 REAL(KIND=real_jlslsm) :: atmp
 INTEGER :: j_offset
 INTEGER :: i, j
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 REAL(KIND=real_jlslsm)  :: dlat, dlon
 REAL(KIND=real_jlslsm)  :: len_lat
@@ -62,7 +61,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='SETAREA'
 
 j_offset = offset_ny
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 SELECT CASE ( trip_globe_shape )
 
@@ -100,7 +99,7 @@ CASE DEFAULT
      "Unsupported trip_globe_shape")
 END SELECT
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE setarea

@@ -72,7 +72,8 @@ SUBROUTINE wtrac_alloc_hyd(land_pts, nsoilt, sm_levels, n_wtrac_jls, wtrac_hy)
 USE jules_water_tracers_mod, ONLY: l_wtrac_jls
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook,  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -85,13 +86,11 @@ TYPE(wtrac_hy_type), INTENT (IN OUT) :: wtrac_hy  ! Water tracer working arrays
 
 INTEGER :: i, m ,n, i_wt                          ! Loop counters
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WTRAC_ALLOC_HYD'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Allocate water tracer arrays
 IF (l_wtrac_jls) THEN
@@ -157,7 +156,7 @@ ELSE
   ALLOCATE(wtrac_hy%canopy_gb(1,1))
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE wtrac_alloc_hyd
@@ -173,19 +172,18 @@ SUBROUTINE wtrac_dealloc_hyd(wtrac_hy)
 !
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
 TYPE(wtrac_hy_type), INTENT (IN OUT) :: wtrac_hy  ! Water tracer working arrays
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WTRAC_DEALLOC_HYD'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! Deallocate water tracer arrays
 DEALLOCATE(wtrac_hy%canopy_gb)
@@ -197,7 +195,7 @@ DEALLOCATE(wtrac_hy%qbase_soilt)
 DEALLOCATE(wtrac_hy%dsmc_dt_soilt)
 DEALLOCATE(wtrac_hy%w_flux_soilt)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE wtrac_dealloc_hyd

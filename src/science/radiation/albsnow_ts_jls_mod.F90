@@ -20,7 +20,8 @@ USE water_constants_mod,  ONLY: rho_ice
 USE jules_science_fixes_mod, ONLY: l_fix_albsnow_ts
 
 USE parkind1,             ONLY: jprb, jpim
-USE yomhook,              ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -108,13 +109,11 @@ REAL(KIND=real_jlslsm) :: tsd
 
 INTEGER :: band,j,l          ! Loop counters.
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ALBSNOW_TS'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! 2-Band scheme, VIS and NIR.
 DO band = 1, 2
@@ -203,7 +202,7 @@ DO band = 1, 2
 !$OMP END PARALLEL DO
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE albsnow_ts
 END MODULE albsnow_ts_mod

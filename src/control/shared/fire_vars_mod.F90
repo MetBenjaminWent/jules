@@ -250,7 +250,8 @@ SUBROUTINE fire_vars_alloc(land_pts,npft, fire_vars_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -258,15 +259,13 @@ IMPLICIT NONE
 INTEGER, INTENT(IN) :: land_pts,npft
 TYPE(fire_vars_data_type), INTENT(IN OUT) :: fire_vars_data
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='FIRE_VARS_ALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------
 ! Allocate space for inferno diagnostic variables
@@ -405,7 +404,7 @@ fire_vars_data%wealth_index(:)        = 0.0
 fire_vars_data%flash_rate(:)          = 0.0
 fire_vars_data%flammability_ft(:,:)   = 0.0
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE fire_vars_alloc
 
@@ -415,22 +414,21 @@ SUBROUTINE fire_vars_dealloc(fire_vars_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
 !Arguments
 TYPE(fire_vars_data_type), INTENT(IN OUT) :: fire_vars_data
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='FIRE_VARS_DEALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------
 ! Allocate space for inferno diagnostic variables
@@ -502,7 +500,7 @@ DEALLOCATE(fire_vars_data%wealth_index)
 DEALLOCATE(fire_vars_data%flash_rate)
 DEALLOCATE(fire_vars_data%flammability_ft)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE fire_vars_dealloc
 
@@ -511,7 +509,8 @@ SUBROUTINE fire_vars_assoc(fire_vars, fire_vars_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -519,15 +518,13 @@ IMPLICIT NONE
 TYPE(fire_vars_type), INTENT(IN OUT) :: fire_vars
 TYPE(fire_vars_data_type), INTENT(IN OUT), TARGET :: fire_vars_data
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='FIRE_VARS_ASSOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL fire_vars_nullify(fire_vars)
 
@@ -598,7 +595,7 @@ fire_vars%wealth_index => fire_vars_data%wealth_index
 fire_vars%flash_rate => fire_vars_data%flash_rate
 fire_vars%flammability_ft => fire_vars_data%flammability_ft
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE fire_vars_assoc
 
@@ -607,22 +604,21 @@ SUBROUTINE fire_vars_nullify(fire_vars)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
 !Arguments
 TYPE(fire_vars_type), INTENT(IN OUT) :: fire_vars
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='FIRE_VARS_NULLIFY'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(fire_vars%burnt_area)
 NULLIFY(fire_vars%burnt_area_ft)
@@ -691,7 +687,7 @@ NULLIFY(fire_vars%wealth_index)
 NULLIFY(fire_vars%flash_rate)
 NULLIFY(fire_vars%flammability_ft)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE fire_vars_nullify
 

@@ -108,8 +108,8 @@ USE jules_surface_types_mod,    ONLY: npft
 USE parkind1,                 ONLY:                                            &
   jprb, jpim
 
-USE yomhook,                  ONLY:                                            &
-  lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 
 IMPLICIT NONE
@@ -214,16 +214,14 @@ INTEGER :: i,j,l
 INTEGER :: errorstatus
 
 !Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SURF_COUPLE_RADIATION'
 
 !-----------------------------------------------------------------------------
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 SELECT CASE( lsm_id )
 CASE ( jules )
@@ -327,7 +325,7 @@ CALL jules_ssi_albedo (                                                        &
   !Fluxes (OUT)
   fluxes%alb_sicat, fluxes%penabs_rad_frac)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE surf_couple_radiation
 END MODULE surf_couple_radiation_mod

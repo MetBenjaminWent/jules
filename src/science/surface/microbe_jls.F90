@@ -39,7 +39,8 @@ USE sf_diags_mod, ONLY: strnewsfdiag
 USE ancil_info, ONLY: dim_cslayer
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 IMPLICIT NONE
 
 TYPE (strnewsfdiag), INTENT(IN OUT) :: sf_diag
@@ -122,13 +123,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
   ! when cs_decomp_soil_moist_func = 1 this is the soil moisture decomposition
   ! factor when the soil is completely dry (i.e. no soil respiration
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='MICROBE'
 
-IF (lhook) CALL dr_hook(modulename//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, modulename//':'//RoutineName)
 
 ! initialise INTENT(OUT) variable
 resp_s(:,:,:) = 0.0
@@ -333,7 +332,7 @@ IF (sf_diag%l_fprf) THEN
 END IF
 
 
-IF (lhook) CALL dr_hook(modulename//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE microbe

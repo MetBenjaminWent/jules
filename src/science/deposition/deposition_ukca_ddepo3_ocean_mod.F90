@@ -52,7 +52,8 @@ USE water_constants_mod,     ONLY: rhosea
 USE conversions_mod,         ONLY: pi
 USE um_types,                ONLY: real_jlslsm
 USE parkind1,                ONLY: jpim, jprb
-USE yomhook,                 ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -76,9 +77,7 @@ REAL(KIND=real_jlslsm), PARAMETER ::                                           &
     ! assumed depth of ocean surface micro layer (m)
 
 ! Local variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in = 0 ! DrHook tracing entry
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1 ! DrHook tracing exit
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 REAL(KIND=real_jlslsm) ::                                                      &
   rhoa,                                                                        &
@@ -103,7 +102,7 @@ REAL(KIND=real_jlslsm) ::                                                      &
 CHARACTER(LEN=*), PARAMETER :: RoutineName='DEPOSITION_UKCA_DDEPO3_OCEAN'
 
 !------------------------------------------------------------------------
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 
 rhoa = p0 / ( rgas * t0 ) ! air density (kg/m3)
@@ -135,7 +134,7 @@ vdw=SQRT(a1*m_diff)*(psi*b_k1(delzt1)*COSH(argm)+b_k0(delzt1)*SINH(argm))/     &
 
 rc=1.0/(alpha*vdw) ! surface resistance (s/m)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 END SUBROUTINE deposition_ukca_ddepo3_ocean
 

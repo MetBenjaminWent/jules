@@ -28,7 +28,8 @@ USE jules_vegetation_mod, ONLY:                                                &
 
 USE ereport_mod, ONLY: ereport
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE um_types, ONLY: real_jlslsm
 
 IMPLICIT NONE
@@ -142,13 +143,11 @@ INTEGER ::                                                                     &
  land_grid_index(open_pts)
                             ! Land grid index
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='LEAF'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 DO j = 1,open_pts
   land_grid_index(j) = veg_index(open_index(j))
@@ -353,7 +352,7 @@ IF ( l_o3_damage ) THEN
 !$OMP END PARALLEL DO
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE leaf
 END MODULE leaf_mod

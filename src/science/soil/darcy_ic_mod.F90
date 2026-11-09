@@ -28,7 +28,8 @@ USE darcy_vg_mod, ONLY: darcy_vg
 USE jules_soil_mod, ONLY: l_vg_soil
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -81,15 +82,13 @@ REAL(KIND=real_jlslsm), INTENT(OUT) ::                                         &
   dwflux_dsthu2(npnts)
    ! The rate of change of the explicit flux with STHU2 (kg/m2/s).
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='DARCY_IC'
 
 !-----------------------------------------------------------------------
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF ( l_vg_soil ) THEN
   ! van Genuchten model
@@ -103,7 +102,7 @@ ELSE
                   dwflux_dsthu1, dwflux_dsthu2 )
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE darcy_ic
 

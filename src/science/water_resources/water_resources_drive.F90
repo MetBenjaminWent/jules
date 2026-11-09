@@ -26,7 +26,8 @@ MODULE water_resources_drive_mod
 USE um_types, ONLY: real_jlslsm
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -150,13 +151,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
     ! Demand for water from groundwater, for each water use (kg).
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 !------------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !------------------------------------------------------------------------------
 ! Calculate the target for the fraction of demand to be met from surface
@@ -247,7 +246,7 @@ IF ( l_water_irrigation ) THEN
   END DO
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE water_resources_drive
 
@@ -317,13 +316,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
     ! Available surface water, multiplied by weighting factor (kg).
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 !------------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DO l = 1, global_land_pts
   surface_water = sfc_water_factor * SUM(sw_avail(l,:))
@@ -336,7 +333,7 @@ DO l = 1, global_land_pts
   END IF
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE calc_target_split
 
@@ -405,13 +402,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
     ! Surface water fraction for each water use.
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 !------------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 !------------------------------------------------------------------------------
 ! Set surface water fraction for each sector.
@@ -469,7 +464,7 @@ ELSE
   demand_sw(:,:) = 0.0
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE split_demands
 
@@ -539,13 +534,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
     ! Fraction of water that is lost during conveyance from source to user.
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 !------------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 ! Initialise conveyance losses.
 conveyance_loss(:)       = 0.0
@@ -575,7 +568,7 @@ DO i = 1, nwater_use
 
 END DO  !  water uses
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE calc_conveyance_loss
 
@@ -653,13 +646,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
     ! Fraction of the water delivered that is then returned to rivers.
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_5
 
 !------------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
 
 ! Initialise return flows and water removed.
 return_flow_gw(:)    = 0.0
@@ -716,7 +707,7 @@ DO i = 1, nwater_use
 
 END DO  !  water uses
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_5)
 RETURN
 END SUBROUTINE calc_return_flow
 

@@ -56,7 +56,8 @@ USE veg_param,                 ONLY: litc_norm
 
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -98,13 +99,11 @@ INTEGER                           :: icode  ! =0 normal exit; >0 error exit
 CHARACTER(LEN=errormessagelength) :: cmessage
 CHARACTER(LEN=*)                  :: RoutineName
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 PARAMETER(RoutineName='SURF_COUPLE_INITIALISE')
 
 !End of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !Grab the relevant items from inthd and give them a more memorable name
 triffid_period_arg  = a_inthd_arg(22)
@@ -174,7 +173,7 @@ IF ( l_irrig_dmd ) THEN
   CALL update_irrig_variables(crop_vars,psparms,ainfo)
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE surf_couple_initialise
 END MODULE surf_couple_initialise_mod

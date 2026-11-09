@@ -58,7 +58,8 @@ USE stash_array_mod, ONLY:                                                     &
 
 USE atm_fields_bounds_mod,   ONLY: pdims
 
-USE yomhook,                 ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -83,16 +84,14 @@ INTEGER              :: si_start, si_stop ! Stashwork bounds for calling copydia
 
 LOGICAL              :: plltype(ntype)    ! pseudolevel list for surface types
 
-INTEGER(KIND=jpim), PARAMETER      :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER      :: zhook_out = 1
-REAL(KIND=jprb)                    :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER        ::                                          &
   RoutineName='DIAGNOSTICS_DEP'
 
 !-------------------------------------------------------------------------------
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Write to diagnostic stream
 
@@ -207,7 +206,7 @@ DO n = 1, ndry_dep_species
 
 END DO            ! End of loop over deposited species
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 

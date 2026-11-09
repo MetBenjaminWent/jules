@@ -27,7 +27,8 @@ SUBROUTINE soilcarb_tracer_age(land_pts, trif_pts, trif_index, mix_s, resp_s,  &
 USE ancil_info, ONLY: dim_cslayer, dim_cs1
 USE jules_soil_mod, ONLY: dzsoil
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -116,15 +117,13 @@ REAL(KIND=real_jlslsm) ::                                                      &
     ! will change when l_accumulate_soilc is added later
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SOILCARB_TRACER_AGE'
 
 !-----------------------------------------------------------------------------
 ! End of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 
 ! See eq. 72 & 73 in Clark et al. (2011); doi:10.5194/gmd-4-701-2011
@@ -271,7 +270,7 @@ DO t = 1,trif_pts
 
 END DO ! land points.
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE soilcarb_tracer_age
 END MODULE soilcarb_tracer_age_mod

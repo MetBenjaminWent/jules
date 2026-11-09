@@ -37,7 +37,8 @@ USE jules_soil_ecosse_mod, ONLY:                                               &
   l_soil_N
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -175,13 +176,11 @@ INTEGER ::                                                                     &
     ! Value used for error.
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! ECOSSE is coded assuming a single soil tile.
@@ -250,7 +249,7 @@ IF ( l_add_plant_inputs ) THEN
   ! deal with these values.
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE ecosse_source_sink
@@ -329,13 +328,11 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName = 'REMOVE_PLANT_UPTAKE'
 INTEGER :: i,l      !  work
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Plant uptake of N should be extracted on this timestep.
@@ -365,7 +362,7 @@ DO i = 1,vs_pts
   soilecosse%no3_uptake_gb(l) = SUM( soilecosse%no3_uptake_layer_gb(l,:) )
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE remove_plant_uptake
@@ -465,13 +462,11 @@ REAL ::                                                                        &
     ! Fraction of uptake that is from soil nitrate.
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Initialise diagnostics.
@@ -546,7 +541,7 @@ DO i = 1,vs_pts
 
 END DO  !  points
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 
 END SUBROUTINE plant_uptake_layer
@@ -597,20 +592,18 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName = 'ADD_N_FIX'
 INTEGER :: i, l  !  Indices.
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 DO i = 1,vs_pts
   l = vs_index(i)
   n_amm(l,:) = n_amm(l,:) + n_fix_add(l,:)
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 
 END SUBROUTINE add_n_fix
@@ -670,13 +663,11 @@ REAL ::                                                                        &
   amm_fac, nit_fac  ! Work.
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_5
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
 
 ! Resuse depo_nit_frac to partition between species. This is a gross misuse
 ! of that variable, but will suffice until something better is coded!
@@ -689,7 +680,7 @@ DO i = 1,vs_pts
   n_nit(l,:) = n_nit(l,:) + n_fertiliser_add(l,:) * nit_fac
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_5)
 RETURN
 
 END SUBROUTINE add_fert
@@ -751,12 +742,10 @@ REAL ::                                                                        &
   amm_fac, nit_fac  ! Work.
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_6
 !-----------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_6, ModuleName//':'//RoutineName)
 
 amm_fac = ( 1.0 - depo_nit_frac ) * dt_soilc
 nit_fac = depo_nit_frac * dt_soilc
@@ -767,7 +756,7 @@ DO i = 1,vs_pts
   n_nit_sfc(l) = n_nit_sfc(l) + deposition_n_driver(l) * nit_fac
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_6)
 RETURN
 
 END SUBROUTINE add_deposition
@@ -838,13 +827,11 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName = 'ADD_PLANT_INPUTS'
 INTEGER :: i, j   ! work
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_7
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_7, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Add plant material to soil pools.
@@ -865,7 +852,7 @@ IF ( l_soil_N ) THEN
   END DO
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_7)
 RETURN
 
 END SUBROUTINE add_plant_inputs

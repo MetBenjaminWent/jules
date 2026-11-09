@@ -36,7 +36,8 @@ USE conversions_mod, ONLY: zerodegc
 USE planet_constants_mod, ONLY: g
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE um_types, ONLY: real_jlslsm
 
 IMPLICIT NONE
@@ -75,14 +76,12 @@ REAL(KIND=real_jlslsm) :: tc       !temperature in deg C
 REAL(KIND=real_jlslsm) :: lamdaa   !mean free path of particle
 REAL(KIND=real_jlslsm) :: alphaccf
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='VGRAV'
 
 ! Calculate viscosity of air (Pruppacher & Klett p.323)
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 DO j = tdims%j_start,tdims%j_end
   DO i = tdims%i_start,tdims%i_end
@@ -108,7 +107,7 @@ DO j = tdims%j_start,tdims%j_end
   END DO !ROW_LENGTH
 END DO !ROWS
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE vgrav
 END MODULE vgrav_mod

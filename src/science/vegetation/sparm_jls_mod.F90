@@ -46,7 +46,8 @@ USE stochastic_physics_run_mod, ONLY: l_rp2, i_rp_scheme, i_rp2b, rp_idx,      &
 
 
 USE parkind1,                 ONLY: jprb, jpim
-USE yomhook,                  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -113,16 +114,14 @@ REAL(KIND=real_jlslsm) ::                                                      &
   z0_t(land_pts,ntype)
     ! Roughness lengths for types not tiles (m); required for l_aggregate.
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SPARM'
 
 !-----------------------------------------------------------------------------
 !end of header
 !-----------------------------------------------------------------------------
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Set parameters for vegetated surface types
@@ -271,7 +270,7 @@ IF ( l_rp2 .AND. i_rp_scheme == i_rp2b) THEN
   END IF
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE sparm
 END MODULE sparm_mod

@@ -40,7 +40,8 @@ SUBROUTINE diagnostics_riv(                                                    &
 !    6    inland basin outflow       (river grid)
 
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 
 USE stash_array_mod, ONLY: sf, si, si_last
@@ -82,15 +83,12 @@ INTEGER ::                                                                     &
 REAL ::                                                                        &
  STASHwork( * )    ! STASH workspace
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 ! ------------------------------------------------------------------
 ! Section 1.  Initialisation.
 ! ------------------------------------------------------------------
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,                 &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 im_index = 1
 
@@ -152,8 +150,7 @@ IF (sf(006,sect)) THEN
 END IF
 !---------------------------------------------------------------------
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,                &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE diagnostics_riv
 

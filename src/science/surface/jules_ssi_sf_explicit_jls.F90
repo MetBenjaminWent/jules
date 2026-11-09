@@ -113,7 +113,8 @@ USE jules_water_tracers_mod, ONLY: l_wtrac_jls
 USE sf_flux_ssi_wtrac_mod,   ONLY: sf_flux_ssi_wtrac
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 !-----------------------------------------------------------------------
@@ -687,13 +688,11 @@ LOGICAL, PARAMETER :: l_vegdrag_ssi = .FALSE.
 
 REAL(KIND=real_jlslsm) :: sea_point
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='JULES_SSI_SF_EXPLICIT'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------
 ! Sea and sea-ice surface calculations
@@ -2383,7 +2382,7 @@ IF (sf_diag%su10 .OR. sf_diag%sv10 .OR. sf_diag%sq1p5 .OR.                     &
 
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 END SUBROUTINE jules_ssi_sf_explicit

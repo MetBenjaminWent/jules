@@ -139,7 +139,8 @@ SUBROUTINE trifctl_alloc(land_pts,npft,dim_cslayer,dim_cs1,nsoilt, trifctl_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -148,15 +149,13 @@ INTEGER, INTENT(IN) :: land_pts,                                               &
                    npft,dim_cslayer,dim_cs1,nsoilt
 TYPE(trifctl_data_type), INTENT(IN OUT) :: trifctl_data
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='TRIFCTL_ALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !  ====trifctl module common====
 ! Triffid variables
@@ -222,7 +221,7 @@ trifctl_data%growth_sug_pft(:,:)       = 0.0
 trifctl_data%lwp_c_pft(:,:)            = 0.0
 trifctl_data%psi_root_zone_pft(:,:)    = 0.0
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE trifctl_alloc
 
@@ -231,7 +230,8 @@ SUBROUTINE trifctl_dealloc(trifctl_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -241,15 +241,13 @@ TYPE(trifctl_data_type), INTENT(IN OUT) :: trifctl_data
 
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='TRIFCTL_DEALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DEALLOCATE(trifctl_data%g_leaf_acc_pft)
 DEALLOCATE(trifctl_data%npp_acc_pft)
@@ -282,7 +280,7 @@ DEALLOCATE(trifctl_data%growth_sug_pft)
 DEALLOCATE(trifctl_data%lwp_c_pft)
 DEALLOCATE(trifctl_data%psi_root_zone_pft)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE trifctl_dealloc
@@ -292,7 +290,8 @@ SUBROUTINE trifctl_assoc(trifctl,trifctl_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -305,15 +304,13 @@ TYPE(trifctl_type), INTENT(IN OUT) :: trifctl
 
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='TRIFCTL_ASSOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL trifctl_nullify(trifctl)
 
@@ -348,7 +345,7 @@ trifctl%growth_sug_pft       => trifctl_data%growth_sug_pft
 trifctl%lwp_c_pft            => trifctl_data%lwp_c_pft
 trifctl%psi_root_zone_pft    => trifctl_data%psi_root_zone_pft
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE trifctl_assoc
 
@@ -357,7 +354,8 @@ SUBROUTINE trifctl_nullify(trifctl)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -368,15 +366,13 @@ TYPE(trifctl_type), INTENT(IN OUT) :: trifctl
 
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='TRIFCTL_NULLIFY'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(trifctl%g_leaf_acc_pft)
 NULLIFY(trifctl%npp_acc_pft)
@@ -409,7 +405,7 @@ NULLIFY(trifctl%growth_sug_pft)
 NULLIFY(trifctl%lwp_c_pft)
 NULLIFY(trifctl%psi_root_zone_pft)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE trifctl_nullify
 

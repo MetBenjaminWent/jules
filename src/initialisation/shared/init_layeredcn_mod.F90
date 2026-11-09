@@ -27,7 +27,8 @@ USE jules_soil_biogeochem_mod, ONLY: soil_model_4pool, tau_lit,                &
 USE pftparm,                   ONLY: rootd_ft
 USE prognostics, ONLY: progs_type
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -55,13 +56,11 @@ REAL(KIND=real_jlslsm) :: f_root_pft_dz(sm_levels)
 INTEGER ::                                                                     &
  i,j,l,n,m                    ! WORK Loop counters
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='INIT_LAYEREDCN'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 
 !-----------------------------------------------------------------------------
@@ -82,7 +81,7 @@ IF (l_nitrogen) THEN
 END IF
 
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE init_layeredcn
 

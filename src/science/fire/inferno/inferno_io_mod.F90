@@ -22,8 +22,6 @@ USE um_types, ONLY: real_jlslsm
 
 IMPLICIT NONE
 
-INTEGER(KIND=jpim), PARAMETER, PRIVATE :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER, PRIVATE :: zhook_out = 1
 CHARACTER(LEN=*), PARAMETER, PRIVATE :: ModuleName = "INFERNO_IO_MOD"
 
 CONTAINS
@@ -41,7 +39,8 @@ USE inferno_mod,  ONLY:                                                        &
   calc_flam, calc_ignitions, calc_burnt_area,                                  &
   calc_emitted_carbon, calc_emitted_carbon_soil, calc_emission
 
-USE yomhook,      ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE pftparm,                  ONLY:                                            &
   fef_co2, fef_co, fef_ch4, fef_nox, fef_so2, fef_oc, fef_bc,                  &
@@ -175,12 +174,12 @@ REAL(KIND=real_jlslsm) ,   PARAMETER      ::                                   &
 
 INTEGER :: i, l ! counters for loops
 
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*),  PARAMETER :: RoutineName = "INFERNO_IO"
 
 ! End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-------------------------------------------------
 ! Initialisation
@@ -505,7 +504,7 @@ CALL calc_emission(                                                            &
   fire_vars%fire_em_HCHO_RPM(:), fire_vars%fire_em_MeCHO_RPM(:),               &
   fire_vars%fire_em_NH3_RPM(:), fire_vars%fire_em_DMS_RPM(:))
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE inferno_io
 END MODULE inferno_io_mod

@@ -23,7 +23,8 @@ CONTAINS
 SUBROUTINE gauss (nlevs, npnts, soil_pts, use_lims, soil_index, a, b, c, d,    &
                   xmin, xmax, x )
 
-USE yomhook,  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 
 USE um_types, ONLY: real_jlslsm
@@ -89,13 +90,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
     ! Transformed matrix elements
 
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='GAUSS'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 
 errcount = 0
@@ -207,7 +206,7 @@ DO n = 2,nlevs
 
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE gauss
 END MODULE gauss_mod

@@ -147,7 +147,8 @@ USE jules_vegetation_mod, ONLY: l_veg_compete, l_ht_compete,                   &
 
 USE parkind1, ONLY: jprb, jpim
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -527,15 +528,13 @@ LOGICAL :: harvest_switch(land_pts,npft)
     ! Switch to activate type 2 harvest
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='TRIFFID'
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Initialisation.
@@ -1645,7 +1644,7 @@ DO t = 1,trif_pts
                       burnt_soil(l)
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE triffid
 

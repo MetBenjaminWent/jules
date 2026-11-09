@@ -74,7 +74,8 @@ USE theta_field_sizes,        ONLY: t_i_length, t_j_length
 USE water_constants_mod, ONLY: tm, tfs
 USE c_kappai, ONLY: kappai,kappai_snow,rhosnow
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE Jin11_osa_mod, ONLY: Jin11_osa
 USE errormessagelength_mod, ONLY: errormessagelength
 USE ereport_mod, ONLY: ereport
@@ -298,16 +299,14 @@ REAL(KIND=real_jlslsm) :: spectralsea(n_bands)
 REAL(KIND=real_jlslsm), PARAMETER :: spec_band_bb(1) = -1.0
       ! Array to use as sop and bottom of spectral bands, for Jin11 broadband
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='JULES_SSI_ALBEDO'
 
 INTEGER ::              errcode                ! Error code
 CHARACTER(LEN=errormessagelength) :: ERRMSG    ! Error message text
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 fhtan = ATAN(ahmax * 4.0)
 
@@ -935,7 +934,7 @@ ELSE
 END IF
 
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE jules_ssi_albedo
 END MODULE jules_ssi_albedo_mod

@@ -10,7 +10,8 @@ SUBROUTINE n_leach(land_pts, asteps_since_triffid, dim_cslayer, timestep,      &
                    n_leach_gb_acc, n_leach_soilt)
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE jules_hydrology_mod, ONLY: l_top
 USE ancil_info, ONLY: nsoilt
 USE jules_soil_mod, ONLY: sm_levels, dzsoil
@@ -99,13 +100,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
   ztop
     ! Incremental soil depth used for calc no layers in top 1 m.
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='N_LEACH'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !----------------------------------------------------------------------
 
@@ -296,7 +295,7 @@ DO m = 1,nsoilt
   END DO !land_pts
 END DO !nsoilt
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE n_leach
 END MODULE n_leach_mod

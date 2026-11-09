@@ -115,7 +115,8 @@ SUBROUTINE imgn_vars_alloc(land_pts, imgn_vars_data)
 USE imogen_constants, ONLY: n_olevs, nfarray
 
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -125,15 +126,13 @@ INTEGER, INTENT(IN) :: land_pts
 
 TYPE(imgn_vars_data_type), INTENT(IN OUT) :: imgn_vars_data
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='IMGN_VARS_ALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ALLOCATE( imgn_vars_data%dtemp_g(land_pts))
 ALLOCATE( imgn_vars_data%c_emiss_data(land_pts))
@@ -171,7 +170,7 @@ imgn_vars_data%ch4_ppbv(:) = rmdi
 
 
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE imgn_vars_alloc
 
@@ -180,21 +179,20 @@ SUBROUTINE imgn_vars_dealloc(imgn_vars_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
 TYPE(imgn_vars_data_type), INTENT(IN OUT) :: imgn_vars_data
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='IMGN_VARS_DEALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 
 DEALLOCATE( imgn_vars_data%dtemp_g)
@@ -214,7 +212,7 @@ DEALLOCATE( imgn_vars_data%co2_ppmv)
 DEALLOCATE( imgn_vars_data%co2_change_ppmv)
 DEALLOCATE( imgn_vars_data%ch4_ppbv)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE imgn_vars_dealloc
 
@@ -223,22 +221,21 @@ SUBROUTINE imgn_vars_assoc(imgn_vars, imgn_vars_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
 TYPE(imgn_vars_type), INTENT(IN OUT) :: imgn_vars
 TYPE(imgn_vars_data_type), INTENT(IN OUT), TARGET :: imgn_vars_data
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='IMGN_VARS_ASSOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL imgn_vars_nullify(imgn_vars)
 
@@ -260,7 +257,7 @@ imgn_vars%co2_change_ppmv => imgn_vars_data%co2_change_ppmv
 imgn_vars%ch4_ppbv => imgn_vars_data%ch4_ppbv
 
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE imgn_vars_assoc
 
@@ -269,21 +266,20 @@ SUBROUTINE imgn_vars_nullify(imgn_vars)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
 TYPE(imgn_vars_type), INTENT(IN OUT) :: imgn_vars
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='IMGN_VARS_NULLIFY'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY( imgn_vars%dtemp_g)
 NULLIFY( imgn_vars%c_emiss_data)
@@ -302,7 +298,7 @@ NULLIFY( imgn_vars%co2_ppmv)
 NULLIFY( imgn_vars%co2_change_ppmv)
 NULLIFY( imgn_vars%ch4_ppbv)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE imgn_vars_nullify
 

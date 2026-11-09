@@ -26,7 +26,8 @@ USE hyd_con_vg_mod, ONLY: hyd_con_vg
 ! Use in relevant variables
 USE jules_soil_mod, ONLY: l_dpsids_dsdz
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 
 USE um_types, ONLY: real_jlslsm
@@ -130,13 +131,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
   sathhm
     ! Saturated soil suction at the boundaries
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='DARCY_VG'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Calculate the fractional saturation of the layers
@@ -290,7 +289,7 @@ DO j = 1,soil_pts
 END DO
 !$OMP END PARALLEL DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE darcy_vg
 END MODULE darcy_vg_mod

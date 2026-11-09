@@ -32,7 +32,8 @@ USE crop_utils_mod, ONLY:                                                      &
    leafc_from_prognostics, stemc_from_prognostics
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE veg3_field_mod, ONLY: veg_state_type
 
@@ -84,13 +85,11 @@ REAL(KIND=real_jlslsm), PARAMETER :: canhc_max = 1.15e5
 !                           ! Maximum limit for vegetation canopy heat
 !                           ! capacity if l_limit_canhc is .TRUE
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CANCAP'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEL                                                                 &
 !$OMP DEFAULT(NONE)                                                            &
@@ -160,7 +159,7 @@ ELSE IF (can_model == 3 .OR. can_model == 4) THEN
 END IF
 !$OMP END PARALLEL
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE cancap
 END MODULE cancap_mod

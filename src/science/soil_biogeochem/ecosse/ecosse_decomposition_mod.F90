@@ -25,7 +25,8 @@ MODULE ecosse_decomposition_mod
 !-----------------------------------------------------------------------------
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -254,15 +255,13 @@ REAL(KIND=real_jlslsm) ::                                                      &
     ! Total N available for immobilisation (kg m-2).
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName = 'CALC_SOIL_DECOMPOSITION'
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Initialisation.
@@ -516,7 +515,7 @@ immob_n_gb(:,:,:)         = immob_n(:,:,:)       * dt_to_360d
 resp_s_pot_diag_gb(:,:,:) = resp_s_pot(:,:,:)    * dt_to_360d
 resp_s_diag_gb(:,:,:)     = resp_s(:,:,:)        * dt_to_360d
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 END SUBROUTINE calc_soil_decomposition
 
@@ -610,15 +609,13 @@ REAL(KIND=real_jlslsm) ::                                                      &
     ! Moisture rate modifier.
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName = 'RATE_MODIFIER_DECOMPOSITION'
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Crop (vegetation) modification factor.
@@ -682,7 +679,7 @@ DO j = 1,vs_pts
   END DO
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 
 END SUBROUTINE rate_modifier_decomposition
 

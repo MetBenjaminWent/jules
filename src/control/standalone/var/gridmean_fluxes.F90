@@ -43,7 +43,8 @@ SUBROUTINE gridmean_fluxes_alloc(t_i_length,t_j_length)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -53,15 +54,13 @@ INTEGER, INTENT(IN) :: t_i_length,t_j_length
 !Local variables
 INTEGER :: temp_size, temp_tiles, temp_layers
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='GRIDMEAN_FLUXES_ALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ALLOCATE( fqw_1_ij(t_i_length,t_j_length))
 ALLOCATE( ftl_1_ij(t_i_length,t_j_length))
@@ -73,7 +72,7 @@ ftl_1_ij(:,:)                = 0.0
 taux_1_ij(:,:)               = 0.0
 tauy_1_ij(:,:)               = 0.0
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE gridmean_fluxes_alloc
 

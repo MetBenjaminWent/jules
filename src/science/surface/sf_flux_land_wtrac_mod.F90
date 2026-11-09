@@ -61,7 +61,8 @@ USE jules_water_tracers_mod, ONLY: n_evap_srce, wtrac_lake_fixed_ratio,        &
                                     wtrac_calc_ratio_fn_jules
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook,  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -135,13 +136,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
 ,epot
              ! Potential evaporation for water tracers
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SF_FLUX_LAND_WTRAC'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEL DO IF(surft_pts > 1)                                            &
 !$OMP SCHEDULE(STATIC)                                                         &
@@ -228,7 +227,7 @@ DO k = 1,surft_pts
 END DO  ! tile points
 !$OMP END PARALLEL DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 END SUBROUTINE sf_flux_land_wtrac
@@ -258,7 +257,8 @@ USE jules_print_mgr, ONLY: jules_message, jules_print, newline
 USE ereport_mod, ONLY: ereport
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook,  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -335,13 +335,11 @@ REAL(KIND=real_jlslsm) :: diff, largest_error
 
 CHARACTER(LEN=256)     :: message                 ! Error reporting
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SF_FLUX_LAND_CHECK_WTRAC'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! Compare water tracer flux to normal water flux and find largest error.
 
@@ -425,7 +423,7 @@ IF (ABS(largest_error) > max_diff_warning) THEN
 
 END IF  ! Test on largest error size
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE sf_flux_land_check_wtrac

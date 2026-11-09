@@ -48,7 +48,8 @@ USE jules_water_tracers_mod, ONLY: n_evap_srce, evap_srce_snow,                &
 USE jules_vegetation_mod,    ONLY: can_model
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -92,13 +93,11 @@ INTEGER ::                                                                     &
 ,n_evap
              ! Loop counter (evaporative sources index)
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SF_EVAP_SRCE_FRAC'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEL DO IF(surft_pts > 1)                                            &
 !$OMP SCHEDULE(STATIC)                                                         &
@@ -153,7 +152,7 @@ DO k = 1,surft_pts
 END DO
 !$OMP END PARALLEL DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 END SUBROUTINE sf_evap_srce_frac

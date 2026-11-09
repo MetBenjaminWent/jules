@@ -45,7 +45,8 @@ USE jules_print_mgr,         ONLY: jules_message
 USE missing_data_mod,        ONLY: rmdi
 USE um_types,                ONLY: real_jlslsm
 USE parkind1,                ONLY: jprb, jpim
-USE yomhook,                 ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -386,9 +387,7 @@ IMPLICIT NONE
 ! Local variables
 INTEGER :: m     ! Loop index for deposited species
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER   ::                                               &
   RoutineName='DEPOSITION_INITIALISATION_AEROD_JULES'
@@ -396,7 +395,7 @@ CHARACTER(LEN=*), PARAMETER   ::                                               &
 ! Ereport variables
 INTEGER :: icode
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Define -cp/(vkman*g)
 cp_vkman_g = -cp / (vkman * gg)
@@ -415,7 +414,7 @@ DO m = 1, ndry_dep_species
   END IF
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 
@@ -430,9 +429,7 @@ IMPLICIT NONE
 ! Local variables
 INTEGER :: m     ! Loop index for deposited species
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER   ::                                               &
   RoutineName='DEPOSITION_INITIALISATION_AEROD_UKCA'
@@ -440,7 +437,7 @@ CHARACTER(LEN=*), PARAMETER   ::                                               &
 ! Ereport variables
 INTEGER :: icode
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! Define -cp/(vkman*g)
 cp_vkman_g = -cp / (vkman * gg)
@@ -790,7 +787,7 @@ DO m = 1, ndry_dep_species
   END IF
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 
 RETURN
 

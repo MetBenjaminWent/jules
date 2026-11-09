@@ -27,7 +27,8 @@ SUBROUTINE routedbl(runoff, ru, ratmed, ndev, dt, nx, ny                       &
      , igrcn, iseq, sto, jmax, rmiss, dout, drunin, area, offset_nx            &
      , offset_ny)
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 USE mpl, ONLY: mpl_integer, mpl_max, mpl_real, mpl_sum
 USE global_2d_sums_mod, ONLY: global_2d_sums
@@ -179,9 +180,7 @@ INTEGER ::                                                                     &
 INTEGER :: iy, im, idec ! year,month,day
 INTEGER :: nseqmax        ! maximum points in any river sequence
 INTEGER :: i, j           ! loop counters
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ROUTEDBL'
 INTEGER :: info, my_comm, ierror
@@ -211,7 +210,7 @@ LOGICAL, SAVE :: first = .TRUE.
 ! first time entered routine
 
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 info = 1
 CALL gc_get_communicator(my_comm,info)
@@ -490,7 +489,7 @@ DO j = 1, jmax
   END DO
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 END SUBROUTINE routedbl

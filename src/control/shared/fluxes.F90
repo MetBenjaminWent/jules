@@ -296,7 +296,8 @@ SUBROUTINE fluxes_alloc(land_pts, t_i_length, t_j_length,                      &
 
 !No USE statements other than error reporting and Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -309,15 +310,13 @@ TYPE(fluxes_data_type), INTENT(IN OUT) :: fluxes_data
 
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='FLUXES_ALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ALLOCATE(fluxes_data%l_emis_surft_set(nsurft))
 
@@ -423,7 +422,7 @@ fluxes_data%rflow_gb(:)                  = 0.0
 fluxes_data%rrun_gb(:)                   = 0.0
 fluxes_data%lake_evap(:)                 = rmdi
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE fluxes_alloc
 
@@ -432,22 +431,21 @@ SUBROUTINE fluxes_dealloc(fluxes_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
 !Arguments
 TYPE(fluxes_data_type), INTENT(IN OUT) :: fluxes_data
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='FLUXES_DEALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DEALLOCATE(fluxes_data%l_emis_surft_set)
 DEALLOCATE(fluxes_data%surf_ht_store_surft)
@@ -499,7 +497,7 @@ DEALLOCATE(fluxes_data%rflow_gb)
 DEALLOCATE(fluxes_data%rrun_gb)
 DEALLOCATE(fluxes_data%lake_evap)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE fluxes_dealloc
 
@@ -508,7 +506,8 @@ SUBROUTINE fluxes_assoc(fluxes,fluxes_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -519,15 +518,13 @@ TYPE(fluxes_data_type), INTENT(IN OUT), TARGET :: fluxes_data
   !Instance of the data type we are associating to
 
 !Local variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='FLUXES_ASSOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL fluxes_nullify(fluxes)
 
@@ -581,7 +578,7 @@ fluxes%rflow_gb => fluxes_data%rflow_gb
 fluxes%rrun_gb => fluxes_data%rrun_gb
 fluxes%lake_evap => fluxes_data%lake_evap
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE fluxes_assoc
 
@@ -591,7 +588,8 @@ SUBROUTINE fluxes_nullify(fluxes)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -599,15 +597,13 @@ TYPE(fluxes_type), INTENT(IN OUT) :: fluxes
   !Instance of the pointer type we are nullifying
 
 !Local variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='FLUXES_NULLIFY'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(fluxes%l_emis_surft_set)
 NULLIFY(fluxes%surf_ht_store_surft)
@@ -659,7 +655,7 @@ NULLIFY(fluxes%rflow_gb)
 NULLIFY(fluxes%rrun_gb)
 NULLIFY(fluxes%lake_evap)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE fluxes_nullify
 

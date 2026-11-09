@@ -25,7 +25,8 @@ MODULE water_resources_control_mod
 !------------------------------------------------------------------------------
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -94,9 +95,7 @@ REAL(KIND=real_jlslsm), ALLOCATABLE ::                                         &
     ! manufactured goods (kg).
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CONTAINS
 
@@ -379,13 +378,10 @@ REAL(KIND=real_jlslsm) ::                                                      &
     ! Water supplied for irrigation (kg).
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
 
 !------------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !------------------------------------------------------------------------------
 ! Work out if the water resource model is to be called this timestep.
@@ -622,7 +618,7 @@ IF ( l_water_irrigation .AND. irr_crop == irr_crop_doell ) THEN
                       icntmax_gb, plant_n_gb)
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE water_resources_control
 
@@ -668,13 +664,11 @@ INTEGER ::                                                                     &
     ! Loop counter.
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 !------------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 IF ( l_prioritise ) THEN
   ! Set sector priorities at each location.
@@ -709,7 +703,7 @@ IF ( l_prioritise ) THEN
 
 END IF  !  l_prioritise
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE initialise_water_resources
 
@@ -763,13 +757,11 @@ REAL(KIND=real_jlslsm), INTENT(IN OUT) ::                                      &
 CHARACTER(LEN=*), PARAMETER :: RoutineName = 'ACCUMULATE_DEMAND'
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 !------------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 IF ( l_water_domestic ) THEN
   demand_accum(:,use_domestic) = demand_accum(:,use_domestic)                  &
@@ -791,7 +783,7 @@ IF ( l_water_transfers ) THEN
                                   + demand_rate_transfers(:) * timestep_len
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE accumulate_demand
 
@@ -838,13 +830,11 @@ INTEGER :: i
   !  Loop counter.
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 !------------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 ! Include conveyance loss for all relevant sectors.
 DO i = 1, nwater_use
@@ -856,7 +846,7 @@ DO i = 1, nwater_use
   demand_accum(:,i) = demand_accum(:,i) * ( 1.0 + conv_loss_frac(:) )
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE add_conveyance_loss
 
@@ -923,13 +913,11 @@ INTEGER ::                                                                     &
     ! Size for surface water arrays.
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_5
 
 !------------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
 
 IF ( l_allocate ) THEN
 
@@ -1087,7 +1075,7 @@ ELSE
 
 END IF  !  l_allocate
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_5)
 RETURN
 END SUBROUTINE allocate_global_water
 
@@ -1149,13 +1137,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
     ! Workspace for a field on global_land_pts.
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_6
 
 !------------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_6, ModuleName//':'//RoutineName)
 
 CALL gather_land_field( conv_loss_frac, conv_loss_frac_global )
 
@@ -1181,7 +1167,7 @@ IF ( partition_method == partition_ancil ) THEN
   CALL gather_land_field( sfc_water_frac, sfc_water_frac_global )
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_6)
 RETURN
 END SUBROUTINE gather_global_water
 
@@ -1259,13 +1245,11 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName = 'SCATTER_GLOBAL_WATER'
 INTEGER :: i  !  loop counter
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_7
 
 !------------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_7, ModuleName//':'//RoutineName)
 
 ! Fields that are always required.
 CALL scatter_land_field( conveyance_loss_global, conveyance_loss )
@@ -1322,7 +1306,7 @@ IF ( l_water_irrigation ) THEN
   CALL scatter_land_field( supply_irrig_global, supply_irrig )
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_7)
 RETURN
 END SUBROUTINE scatter_global_water
 
@@ -1394,13 +1378,11 @@ INTEGER ::                                                                     &
     ! Error value.
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_8
 
 !------------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_8, ModuleName//':'//RoutineName)
 
 IF ( l_rivers ) THEN
 
@@ -1452,7 +1434,7 @@ IF ( l_minor_reservoirs ) THEN
                           minor_res_storage_global )
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_8)
 RETURN
 END SUBROUTINE regrid_to_land
 
@@ -1502,13 +1484,11 @@ INTEGER ::                                                                     &
   l ! Loop counter.
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_9
 
 !------------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_9, ModuleName//':'//RoutineName)
 
 !------------------------------------------------------------------------------
 ! Return flows to groundwater and rivers have been calculated assuming those
@@ -1540,7 +1520,7 @@ ELSE IF ( .NOT. l_rivers ) THEN
 
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_9)
 RETURN
 END SUBROUTINE redirect_return_flows
 
@@ -1593,13 +1573,11 @@ INTEGER ::                                                                     &
   l ! Loop counter.
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_10
 
 !------------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_10, ModuleName//':'//RoutineName)
 
 ! Calculate net abstraction.
 DO l=1,global_land_pts
@@ -1607,7 +1585,7 @@ DO l=1,global_land_pts
                                    - return_flow_river_global(l)
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_10)
 RETURN
 END SUBROUTINE calc_net_river_abstraction
 

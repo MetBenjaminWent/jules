@@ -163,7 +163,8 @@ SUBROUTINE water_resources_alloc( global_land_pts, land_pts, n_sw_source,      &
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -219,16 +220,14 @@ INTEGER ::                                                                     &
   n_sw_source_dim, nwater_use_dim
     ! Sizes used when allocating arrays.
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WATER_RESOURCES_ALLOC'
 
 !End of header
 !------------------------------------------------------------------------------
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !------------------------------------------------------------------------------
 ! Arrays are always allocated, but with minimal size if the science is not
@@ -373,7 +372,7 @@ water_resources_data%abstracted_river(:)      = 0.0
 water_resources_data%conveyance_loss(:)       = 0.0
 water_resources_data%water_removed(:)         = 0.0
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE water_resources_alloc
 
@@ -383,7 +382,8 @@ SUBROUTINE water_resources_dealloc(water_resources_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -396,16 +396,14 @@ TYPE(water_resources_data_type), INTENT(IN OUT) :: water_resources_data
 ! Local variables
 !------------------------------------------------------------------------------
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WATER_RESOURCES_DEALLOC'
 
 !End of header
 !------------------------------------------------------------------------------
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! Deallocate in reverse order to allocation.
 DEALLOCATE( water_resources_data%water_removed )
@@ -429,7 +427,7 @@ DEALLOCATE( water_resources_data%sfc_water_frac )
 DEALLOCATE( water_resources_data%conv_loss_frac )
 DEALLOCATE( water_resources_data%priority_order )
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE water_resources_dealloc
@@ -440,7 +438,8 @@ SUBROUTINE water_resources_assoc(water_resources,water_resources_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -460,16 +459,14 @@ TYPE(water_resources_type), INTENT(IN OUT) :: water_resources
 ! Local variables
 !------------------------------------------------------------------------------
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WATER_RESOURCES_ASSOC'
 
 !End of header
 !------------------------------------------------------------------------------
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL water_resources_nullify(water_resources)
 
@@ -501,7 +498,7 @@ water_resources%abstracted_river => water_resources_data%abstracted_river
 water_resources%conveyance_loss  => water_resources_data%conveyance_loss
 water_resources%water_removed    => water_resources_data%water_removed
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE water_resources_assoc
 
@@ -511,7 +508,8 @@ SUBROUTINE water_resources_nullify(water_resources)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -522,15 +520,13 @@ TYPE(water_resources_type), INTENT(IN OUT) :: water_resources
 
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WATER_RESOURCES_NULLIFY'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY( water_resources%priority_order )
 NULLIFY( water_resources%conv_loss_frac )
@@ -553,7 +549,7 @@ NULLIFY( water_resources%abstracted_river )
 NULLIFY( water_resources%conveyance_loss )
 NULLIFY( water_resources%water_removed )
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE water_resources_nullify
 

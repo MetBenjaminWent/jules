@@ -60,7 +60,8 @@ USE jules_vegetation_mod, ONLY: l_o3_damage
 
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -231,13 +232,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
 ,E_leaf(land_field)
                             ! WORK leaf transpiration (mol H2O/m2/s)
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='LEAF_PROCESSES_SOX'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Flag where the stomata are closed
@@ -542,7 +541,7 @@ IF ( l_o3_damage ) THEN
   END DO
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE leaf_processes_sox
@@ -556,7 +555,8 @@ USE pftparm, ONLY: alpha, c3
 USE jules_surface_mod, ONLY: fwe_c3, fwe_c4
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 !-----------------------------------------------------------------------------
@@ -623,13 +623,11 @@ REAL(KIND=real_jlslsm), INTENT(OUT) ::                                         &
 INTEGER ::                                                                     &
  j,l                       ! Loop counters.
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='W_RATES_CI'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 IF (c3(fn_type) == 1) THEN
 
@@ -656,7 +654,7 @@ ELSE !  C4
   END DO
 
 END IF
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 END SUBROUTINE w_rates_ci
 
 
@@ -667,7 +665,8 @@ SUBROUTINE colim (land_field,veg_pts,veg_index, clos_pts, open_pts,            &
 USE jules_surface_mod, ONLY: beta1,beta2
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -735,13 +734,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
 
 
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='COLIM'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 !-----------------------------------------------------------------------------
 ! Calculate the co-limited rate of gross photosynthesis.
 ! Note the colimitation parameters (beta1,beta2) are set to 1
@@ -788,6 +785,6 @@ DO j = 1,open_pts
   END IF
 
 END DO
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 END SUBROUTINE colim
 END MODULE leaf_processes_sox_mod

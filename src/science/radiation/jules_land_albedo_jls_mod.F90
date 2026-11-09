@@ -99,7 +99,8 @@ USE ereport_mod,              ONLY: ereport
 USE missing_data_mod,         ONLY: rmdi, imdi
 
 USE parkind1,                 ONLY: jprb, jpim
-USE yomhook,                  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -298,9 +299,7 @@ REAL(KIND=real_jlslsm) :: disaggregate_albsoil(2)
                                       !to encode the split between direct
                                       !and diffuse too.)
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='JULES_LAND_ALBEDO'
 
@@ -308,7 +307,7 @@ INTEGER ::              errcode                 !Error code
 CHARACTER(LEN=errormessagelength) :: ERRMSG     !Error message text
 
 !End of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !Set appropriate value of l_getprofile for all calls to albpft
 l_getprofile = .FALSE.
@@ -1642,7 +1641,7 @@ END IF
 ! *END NOTICE REGARDING SOIL TILING**
 !==============================================================================
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE jules_land_albedo
 END MODULE jules_land_albedo_mod

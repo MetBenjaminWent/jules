@@ -34,7 +34,8 @@ CONTAINS
 SUBROUTINE initial0(nx, ny, jmax, rmiss, igrcn, iseq                           &
 , nseqmax, inextx, inexty, rlen, area, offset_nx, offset_ny)
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 IMPLICIT NONE
 !
@@ -79,14 +80,11 @@ REAL(KIND=real_jlslsm), INTENT(OUT) ::                                         &
 INTEGER :: i, j
   ! loop counters
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='INITIAL0'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,                 &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! get the maximum river sequence in this river subdomain
 nseqmax = 0
@@ -111,8 +109,7 @@ CALL setlen (nx, ny, igrcn, inextx, inexty, rlen, jmax                         &
 CALL setarea(nx, ny, area, jmax, offset_ny)
 
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,                &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE initial0

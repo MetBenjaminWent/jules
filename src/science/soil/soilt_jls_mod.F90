@@ -21,7 +21,8 @@ USE jules_soil_mod, ONLY:                                                      &
   zst  ! Depth of layer for soil moisture diagnostic (m).
 
 USE parkind1,       ONLY: jprb, jpim
-USE yomhook,        ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -68,14 +69,12 @@ REAL(KIND=real_jlslsm) ::                                                      &
   z1,z2
     ! Depth of the top and bottom of the soil layers (m).
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SOILT'
 
 !-----------------------------------------------------------------------------
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 z2 = 0.0
 
@@ -106,7 +105,7 @@ IF (zst > 0.0) THEN
   END DO
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE soilt
 END MODULE soilt_mod

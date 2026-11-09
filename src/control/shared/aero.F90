@@ -86,7 +86,8 @@ SUBROUTINE aero_alloc(land_pts,t_i_length,t_j_length,                          &
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -96,15 +97,13 @@ INTEGER, INTENT(IN) :: land_pts,t_i_length,t_j_length,                         &
 TYPE(aero_data_type), INTENT(IN OUT) :: aero_data
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='AERO_ALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ALLOCATE(aero_data%co2_3d_ij(t_i_length,t_j_length))
 ALLOCATE(aero_data%rho_cd_modv1_ij(t_i_length,t_j_length))
@@ -131,7 +130,7 @@ aero_data%cd_std_dust_ij    = 0.0
 aero_data%u_s_std_surft     = 0.0
 
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE aero_alloc
 
@@ -140,7 +139,8 @@ SUBROUTINE aero_dealloc(aero_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -150,15 +150,13 @@ TYPE(aero_data_type), INTENT(IN OUT) :: aero_data
 
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='AERO_DEALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DEALLOCATE(aero_data%co2_3d_ij)
 DEALLOCATE(aero_data%rho_cd_modv1_ij)
@@ -172,7 +170,7 @@ DEALLOCATE(aero_data%r_b_dust_ij)
 DEALLOCATE(aero_data%cd_std_dust_ij)
 DEALLOCATE(aero_data%u_s_std_surft)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE aero_dealloc
@@ -182,7 +180,8 @@ SUBROUTINE aero_assoc(aero,aero_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -195,15 +194,13 @@ TYPE(aero_type), INTENT(IN OUT) :: aero
 
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='AERO_ASSOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL aero_nullify(aero)
 
@@ -219,7 +216,7 @@ aero%r_b_dust_ij => aero_data%r_b_dust_ij
 aero%cd_std_dust_ij => aero_data%cd_std_dust_ij
 aero%u_s_std_surft => aero_data%u_s_std_surft
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE aero_assoc
 
@@ -228,7 +225,8 @@ SUBROUTINE aero_nullify(aero)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -239,15 +237,13 @@ TYPE(aero_type), INTENT(IN OUT) :: aero
 
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='AERO_NULLIFY'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(aero%co2_3d_ij)
 NULLIFY(aero%rho_cd_modv1_ij)
@@ -261,7 +257,7 @@ NULLIFY(aero%r_b_dust_ij)
 NULLIFY(aero%cd_std_dust_ij)
 NULLIFY(aero%u_s_std_surft)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE aero_nullify
 

@@ -34,7 +34,8 @@ USE ancil_info, ONLY: dim_cslayer
 USE jules_soil_mod, ONLY: dzsoil
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook,  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -164,13 +165,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
   bexp_ch4lyr(npnts,dim_ch4layer)
     ! Brooks & Corey exponents on appropriate number of layers.
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CH4_WETL'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Calculate an effective soil carbon for wetland methane emission.
@@ -349,7 +348,7 @@ ELSE IF ( ch4_substrate == ch4_substrate_soil_resp ) THEN
   fch4_wetl(:) = 1.0e9 * fch4_wetl_resps(:)
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE ch4_wetl
 END MODULE ch4_wetl_mod

@@ -13,7 +13,8 @@ USE fire_mod,       ONLY: fire_prog_struct, fire_diag_struct
 USE fire_calc_daily_mod, ONLY: fire_calc_daily
 
 USE parkind1,       ONLY: jprb, jpim
-USE yomhook,        ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 !  Statements we'd like to use but can't because of the UM
 !  USE datetime_mod,   ONLY : datetime
@@ -48,14 +49,12 @@ TYPE (fire_prog_struct),     INTENT(IN OUT) :: fire_prog(land_pts)
 TYPE (fire_diag_struct),     INTENT(OUT)   :: fire_diag(land_pts)
 
 !Local variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='FIRE_TIMESTEP'
 
 ! End of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !---------------------------------------------------
 !Perform tasks that happen every timestep
@@ -70,7 +69,7 @@ IF ( current_time < NINT(timestep) ) THEN
       current_month, land_pts)
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE fire_timestep
 END MODULE fire_timestep_mod

@@ -47,7 +47,8 @@ USE jules_rivers_mod, ONLY: l_riv_overbank
 USE jules_vegetation_mod, ONLY: l_triffid, l_red
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook,  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -56,13 +57,11 @@ CHARACTER(LEN=*), INTENT(IN) :: call_type
 INTEGER,          INTENT(IN) :: atmoscntl_unit  ! unit no. for ATMOSCNTL file
 INTEGER,          INTENT(IN) :: shared_unit     ! unit no. for SHARED file
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*),   PARAMETER :: RoutineName='SURF_COUPLE_READ_NAMELISTS'
 
 !End of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !Call in UM, reconfiguration and scm
 CALL read_jules_model_environment(shared_unit)
@@ -95,7 +94,7 @@ IF (call_type == "UM") THEN
   END IF
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE surf_couple_read_namelists
 

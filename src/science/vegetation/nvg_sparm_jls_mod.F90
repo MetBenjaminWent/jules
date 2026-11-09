@@ -24,7 +24,8 @@ USE jules_urban_mod,          ONLY: l_moruses
 USE dust_param,               ONLY: z0_soil
 
 USE parkind1,                 ONLY: jprb, jpim
-USE yomhook,                  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -56,16 +57,14 @@ REAL(KIND=real_jlslsm), INTENT(IN OUT) ::                                      &
 INTEGER ::                                                                     &
   j,l,n  ! Loop counters
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='NVG_SPARM'
 
 !-----------------------------------------------------------------------------
 !end of header
 !-----------------------------------------------------------------------------
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! It would be nice to not have to set the catch_surft and z0_surft to the
 ! namelist values whenever sparm is called, however something initialises them
@@ -120,7 +119,7 @@ END IF
 
 z0_soil = z0_nvg(soil - npft)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE nvg_sparm
 END MODULE nvg_sparm_mod

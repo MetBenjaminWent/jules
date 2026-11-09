@@ -50,8 +50,6 @@ REAL(KIND=real_jlslsm),    PARAMETER        ::                                 &
     ! This should be changed in a future update.
   m2_in_km2  = 1.0e6
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
 CHARACTER(LEN=*),  PARAMETER, PRIVATE :: ModuleName = "INFERNO_MOD"
 
 CONTAINS
@@ -79,7 +77,8 @@ SUBROUTINE calc_ignitions(                                                     &
 !  Code Description:
 !    Language:  Fortran 90
 
-USE yomhook,      ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1,     ONLY: jprb
 USE jules_vegetation_mod, ONLY: ignition_constant, ignition_vary_natural,      &
                                 ignition_vary_natural_human
@@ -117,10 +116,10 @@ REAL(KIND=real_jlslsm),    PARAMETER        ::                                 &
   tune_MODIS = 7.7
     ! Parameter originally used by P&S (2009) to match MODIS
 
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*),  PARAMETER :: RoutineName = "CALC_IGNITIONS"
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF (ignition_method == ignition_constant) THEN
   nat_ign_l   = 2.7 / s_in_month / m2_in_km2 / 12.0 * 0.75
@@ -158,7 +157,7 @@ ELSE IF (ignition_method == ignition_vary_natural_human) THEN
   ignitions_l =  ignitions_l * tune_MODIS
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE  calc_ignitions
 
@@ -170,7 +169,8 @@ SUBROUTINE calc_flam(                                                          &
   !Point Intent(INOUT)
   flam_l)
 
-USE yomhook,      ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1,     ONLY: jprb
 
 IMPLICIT NONE
@@ -249,10 +249,10 @@ REAL(KIND=real_jlslsm)                      ::                                 &
     ! The factor dependence on soil moisture
   rain_rate
 
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 CHARACTER(LEN=*),  PARAMETER :: RoutineName = "CALC_FLAM"
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 TsbyT_l   =  Ts / temp_l
 
@@ -284,7 +284,7 @@ cr = -flam_rain_const / s_in_day
 flam_l    = MAX(MIN(10.0**Z_l * f_rhum_l * fuel_l * f_sm_l                     &
                      * EXP( cr * rain_rate) ,1.0) ,0.0)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE calc_flam
 
@@ -306,7 +306,8 @@ SUBROUTINE calc_burnt_area(                                                    &
 ! Code Description:
 !   Language: Fortran 90
 
-USE yomhook,      ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1,     ONLY: jprb
 
 IMPLICIT NONE
@@ -323,14 +324,14 @@ REAL(KIND=real_jlslsm)  ,    INTENT(OUT)    ::                                 &
   burnt_area_i_l
     ! The burnt area (fraction of PFT per s)
 
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 CHARACTER(LEN=*),  PARAMETER :: RoutineName = "CALC_BURNT_AREA"
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 burnt_area_i_l = flam_l * ignitions_l * avg_ba_i
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE calc_burnt_area
 
@@ -351,7 +352,8 @@ SUBROUTINE calc_emitted_carbon(                                                &
 !   Language: Fortran 90
 !
 
-USE yomhook,      ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1,     ONLY: jprb
 
 IMPLICIT NONE
@@ -382,10 +384,10 @@ REAL(KIND=real_jlslsm) ,   INTENT(OUT)      ::                                 &
 
 INTEGER                   :: l      ! landpoints loop counter
 
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 CHARACTER(LEN=*),  PARAMETER :: RoutineName = "CALC_EMITTED_CARBON"
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 ! Initialise to no emitted carbon
 emitted_carbon_i(:) = 0.0
@@ -397,7 +399,7 @@ DO l = 1, land_pts
 
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE calc_emitted_carbon
 
@@ -421,7 +423,8 @@ SUBROUTINE calc_emitted_carbon_soil(                                           &
 USE jules_inferno_mod, ONLY: ccdpm_min, ccdpm_max,                             &
                 ccrpm_min, ccrpm_max
 
-USE yomhook,      ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1,     ONLY: jprb
 
 IMPLICIT NONE
@@ -446,10 +449,10 @@ REAL(KIND=real_jlslsm) ,   INTENT(OUT)      ::                                 &
 
 INTEGER                   :: l      ! landpoint loop counter
 
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_5
 CHARACTER(LEN=*),  PARAMETER :: RoutineName = "CALC_EMITTED_CARBON_SOIL"
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
 
 DO l = 1,land_pts
   emitted_carbon_DPM(l) = MAX(burnt_area(l) * ( dpm_fuel(l) * (ccdpm_min +     &
@@ -458,7 +461,7 @@ DO l = 1,land_pts
                           (ccrpm_max - ccrpm_min) * (1.0 - sm(l)))) ,0.0)
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_5)
 RETURN
 END SUBROUTINE calc_emitted_carbon_soil
 
@@ -488,7 +491,8 @@ SUBROUTINE calc_emission(                                                      &
 !   Language: Fortran 90
 !
 
-USE yomhook,      ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1,     ONLY: jprb
 
 IMPLICIT NONE
@@ -563,10 +567,10 @@ REAL(KIND=real_jlslsm) ,   PARAMETER        ::                                 &
   gtokg = 1.0e-03
     ! To convert the emission factors in kg kg-1
 
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_6
 CHARACTER(LEN=*),  PARAMETER :: RoutineName = "CALC_EMISSION"
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_6, ModuleName//':'//RoutineName)
 
 ! Initialise the output fields
 emission_CO2(:)  = 0.0
@@ -600,7 +604,7 @@ emission_MeCHO(:)= ctob * emitted_carbon_i(:) * fef_mecho_i * gtokg
 emission_NH3(:)  = ctob * emitted_carbon_i(:) * fef_nh3_i   * gtokg
 emission_DMS(:)  = ctob * emitted_carbon_i(:) * fef_dms_i   * gtokg
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_6)
 RETURN
 END SUBROUTINE calc_emission
 

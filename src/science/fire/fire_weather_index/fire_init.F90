@@ -15,7 +15,8 @@ USE fire_mod,           ONLY: fire_cntl, l_fire_weather_index
 USE jules_soil_mod,     ONLY: zsmc !Depth of layer for soil moisture diag (m)
 
 USE parkind1,           ONLY: jprb, jpim
-USE yomhook,            ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 !
@@ -38,14 +39,12 @@ IMPLICIT NONE
   !Arguments- none :-)
 
 !Local variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='FIRE_INIT'
 
 ! End of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! ------------------------------------------
 ! Activate the required metstats
@@ -91,7 +90,7 @@ IF (l_fire_weather_index) THEN
 
 END IF !l_fire_weather_index
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE fire_init
 END MODULE fire_init_mod

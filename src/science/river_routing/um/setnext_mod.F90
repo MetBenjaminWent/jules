@@ -30,7 +30,8 @@ CONTAINS
 SUBROUTINE setnext(nx, ny, igrcn, inextx, inexty)
 
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 IMPLICIT NONE
 !
@@ -45,17 +46,14 @@ INTEGER :: igrcn(nx, ny), inextx(nx, ny), inexty(nx, ny)
 INTEGER :: i, j
 INTEGER :: dx(10),dy(10)
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SETNEXT'
 
 DATA dx / 0, 1, 1, 1, 0, -1, -1, -1, 0, 0 /
 DATA dy / 1, 1, 0, -1, -1, -1, 0, 1, 0, 0 /
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,                 &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 DO j = 1, ny
   DO i = 1, nx
 
@@ -70,8 +68,7 @@ DO j = 1, ny
 
   END DO
 END DO
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,                &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE setnext
 END MODULE setnext_mod

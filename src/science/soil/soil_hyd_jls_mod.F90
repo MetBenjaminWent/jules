@@ -34,7 +34,8 @@ USE water_constants_mod,  ONLY: rho_water  !  density of pure water (kg/m3)
 USE jules_soil_mod,       ONLY: gamma_w, l_holdwater
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -157,13 +158,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
   smclu(npnts,nshyd)
     ! Unfrozen soil moisture contents of each layer (kg/m2).
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SOIL_HYD'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF (l_holdwater) THEN
   use_lims = .FALSE.
@@ -473,7 +472,7 @@ DO n = 1,nshyd
   END DO
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE soil_hyd
 END MODULE soil_hyd_mod

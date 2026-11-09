@@ -37,7 +37,8 @@ USE getlat0_mod,  ONLY: getlat0
 USE getlon0_mod,  ONLY: getlon0
 USE rivers_utils, ONLY: givelength
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 IMPLICIT NONE
 
@@ -53,14 +54,12 @@ REAL(KIND=real_jlslsm) :: rx, ry, rx2, ry2
 REAL(KIND=real_jlslsm) :: rlen(nx, ny), rmin, rmax, rmiss
 INTEGER :: i_offset, j_offset
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SETLEN'
 
 !
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 rx2 = 0.0
 ry2 = 0.0
 rmin = 1.0e10
@@ -102,7 +101,7 @@ IF (PrintStatus >= PrDiag) THEN
   CALL jules_print('setlen',jules_message)
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 !
 END SUBROUTINE setlen

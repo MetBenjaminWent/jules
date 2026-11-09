@@ -13,7 +13,8 @@ SUBROUTINE urbanemis(hwr, emisr, emiss, emisw, sigmalw)
 
 USE matinv_mod,       ONLY: matinv
 
-USE yomhook,          ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1,         ONLY: jprb, jpim
 
 USE jules_print_mgr,  ONLY: jules_message, jules_print, PrNorm
@@ -46,16 +47,14 @@ REAL(KIND=real_jlslsm) ::                                                      &
 REAL(KIND=real_jlslsm) ::                                                      &
    gammau(arraydim,arraydim)    ! Exchange cofficients
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='URBANEMIS'
 
 
 !-----------------------------------
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 aa = (1.0 + hwr**2.0)**(0.5) - hwr
 bb = (1.0 + (1.0 / hwr)**2.0)**(0.5) - (1.0 / hwr)
@@ -101,7 +100,7 @@ IF ( ABS( sigmat + sigmalw ) > 1.0e-03 ) THEN
   CALL jules_print('urbanemis',jules_message,level = PrNorm)
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE urbanemis

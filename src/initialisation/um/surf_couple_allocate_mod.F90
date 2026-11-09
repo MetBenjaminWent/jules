@@ -175,7 +175,8 @@ USE atm_fields_mod, ONLY: crop_vars, crop_vars_data,                           &
 USE atm_land_sea_mask, ONLY: atmos_number_of_landpts
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -190,12 +191,10 @@ INTEGER, INTENT(IN) :: nice_use     ! Number of sea ice categories used
 ! Local variables
 INTEGER             :: i            ! Looper
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*), PARAMETER   :: RoutineName='SURF_COUPLE_ALLOCATE'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !Set sizes of dimensions
 
@@ -434,7 +433,7 @@ CALL check_jules_red_parms()
 CALL c_z0h_z0m_check(ntype)
 CALL check_compatible_options()
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE surf_couple_allocate
 

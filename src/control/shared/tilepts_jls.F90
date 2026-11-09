@@ -21,7 +21,8 @@ USE jules_surface_mod, ONLY: all_tiles, l_elev_land_ice
 USE jules_surface_types_mod, ONLY: ntype, ice, elev_ice, elev_rock
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE um_types, ONLY: real_jlslsm
 
 IMPLICIT NONE
@@ -46,13 +47,11 @@ LOGICAL :: use_tile  ! Indicates if we will model the tile for the current
 
 INTEGER :: n,l,c   !local counters: type, land pts, count
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='TILEPTS'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------
 ! Create the surft_index array of land points with each surface type
@@ -107,7 +106,7 @@ DO n = 1,ntype
 END DO
 !$OMP END PARALLEL DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE tilepts
 END MODULE tilepts_mod

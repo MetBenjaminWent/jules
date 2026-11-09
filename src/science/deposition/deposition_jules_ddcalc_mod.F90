@@ -52,7 +52,8 @@ USE jules_surface_types_mod, ONLY: ntype, npft
 
 USE parkind1,                ONLY: jprb, jpim
 
-USE yomhook,                 ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types,                ONLY: real_jlslsm
 
@@ -93,16 +94,14 @@ INTEGER                :: errcode           ! Error code for ereport
 REAL(KIND=real_jlslsm) :: dd
 REAL(KIND=real_jlslsm) :: layer_depth(row_length,rows)
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER   ::                                               &
   RoutineName='DEPOSITION_JULES_DDCALC'
 
 !-------------------------------------------------------------------------------
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Set all arrays to zero
 dep_loss_rate_ij(:,:,:)  = 0.0
@@ -198,7 +197,7 @@ DO m = 1, ndry_dep_species
   END DO        ! End of DO loop over rows
 END DO          ! End of DO loop over deposited atmospheric species
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 

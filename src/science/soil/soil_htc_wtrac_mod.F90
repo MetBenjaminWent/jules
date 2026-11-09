@@ -38,7 +38,8 @@ SUBROUTINE soil_htc_wtrac (npnts, nshyd, soil_pts, i_wt, soil_index,           &
 USE jules_water_tracers_mod, ONLY: wtrac_calc_ratio_fn_jules
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -107,13 +108,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
   ratio_f(npnts,nshyd)
     ! Ratio of frozen soil water tracer to water content
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SOIL_HTC_WTRAC'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !----------------------------------------------------------------------------
 ! Calculate the water tracer to water ratio of the unfrozen and frozen
@@ -155,7 +154,7 @@ DO j = 1, soil_pts
   END DO
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE soil_htc_wtrac
 END MODULE soil_htc_wtrac_mod

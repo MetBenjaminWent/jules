@@ -22,7 +22,8 @@ USE metstats_mod,     ONLY: metstats_prog_struct
 USE fire_mod,         ONLY: fire_prog_struct, fire_diag_struct, fire_cntl
 
 USE parkind1,         ONLY: jprb, jpim
-USE yomhook,          ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 !  USE model_time_mod,   ONLY : current_time
 
@@ -71,14 +72,12 @@ REAL(KIND=real_jlslsm)                     :: mcarthur_temp(land_pts),         &
                                               nesterov_dewp(land_pts),         &
                                               nesterov_prec(land_pts)
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='FIRE_CALC_DAILY'
 
 ! End of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 IF ( fire_cntl%mcarthur%flag ) THEN
@@ -150,7 +149,7 @@ IF ( fire_cntl%nesterov%flag ) THEN
 
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE fire_calc_daily
 END MODULE fire_calc_daily_mod

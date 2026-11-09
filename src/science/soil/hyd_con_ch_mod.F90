@@ -18,7 +18,8 @@ CONTAINS
 
 SUBROUTINE hyd_con_ch (npnts, soil_pts, soil_index, b, ks, thetak, k, dk_dthk)
 
-USE yomhook,  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 
 USE um_types, ONLY: real_jlslsm
@@ -68,13 +69,11 @@ INTEGER ::                                                                     &
 REAL(KIND=real_jlslsm) ::                                                      &
   small_value
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='HYD_CON_CH'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 !-----------------------------------------------------------------------------
 small_value = EPSILON(0.0)
 
@@ -100,7 +99,7 @@ DO j = 1,soil_pts
 END DO
 !$OMP END PARALLEL DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE hyd_con_ch
 END MODULE hyd_con_ch_mod

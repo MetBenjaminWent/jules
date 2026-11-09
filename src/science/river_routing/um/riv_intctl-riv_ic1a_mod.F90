@@ -71,7 +71,8 @@ acc_lake_evap_wtrac, smcl_wtrac, sthu_wtrac)
 !   This code is written to UMDP3 v6 programming standards.
 !-----------------------------------------------------------------
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 USE ereport_mod, ONLY: ereport
 USE UM_ParVars,   ONLY: lasize, glsize, gc_all_proc_group
@@ -336,12 +337,9 @@ CHARACTER(LEN=errormessagelength) :: CMessage
 
 CHARACTER(LEN=*),PARAMETER :: RoutineName = 'RIV_INTCTL_1A'
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,                 &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 info = 0
 
 !-------------------------------------------------------------------------
@@ -521,8 +519,7 @@ IF (l_wtrac_jls) THEN
 
 END IF     ! l_wtrac_jls
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,                &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE riv_intctl_1a
 END MODULE riv_intctl_mod_1A

@@ -37,7 +37,8 @@ USE atm_fields_mod, ONLY: clapp_horn, sat_soilw_suction, smcl,                 &
 USE nlsizes_namelist_mod, ONLY: land_field
 
 USE umPrintMgr, ONLY: umPrint, umMessage
-USE yomhook,    ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1,   ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -45,13 +46,11 @@ IMPLICIT NONE
 !   Arguments
 REAL, INTENT(IN) ::  dz_soil(sm_levels) !IN soil level thicknesses
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='UPDATE_SMC'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 WRITE(umMessage,*)                                                             &
  'Partitioning soil moisture in unfrozen and frozen fractions'
 CALL umPrint(umMessage,src='update_smc')
@@ -60,7 +59,7 @@ CALL freeze_soil(land_field,sm_levels,                                         &
                  clapp_horn, dz_soil, sat_soilw_suction, smcl,                 &
                  deep_soil_temp, vol_smc_sat, sthu, sthf)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE update_smc
 END MODULE update_smc_mod

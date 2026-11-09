@@ -107,7 +107,8 @@ USE overbank_inundation_mod,  ONLY: frac_fplain_lp, frac_fplain_rp
 #endif
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -282,13 +283,11 @@ INTEGER                  :: errorstatus
 CHARACTER(LEN=*), PARAMETER  :: RoutineName = 'SURF_COUPLE_RIVERS'
 
 !Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Allocate water tracer fields
 IF (l_wtrac_jls) THEN
@@ -814,7 +813,7 @@ END IF ! rivers_call
 ! Deallocate water tracer fields
 DEALLOCATE(inlandout_atmos_wtrac)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE surf_couple_rivers
 
@@ -829,7 +828,8 @@ SUBROUTINE accumulate_runoff(npoints, surf_runoff, sub_runoff,                 &
 USE jules_rivers_mod, ONLY: nstep_rivers
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -856,12 +856,10 @@ INTEGER :: ip                    ! Loop counter
 CHARACTER(LEN=*), PARAMETER  :: RoutineName = 'ACCUMULATE_RUNOFF'
 
 !Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 !end of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DO ip = 1, npoints
 
@@ -877,7 +875,7 @@ DO ip = 1, npoints
 
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE accumulate_runoff
 
@@ -888,7 +886,8 @@ SUBROUTINE accumulate_abstraction( npoints, abstracted, tot_abstracted )
 ! Accumulate an abstraction - essentially just adding to a sum.
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -922,13 +921,11 @@ INTEGER :: ip                    ! Loop counter
 CHARACTER(LEN=*), PARAMETER  :: RoutineName = 'ACCUMULATE_ABSTRACTION'
 
 !Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 !end of header
 !------------------------------------------------------------------------------
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 DO ip = 1, npoints
 
@@ -936,7 +933,7 @@ DO ip = 1, npoints
 
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE accumulate_abstraction
 

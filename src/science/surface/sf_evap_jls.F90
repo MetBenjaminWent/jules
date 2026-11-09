@@ -57,7 +57,8 @@ USE jules_science_fixes_mod, ONLY: l_fix_neg_snow
 USE sf_diags_mod, ONLY: strnewsfdiag
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 IMPLICIT NONE
 
 INTEGER ::                                                                     &
@@ -235,13 +236,11 @@ INTEGER ::                                                                     &
 ,mm
               ! Index for soil tile
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SF_EVAP'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEL                                                                 &
 !$OMP DEFAULT(SHARED)                                                          &
@@ -936,7 +935,7 @@ END DO
 !$OMP END DO NOWAIT
 !$OMP END PARALLEL
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE sf_evap
 END MODULE sf_evap_mod

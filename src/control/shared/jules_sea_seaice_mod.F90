@@ -712,7 +712,8 @@ USE check_iostat_mod, ONLY: check_iostat
 
 USE UM_parcore,       ONLY:   mype
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE errormessagelength_mod, ONLY: errormessagelength
 
@@ -725,11 +726,9 @@ INTEGER :: my_comm
 INTEGER :: mpl_nml_type
 INTEGER :: ErrorStatus
 INTEGER :: icode
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_NML_JULES_SEA_SEAICE'
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
 
 CHARACTER(LEN=errormessagelength) :: iomessage
 
@@ -824,7 +823,7 @@ END TYPE my_namelist
 
 TYPE (my_namelist) :: my_nml
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 CALL gc_get_communicator(my_comm, icode)
 
@@ -1005,7 +1004,7 @@ END IF
 
 CALL mpl_type_free(mpl_nml_type,icode)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE read_nml_jules_sea_seaice
 #endif

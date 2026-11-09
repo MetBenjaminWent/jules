@@ -29,7 +29,8 @@ USE jules_vegetation_mod, ONLY: l_vegdrag_pft, l_spec_veg_z0
 USE pftparm,  ONLY: dz0v_dh, z0v, catch0, dcatch_dlai
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook,  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -71,15 +72,13 @@ REAL(KIND=real_jlslsm) ::                                                      &
 REAL(KIND=real_jlslsm), PARAMETER ::                                           &
   z0_soil = 3.0e-4  ! Roughness length for soil (m).
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='PFT_SPARM'
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! If l_spec_veg_z0 is true, then all pft z0 values are specifeid.
 ! This means that calling can_drag_z0 is only appropriate if l_spec_veg_z0
@@ -117,7 +116,7 @@ DO j = 1,surft_pts
   catch(l) = catch0(ipft) + dcatch_dlai(ipft) * lai(l)
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE pft_sparm
 END MODULE pft_sparm_mod

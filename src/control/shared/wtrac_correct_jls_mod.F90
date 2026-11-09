@@ -46,7 +46,8 @@ SUBROUTINE wtrac_correct_sno(land_pts, nsurft, nsmax, n_wtrac_jls,             &
 !   Wrapper routine to correct snow stores.
 
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 
 IMPLICIT NONE
@@ -77,13 +78,11 @@ REAL(KIND=real_jlslsm), INTENT(IN OUT) :: sliq_surft_wtrac                     &
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WTRAC_CORRECT_SNO'
 
 !Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Canopy snow
 CALL wtrac_correct_tiles(land_pts, nsurft, 1, n_wtrac_jls, surft_pts,          &
@@ -101,7 +100,7 @@ CALL wtrac_correct_tiles(land_pts, nsurft, nsmax, n_wtrac_jls, surft_pts,      &
 CALL wtrac_correct_tiles(land_pts, nsurft, nsmax, n_wtrac_jls, surft_pts,      &
                          surft_index, sliq_surft, sliq_surft_wtrac)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE wtrac_correct_sno
 
@@ -121,7 +120,8 @@ SUBROUTINE wtrac_correct_hyd(land_pts, nsurft, nsoilt, sm_levels, n_wtrac_jls, &
 ! (Note, this code is assuming that nsoilt=1.)
 
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 
 IMPLICIT NONE
@@ -164,13 +164,11 @@ INTEGER :: soilt_index(land_pts,nsoilt)
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WTRAC_CORRECT_HYD'
 
 !Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! Set up 'tiled' soil points index (assuming nsoilt=1) so that the routine
 ! wtrac_correct_tiles can be used for testing soil fields
@@ -201,7 +199,7 @@ CALL wtrac_correct_tiles(land_pts, nsoilt, 1, n_wtrac_jls, soilt_pts,          &
                          soilt_index, sthzw_soilt, sthzw_soilt_wtrac)
 
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE wtrac_correct_hyd
 
@@ -214,7 +212,8 @@ SUBROUTINE wtrac_correct_tiles(land_pts, nsurft, nlayer, n_wtrac_jls,          &
 ! Description:
 !   Generic routine to apply correction to tiled fields
 
-USE yomhook,  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -240,14 +239,12 @@ INTEGER :: i, n, k, ilyr, i_wt             ! Loop counters
 
 REAL(KIND=real_jlslsm) :: diff_q, ratio_q, q_wtrac_norm
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WTRAC_CORRECT_TILES'
 
 ! End of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEL DEFAULT(NONE)                                                   &
 !$OMP PRIVATE(n,k,i,ilyr,i_wt,diff_q,q_wtrac_norm,ratio_q)                     &
@@ -306,7 +303,7 @@ DO n = 1,nsurft
 END DO
 !$OMP END PARALLEL
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 
 RETURN
 END SUBROUTINE wtrac_correct_tiles
@@ -320,7 +317,8 @@ SUBROUTINE wtrac_correct_grid(row_length, rows, n_wtrac_jls, q, q_wtrac)
 
 USE missing_data_mod, ONLY: rmdi
 
-USE yomhook,  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -342,14 +340,12 @@ INTEGER :: i, j, i_wt                           ! Loop counters
 
 REAL(KIND=real_jlslsm) :: diff_q, ratio_q, q_wtrac_norm
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WTRAC_CORRECT_GRID'
 
 ! End of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEL DO SCHEDULE(STATIC) DEFAULT(NONE)                               &
 !$OMP PRIVATE(i,j,i_wt,diff_q,q_wtrac_norm,ratio_q)                            &
@@ -398,7 +394,7 @@ DO j = 1, rows
 END DO
 !$OMP END PARALLEL DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 
 RETURN
 END SUBROUTINE wtrac_correct_grid

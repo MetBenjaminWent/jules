@@ -95,7 +95,8 @@ USE jules_vegetation_mod, ONLY: l_rsl_scalar
 USE conversions_mod, ONLY: pi
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -158,13 +159,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
   z0h_rsl
     ! RSL corrected heat roughness length (m)
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CAN_DRAG_Z0'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF ( .NOT. l_hyperbolic_done ) THEN
   ! Precalculation of hyperbolic functions using the addition formulae
@@ -202,7 +201,7 @@ DO k = 1,surft_pts
 END DO
 !$OMP END PARALLEL DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE can_drag_z0
 
@@ -217,7 +216,8 @@ USE jules_surface_mod, ONLY: a,b,d,c_over_d
 USE jules_vegetation_mod, ONLY: l_rsl_scalar
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -320,13 +320,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
 
 
 ! Local constants
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CAN_DRAG_PHI_M_H'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEL DO DEFAULT(NONE) SCHEDULE(STATIC)                               &
 !$OMP  PRIVATE(k,l,j,i,l_c,recip_l_mo_limit,sc,usuh,zdt,l_vor,psi_m_rsl,       &
@@ -413,7 +411,7 @@ DO k = 1,surft_pts
 END DO
 !$OMP END PARALLEL DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE can_drag_phi_m_h
 
@@ -430,7 +428,8 @@ USE jules_surface_mod, ONLY: a,b,c,d,c_over_d
 USE jules_vegetation_mod, ONLY: l_rsl_scalar, stanton_leaf
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE jules_print_mgr, ONLY: jules_message, jules_print
 
@@ -579,13 +578,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
   phi_rsl_tmp_old
 
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CAN_DRAG_PHI_M_H_VOL'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 pi_2 = 0.5 * pi
 
@@ -841,7 +838,7 @@ DO k = 1,surft_pts
 END DO
 !$OMP END PARALLEL DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE can_drag_phi_m_h_vol
 

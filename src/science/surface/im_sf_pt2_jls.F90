@@ -50,7 +50,8 @@ USE jules_sea_seaice_mod, ONLY: l_use_dtstar_sea, beta_evap
 USE jules_science_fixes_mod, ONLY: l_dtcanfix
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 IMPLICIT NONE
 
 LOGICAL ::                                                                     &
@@ -286,13 +287,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
 ,gamma1                                                                        &
 ,gamma2
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='IM_SF_PT2'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !JULES standalone never knew about ENDGAME so no offset.
 offset = 0
@@ -939,7 +938,7 @@ END IF ! L_CORRECT
 
 !$OMP END PARALLEL
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE im_sf_pt2
 END MODULE im_sf_pt2_mod

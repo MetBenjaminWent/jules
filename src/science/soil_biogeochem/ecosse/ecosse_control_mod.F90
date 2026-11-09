@@ -119,7 +119,8 @@ USE soil_ecosse_vars_mod, ONLY:                                                &
   soil_ecosse_vars_type
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 !TYPES
@@ -340,15 +341,13 @@ REAL(KIND=real_jlslsm) ::                                                      &
     ! Indicator of vegetation coverage (0 to 1).
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName = 'ECOSSE_CONTROL'
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! ECOSSE is coded assuming a single soil tile.
@@ -506,7 +505,7 @@ IF ( l_soil_N ) THEN
   n_soil_pool_soilt(:,s,:,6) = n_nit(:,:,nt)
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE ecosse_control

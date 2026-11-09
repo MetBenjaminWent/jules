@@ -38,7 +38,8 @@ SUBROUTINE lake_evap_global_avg                                                &
 
 USE global_2d_sums_mod,  ONLY: global_2d_sums
 
-USE yomhook,  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -100,13 +101,11 @@ INTEGER :: n_sums                ! No. of fields to be summed globally
 REAL(KIND=real_jlslsm), ALLOCATABLE :: sum_r(:,:,:) ! Input to global sum
 REAL(KIND=real_jlslsm), ALLOCATABLE :: sum_all(:)   ! Output from global sum
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='LAKE_EVAP_GLOBAL_AVG'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 
 ! Set up number of global sums
@@ -175,8 +174,7 @@ END DO
 DEALLOCATE(sum_all)
 DEALLOCATE(sum_r)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,                &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE lake_evap_global_avg
 END MODULE lake_evap_global_avg_mod

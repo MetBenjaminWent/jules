@@ -32,7 +32,8 @@ SUBROUTINE mmd2kgs(rin, igrcn, din, area, nx, ny, rmiss, jmax)
 
 USE conversions_mod, ONLY: rc => rsec_per_day
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 IMPLICIT NONE
 !
@@ -44,14 +45,11 @@ INTEGER :: nx, ny, i, j, igrcn(nx, ny), jmax
 REAL(KIND=real_jlslsm) :: rin(nx, ny)
 REAL(KIND=real_jlslsm) :: din(nx, ny), area(nx, ny), rmiss
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='MMD2KGS'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,                 &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 DO j = 1, jmax
   DO i = 1, nx
@@ -63,8 +61,7 @@ DO j = 1, jmax
     END IF
   END DO
 END DO
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,                &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE mmd2kgs
 END MODULE mmd2kgs_mod

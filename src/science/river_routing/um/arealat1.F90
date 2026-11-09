@@ -35,7 +35,8 @@ REAL(KIND=real_jlslsm) FUNCTION arealat1(ilat)
 !Code Owner: Please refer to the UM file CodeOwners.txt
 !This file belongs in section: River Routing
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -43,9 +44,7 @@ IMPLICIT NONE
 INTEGER :: ilat
 REAL(KIND=real_jlslsm) :: area(90)
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='AREALAT1'
 
@@ -142,7 +141,7 @@ DATA area/                                                                     &
       326.56,                                                                  &
       108.87 /
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF ((ilat <= 90) .AND. (ilat >= 1)) THEN
   arealat1 = area(ilat)
@@ -152,7 +151,7 @@ ELSE
   arealat1 = 0.0
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END FUNCTION arealat1

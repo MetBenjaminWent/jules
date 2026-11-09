@@ -142,7 +142,8 @@ SUBROUTINE deposition_species_alloc(ntype, ndry_dep_species, l_deposition)
 !-----------------------------------------------------------------------------
 
 USE parkind1,       ONLY: jprb, jpim
-USE yomhook,        ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE ereport_mod,    ONLY: ereport
 
@@ -153,15 +154,13 @@ INTEGER, INTENT(IN) :: ntype, ndry_dep_species
 
 LOGICAL, INTENT(IN) :: l_deposition
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='DEPOSITION_SPECIES_ALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !  ====deposition_species_mod module JULES====
 ! Atmospheric deposition parameters.
@@ -203,7 +202,7 @@ IF ( l_deposition ) THEN
 
 END IF  !  l_deposition
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE deposition_species_alloc
 

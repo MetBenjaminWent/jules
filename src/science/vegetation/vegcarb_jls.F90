@@ -43,7 +43,8 @@ USE jules_surface_types_mod, ONLY: npft
 USE CN_utils_mod, ONLY: calc_n_comps_triffid
 USE plant_growth_n_mod, ONLY: plant_growth_n
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -185,15 +186,13 @@ REAL(KIND=real_jlslsm) ::                                                      &
     ! Change in Phen due to phenology since last TRIFFID call.
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='VEGCARB'
 !-----------------------------------------------------------------------------
 !end of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 DO t = 1,trif_pts
   l = trif_index(t)
@@ -359,7 +358,7 @@ DO t = 1,trif_pts
 
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE vegcarb
 

@@ -35,7 +35,8 @@ SUBROUTINE sugar(ft, leafc, leafc_bal, woodc, rootc, f_nsc, resp_l,            &
                  resp_p, growth, tstar, gpp)
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -94,13 +95,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
  df_nsc
     ! WORK Increment in the NSC mass fraction
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SUGAR'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !------------------------------------------------------------------------------
 ! Calculate explicit fluxes using previous timestep f_nsc value
@@ -125,7 +124,7 @@ CALL sugar_flux_correction(ft, leafc_bal, leafc, woodc, rootc, df_nsc, resp_l, &
                            resp_w, resp_r, resp_p_m, resp_p_g,                 &
                            resp_p, growth, tstar, gpp)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 END SUBROUTINE sugar
 
@@ -140,7 +139,8 @@ USE pftparm, ONLY:                                                             &
 USE conversions_mod, ONLY: zerodegc
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 !------------------------------------------------------------------------------
@@ -206,13 +206,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
 ,grecr
     ! WORK Decay rate of structural root carbon into NSC (root maintenance)
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CALCULATE_SUG_FLUXES'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 !------------------------------------------------------------------------------
 ! Calculate temperature function
@@ -246,7 +244,7 @@ resp_p   = resp_l + resp_w + resp_r
 resp_p_m = (1.0 - sug_yg(ft)) * (grecl + grecw + grecr) / sug_yg(ft)
 resp_p_g = resp_p - resp_p_m
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 
 END SUBROUTINE calculate_sug_fluxes
 
@@ -262,7 +260,8 @@ USE pftparm, ONLY:                                                             &
 USE conversions_mod, ONLY: zerodegc
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -339,13 +338,11 @@ REAL(KIND=real_jlslsm), PARAMETER ::                                           &
   forw_gamma = 1.0
     ! Forward time-step weighting. (0 = explicit), (1 = approx implicit)
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='UPDATE_NSC_POOL'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 !------------------------------------------------------------------------------
 ! Calculate temperature function
@@ -382,7 +379,7 @@ df_nsc_corr = MAX(-f_nsc,df_nsc_corr)
 !-----------------------------------------------------------------------------
 f_nsc = f_nsc + df_nsc_corr
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 
 END SUBROUTINE update_NSC_pool
 
@@ -399,7 +396,8 @@ USE conversions_mod, ONLY: zerodegc
 USE timestep_mod, ONLY: timestep
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -479,13 +477,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
 ,c
     ! WORK Constant in quadratic function for average f_nsc over time-step
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SUGAR_FLUX_CORRECTION'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 !------------------------------------------------------------------------------
 ! Calculate temperature function
@@ -520,7 +516,7 @@ CALL calculate_sug_fluxes(ft, leafc, woodc, rootc, f_nsc_av, resp_l,           &
                           resp_w, resp_r, resp_p_m, resp_p_g,                  &
                           resp_p, growth, tstar)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 
 END SUBROUTINE sugar_flux_correction
 

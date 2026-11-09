@@ -27,7 +27,8 @@ SUBROUTINE soil_evap (npnts,nshyd,surft_pts,surft_index,                       &
                       )
 
 USE jules_irrig_mod, ONLY: l_irrig_dmd, l_soil_evap_irrig_separate
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 IMPLICIT NONE
 
@@ -91,13 +92,11 @@ REAL(KIND=real_jlslsm), INTENT(OUT) ::                                         &
 INTEGER ::                                                                     &
  j,k,l                ! Loop indices
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SOIL_EVAP'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !CDIR NODEP - order independent so can vectorise
 
@@ -211,7 +210,7 @@ IF (l_soil_evap_irrig_separate) THEN
 END IF
 
 !$OMP END PARALLEL
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE soil_evap
 END MODULE soil_evap_mod

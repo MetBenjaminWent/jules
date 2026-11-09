@@ -55,7 +55,8 @@ USE jules_surface_mod, ONLY: l_urban2t, l_anthrop_heat_use_wrr,                &
 USE conversions_mod, ONLY: rsec_per_day, pi
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -106,13 +107,11 @@ INTEGER :: im,im1,n,k,l,i,j,offset,days_in_year,local_day_number
 
 REAL(KIND=real_jlslsm) :: nm, e1, e2, h, a2, tod, lon, diurnal_weight, annual_weight
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='GENERATE_ANTHROPOGENIC_HEAT'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Make sure that we have an urban tile
 IF ( urban > 0 .OR. urban_canyon > 0 ) THEN
@@ -249,7 +248,7 @@ IF ( urban > 0 .OR. urban_canyon > 0 ) THEN
   END IF
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE generate_anthropogenic_heat
 END MODULE gen_anthrop_heat_mod

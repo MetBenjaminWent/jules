@@ -61,7 +61,8 @@ USE trif,                     ONLY: lai_min
 USE pftparm,                  ONLY: a_ws, eta_sl, a_wl, b_wl
 
 USE umPrintMgr,               ONLY: umPrint, umMessage
-USE yomhook,                  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1,                 ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -102,9 +103,7 @@ INTEGER :: nstep_trif
   !Number of atmospheric timesteps between calls to TRIFFID.
 INTEGER :: l,n  ! Loop counters
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='INIT_VEG'
 
@@ -112,7 +111,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='INIT_VEG'
 ! If TRIFFID on, call INIT_MIN to ensure PFT fractions are GE minimum
 ! fraction except where vegetation excluded by ice, water or urban
 !-----------------------------------------------------------------------
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF (l_triffid) THEN
   CALL init_min(land_pts,frac_surft,soil_carb1)
@@ -214,7 +213,7 @@ IF (l_phenol) THEN
   g_lf_pft_acc(:,:) = 0.0
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE init_veg
 END MODULE init_veg_mod

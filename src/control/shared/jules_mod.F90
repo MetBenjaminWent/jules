@@ -225,7 +225,8 @@ USE atm_fields_bounds_mod, ONLY: array_dims
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -241,15 +242,13 @@ TYPE(jules_vars_data_type), INTENT(IN OUT) :: jules_vars_data
 
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='JULES_VARS_ALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 
 ALLOCATE(jules_vars_data%snowdep_surft(land_pts,nsurft))
@@ -323,7 +322,7 @@ jules_vars_data%v_1_p_ij(:,:)    = 0.0
 jules_vars_data%blendht(:,:)     = 0.0
 jules_vars_data%dtrdz_charney_grid_1_ij(:,:) = 0.0
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE jules_vars_alloc
 
@@ -333,7 +332,8 @@ SUBROUTINE jules_vars_dealloc(jules_vars_data)
 
   !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -343,15 +343,13 @@ TYPE(jules_vars_data_type), INTENT(IN OUT) :: jules_vars_data
 
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='JULES_VARS_DEALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DEALLOCATE(jules_vars_data%snowdep_surft)
 DEALLOCATE(jules_vars_data%albobs_scaling_surft)
@@ -375,7 +373,7 @@ DEALLOCATE(jules_vars_data%v_1_p_ij)
 DEALLOCATE(jules_vars_data%blendht)
 DEALLOCATE(jules_vars_data%dtrdz_charney_grid_1_ij)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE jules_vars_dealloc
@@ -385,7 +383,8 @@ SUBROUTINE jules_vars_assoc(jules_vars,jules_vars_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -398,15 +397,13 @@ TYPE(jules_vars_type), INTENT(IN OUT) :: jules_vars
 
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='JULES_VARS_ASSOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL jules_vars_nullify(jules_vars)
 
@@ -432,7 +429,7 @@ jules_vars%v_1_p_ij => jules_vars_data%v_1_p_ij
 jules_vars%blendht  => jules_vars_data%blendht
 jules_vars%dtrdz_charney_grid_1_ij => jules_vars_data%dtrdz_charney_grid_1_ij
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE jules_vars_assoc
 
@@ -441,7 +438,8 @@ SUBROUTINE jules_vars_nullify(jules_vars)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -452,15 +450,13 @@ TYPE(jules_vars_type), INTENT(IN OUT) :: jules_vars
 
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='JULES_VARS_NULLIFY'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(jules_vars%snowdep_surft)
 NULLIFY(jules_vars%albobs_scaling_surft)
@@ -484,7 +480,7 @@ NULLIFY(jules_vars%v_1_p_ij)
 NULLIFY(jules_vars%blendht)
 NULLIFY(jules_vars%dtrdz_charney_grid_1_ij)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE jules_vars_nullify
 

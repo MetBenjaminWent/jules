@@ -51,7 +51,8 @@ USE jules_surface_types_mod, ONLY: ntype, npft
 USE qsat_mod,                ONLY: qsat_wat_mix
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -164,14 +165,12 @@ REAL(KIND=real_jlslsm) ::                                                      &
   soil_sand(land_pts)
    ! fraction of soil that is sand - fixed at 0.3
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER   :: RoutineName=                                  &
   'DEPOSITION_FROM_SURF_COUPLE_EXTRA'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF ( .NOT. ALLOCATED(speci_jules) .AND. .NOT. ALLOCATED(nldepd_jules) ) THEN
 
@@ -287,7 +286,7 @@ CALL deposition_jules_ddepctl(a_step, secs_per_step,                           &
   chemvars%nlev_with_ddep, chemvars%dep_vd_gb                                  &
   )
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE deposition_from_surf_couple_extra

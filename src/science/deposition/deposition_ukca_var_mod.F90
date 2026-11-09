@@ -7,7 +7,8 @@
 MODULE deposition_ukca_var_mod
 
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE ereport_mod, ONLY: ereport
 
 IMPLICIT NONE
@@ -52,15 +53,13 @@ INTEGER, INTENT(IN)           :: jpspec
 INTEGER :: i
 INTEGER :: ERROR, error_sum  ! Error indicators
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='DEPOSITION_UKCA_VAR_ALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ERROR = 0
 
@@ -78,7 +77,7 @@ IF ( error_sum /= 0 ) THEN
                 "Please check allocation of arrays")
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE deposition_ukca_var_alloc
@@ -116,16 +115,14 @@ USE umPrintMgr, ONLY: newline, umMessage
 
 IMPLICIT NONE
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 INTEGER                       :: error_code         ! Error code
 CHARACTER(LEN=*), PARAMETER   :: RoutineName='DEPOSITION_CHECK_UKCA_SWITCHES'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! Check l_ukca_ddep_lev1
 error_code = -1
@@ -204,7 +201,7 @@ IF (l_fix_ukca_h2dd_x_jules .NEQV. l_fix_ukca_h2dd_x_ukca) THEN
   CALL ereport(RoutineName, error_code, umMessage)
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE deposition_check_ukca_switches

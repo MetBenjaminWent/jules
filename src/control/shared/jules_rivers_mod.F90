@@ -717,7 +717,8 @@ SUBROUTINE jules_rivers_alloc(land_pts, t_i_length, t_j_length, rivers_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -728,15 +729,13 @@ TYPE(rivers_data_type), INTENT(IN OUT) :: rivers_data
 !Local variables
 INTEGER :: ERROR, error_sum  ! Error indicators
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='JULES_RIVERS_ALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 #if !defined(LFRIC)
 ALLOCATE(rivers_data%tot_surf_runoff_gb(land_pts))
@@ -856,7 +855,7 @@ rivers_data%rivers_boxareas_rp(:) = rmdi
 rivers_data%rivers_outflow_rp(:) = rmdi
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE jules_rivers_alloc
 
@@ -1339,7 +1338,8 @@ USE setup_namelist,   ONLY: setup_nml_type
 USE check_iostat_mod, ONLY: check_iostat
 USE UM_parcore,       ONLY: mype
 USE parkind1,         ONLY: jprb, jpim
-USE yomhook,          ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE errormessagelength_mod, ONLY: errormessagelength
 
 IMPLICIT NONE
@@ -1350,9 +1350,7 @@ INTEGER :: mpl_nml_type
 INTEGER :: ErrorStatus
 INTEGER :: icode
 CHARACTER(LEN=errormessagelength) :: iomessage
-REAL(KIND=jprb) :: zhook_handle
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_NML_JULES_RIVERS'
 
@@ -1391,7 +1389,7 @@ END TYPE my_namelist
 
 TYPE (my_namelist) :: my_nml
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 CALL gc_get_communicator(my_comm, icode)
 
@@ -1458,7 +1456,7 @@ END IF
 
 CALL mpl_type_free(mpl_nml_type,icode)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 
 END SUBROUTINE read_nml_jules_rivers
 #endif
@@ -1470,22 +1468,21 @@ SUBROUTINE rivers_dealloc(rivers_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
 !Arguments
 TYPE(rivers_data_type), INTENT(IN OUT) :: rivers_data
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='RIVERS_DEALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 DEALLOCATE(rivers_data%tot_surf_runoff_gb)
 DEALLOCATE(rivers_data%tot_sub_runoff_gb)
@@ -1529,7 +1526,7 @@ DEALLOCATE(rivers_data%rivers_boxareas_rp)
 DEALLOCATE(rivers_data%rivers_outflow_rp)
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE rivers_dealloc
 
@@ -1540,7 +1537,8 @@ SUBROUTINE rivers_assoc(rivers, rivers_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -1548,15 +1546,13 @@ IMPLICIT NONE
 TYPE(rivers_type), INTENT(IN OUT) :: rivers
 TYPE(rivers_data_type), INTENT(IN OUT), TARGET :: rivers_data
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='RIVERS_ASSOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 CALL rivers_nullify(rivers)
 
@@ -1603,7 +1599,7 @@ rivers%rivers_outflow_rp => rivers_data%rivers_outflow_rp
 #endif
 
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE rivers_assoc
 
@@ -1614,22 +1610,21 @@ SUBROUTINE rivers_nullify(rivers)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
 !Arguments
 TYPE(rivers_type), INTENT(IN OUT) :: rivers
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_5
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='RIVERS_NULLIFY'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
 
 NULLIFY(rivers%tot_surf_runoff_gb)
 NULLIFY(rivers%tot_sub_runoff_gb)
@@ -1673,7 +1668,7 @@ NULLIFY(rivers%rivers_boxareas_rp)
 NULLIFY(rivers%rivers_outflow_rp)
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_5)
 RETURN
 END SUBROUTINE rivers_nullify
 

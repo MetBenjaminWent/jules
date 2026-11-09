@@ -252,7 +252,8 @@ USE jules_surface_types_mod, ONLY: npft
 USE model_domain_mod, ONLY: model_type, mt_single_column, mt_lfric
 USE nlsizes_namelist_mod, ONLY: ntiles
 USE stash_array_mod, ONLY: sf
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -261,13 +262,11 @@ TYPE (strnewsfdiag), INTENT(IN OUT) :: sf_diag
 LOGICAL, INTENT(IN) :: l_apply_diag
 INTEGER, INTENT(IN) :: land_points
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ALLOC_SF_EXPL'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! set the logical switches for whether diagnostic is requested
 SELECT CASE (model_type)
@@ -558,7 +557,7 @@ ELSE
   ALLOCATE(sf_diag%tau_surft(1,1))
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE alloc_sf_expl
@@ -625,7 +624,8 @@ USE jules_surface_mod, ONLY: IScrnTDiag, IP_ScrnDecpl2, IP_ScrnDecpl3
 USE model_domain_mod, ONLY: model_type, mt_single_column, mt_lfric
 USE nlsizes_namelist_mod, ONLY: ntiles
 USE stash_array_mod, ONLY: sf
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -636,13 +636,11 @@ INTEGER, INTENT(IN) :: land_points
 
 INTEGER :: i,j
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ALLOC_SF_IMP'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! set the logical switches for whether diagnostic is requested
 SELECT CASE (model_type)
@@ -853,7 +851,7 @@ ELSE
   ALLOCATE( sf_diag%lh_ssi(1,1))
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE alloc_sf_imp

@@ -48,7 +48,8 @@ USE parkind1,                ONLY: jprb, jpim
 
 USE jules_print_mgr,         ONLY: jules_print, jules_message
 
-USE yomhook,                 ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -83,13 +84,11 @@ CHARACTER(LEN=10)    :: species_deposited_ukca(ndepd_ukca)
 
 CHARACTER(LEN=*), PARAMETER       :: RoutineName='DEPOSITION_CHECK_SPECIES'
 
-INTEGER(KIND=jpim), PARAMETER     :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER     :: zhook_out = 1
-REAL(KIND=jprb)                   :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 !-------------------------------------------------------------------------------
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 DO i = 1, ndepd_ukca
   species_deposited_ukca(i) = species_ukca(nldepd_ukca(i))
@@ -155,7 +154,7 @@ IF ( .NOT. l_deposition_from_ukca ) THEN
 
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 

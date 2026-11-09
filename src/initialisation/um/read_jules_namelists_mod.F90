@@ -36,12 +36,11 @@ USE UM_ParCore,       ONLY:                                                    &
   mype
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
-INTEGER(KIND=jpim), PARAMETER, PRIVATE :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER, PRIVATE :: zhook_out = 1
 
 CHARACTER(LEN=*), PARAMETER, PRIVATE :: ModuleName='READ_JULES_NAMELISTS_MOD'
 
@@ -60,10 +59,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_ELEVATE'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_elevate(unitnumber)
 
@@ -71,7 +70,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
   CALL print_nlist_jules_elevate()
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE read_jules_elevate
 
@@ -91,10 +90,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_HYDROLOGY'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_hydrology(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -102,7 +101,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_hydrology()
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE read_jules_hydrology
 
@@ -122,10 +121,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_DEPOSITION'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_deposition(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -133,7 +132,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_deposition()
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE read_jules_deposition
 
@@ -161,10 +160,10 @@ IMPLICIT NONE
 INTEGER, INTENT(IN) :: unitnumber
 INTEGER             :: errorstatus
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_DEPOSITION_SPECIES'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 errorstatus = dry_dep_model
 SELECT CASE ( dry_dep_model )
@@ -188,7 +187,7 @@ CASE DEFAULT
 
 END SELECT
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE read_jules_deposition_species
 
@@ -208,10 +207,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_5
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_INFERNO'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_inferno(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -219,7 +218,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_inferno()
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_5)
 RETURN
 END SUBROUTINE read_jules_inferno
 
@@ -238,14 +237,14 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_6
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_NVEGPARM'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_6, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_nvegparm(unitnumber)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_6)
 RETURN
 END SUBROUTINE read_jules_nvegparm
 
@@ -265,10 +264,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_7
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_OVERBANK'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_7, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_overbank(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -276,7 +275,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_overbank()
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_7)
 RETURN
 END SUBROUTINE read_jules_overbank
 
@@ -295,14 +294,14 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_8
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_PFTPARM'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_8, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_pftparm(unitnumber)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_8)
 RETURN
 END SUBROUTINE read_jules_pftparm
 
@@ -321,10 +320,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_9
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_RED'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_9, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_red(unitnumber)
 
@@ -332,7 +331,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
   CALL print_nlist_jules_red()
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_9)
 RETURN
 END SUBROUTINE read_jules_red
 
@@ -352,10 +351,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_10
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_RADIATION'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_10, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_radiation(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -363,7 +362,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_radiation()
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_10)
 RETURN
 END SUBROUTINE read_jules_radiation
 
@@ -383,10 +382,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_11
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_RIVERS'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_11, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_rivers(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -394,7 +393,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_rivers()
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_11)
 RETURN
 END SUBROUTINE read_jules_rivers
 
@@ -414,10 +413,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_12
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_SEA_SEAICE'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_12, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_sea_seaice(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -425,7 +424,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_sea_seaice()
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_12)
 RETURN
 END SUBROUTINE read_jules_sea_seaice
 
@@ -447,10 +446,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_13
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_SNOW'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_13, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_snow(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -460,7 +459,7 @@ CALL check_jules_snow()
 ! Sets multilayer snow indices for headers
 CALL set_ml_snow_type_ids()
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_13)
 RETURN
 END SUBROUTINE read_jules_snow
 
@@ -480,17 +479,17 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_14
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_SOIL'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_14, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_soil(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
   CALL print_nlist_jules_soil()
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_14)
 RETURN
 END SUBROUTINE read_jules_soil
 
@@ -510,10 +509,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_15
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_SOIL_BIOGEOCHEM'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_15, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_soil_biogeochem(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -521,7 +520,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_soil_biogeochem()
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_15)
 RETURN
 END SUBROUTINE read_jules_soil_biogeochem
 
@@ -541,10 +540,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_16
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_SURFACE'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_16, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_surface(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -552,7 +551,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_surface()
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_16)
 RETURN
 END SUBROUTINE read_jules_surface
 
@@ -575,10 +574,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_17
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_SURFACE_TYPES'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_17, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_surface_types(unitnumber)
 CALL set_derived_variables_jules_surface_types()
@@ -589,7 +588,7 @@ END IF
 CALL set_surface_type_ids()
 CALL check_jules_surface_types()
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_17)
 RETURN
 END SUBROUTINE read_jules_surface_types
 
@@ -608,10 +607,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_18
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_TRIFFID'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_18, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_triffid(unitnumber)
 
@@ -619,7 +618,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
   CALL print_nlist_jules_triffid()
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_18)
 RETURN
 END SUBROUTINE read_jules_triffid
 
@@ -639,10 +638,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_19
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_VEGETATION'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_19, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_vegetation(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -650,7 +649,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_vegetation()
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_19)
 RETURN
 END SUBROUTINE read_jules_vegetation
 
@@ -671,10 +670,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_20
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_URBAN'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_20, ModuleName//':'//RoutineName)
 
 IF ( l_urban2t ) CALL read_nml_jules_urban(unitnumber)
 
@@ -683,7 +682,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_urban()
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_20)
 RETURN
 END SUBROUTINE read_jules_urban
 
@@ -703,10 +702,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_21
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_IRRIGATION'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_21, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_irrig(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -714,7 +713,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_irrig()
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_21)
 RETURN
 END SUBROUTINE read_jules_irrigation
 
@@ -735,10 +734,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_22
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_MODEL_ENVIRONMENT'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_22, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_model_environment(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -746,7 +745,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_model_environment()
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_22)
 RETURN
 END SUBROUTINE read_jules_model_environment
 
@@ -768,10 +767,10 @@ IMPLICIT NONE
 ! Subroutine arguments
 INTEGER, INTENT(IN) :: unitnumber
 
-REAL(KIND=jprb) :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_23
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_WATER_RESOURCES'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_23, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_water_resources(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -779,7 +778,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_water_resources( l_top )
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_23)
 RETURN
 END SUBROUTINE read_jules_water_resources
 

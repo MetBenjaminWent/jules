@@ -34,7 +34,8 @@ USE jules_surface_mod, ONLY: l_aggregate
 USE jules_vegetation_mod, ONLY: can_model
 USE jules_irrig_mod, ONLY: l_soil_evap_irrig_separate
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 IMPLICIT NONE
 
 INTEGER, INTENT(IN) ::                                                         &
@@ -126,14 +127,12 @@ REAL(KIND=real_jlslsm) ::                                                      &
  msk_sndpth
              ! Temporary scalar
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 REAL(KIND=real_jlslsm)        :: gc_nir_surft(land_pts)
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SF_RESIST'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------
 !     Evaporation over land surfaces without snow is limited by
@@ -296,7 +295,7 @@ IF ( .NOT. l_aggregate .AND. can_model == 4) THEN
   END IF
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE sf_resist
 END MODULE sf_resist_mod

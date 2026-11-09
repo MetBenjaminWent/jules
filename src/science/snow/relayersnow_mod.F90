@@ -55,7 +55,8 @@ USE jules_radiation_mod, ONLY: l_snow_albedo, l_embedded_snow
 USE jules_water_tracers_mod, ONLY: l_wtrac_jls
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -198,9 +199,7 @@ REAL(KIND=real_jlslsm), ALLOCATABLE ::                                         &
     ! Water tracer liquid content before adjustment (kg/m2).
 
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='RELAYERSNOW'
 
@@ -209,7 +208,7 @@ CHARACTER(LEN=80) :: ERRMSG             ! Error message
 
 !-----------------------------------------------------------------------------
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Allocate water tracer working arrays
 IF (l_wtrac_jls) THEN
@@ -577,7 +576,7 @@ END DO  !  K (points)
 DEALLOCATE(w_wtrac)
 DEALLOCATE(s_wtrac)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE relayersnow

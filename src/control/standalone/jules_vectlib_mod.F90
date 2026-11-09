@@ -22,7 +22,8 @@ MODULE vectlib_mod
 ! Code Owner: Please refer to ModuleLeaders.txt and UM file CodeOwners.txt
 ! This file belongs in section: Misc
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 IMPLICIT NONE
 
@@ -41,9 +42,7 @@ INTEGER :: n
 INTEGER (KIND=integer_32) :: l_n
 INTEGER :: i
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='EXP_V'
 
@@ -52,7 +51,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='EXP_V'
 INCLUDE 'mkl_vml.f90'
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 l_n = n
 
 #if defined(VMASS)
@@ -67,7 +66,7 @@ DO i = 1, n
 END DO
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE exp_v
 
@@ -83,9 +82,7 @@ REAL (KIND=real_64) :: z(n), x(n), y(n), power
 INTEGER :: n, i
 INTEGER (KIND=integer_32) :: l_n
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='POWR_V'
 
@@ -94,7 +91,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='POWR_V'
 INCLUDE 'mkl_vml.f90'
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 l_n = n
 
 #if defined(VMASS)
@@ -113,7 +110,7 @@ DO i = 1, n
 END DO
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE powr_v
 
@@ -130,9 +127,7 @@ INTEGER :: n
 INTEGER (KIND=integer_32) :: l_n
 INTEGER :: i
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='RTOR_V'
 
@@ -141,7 +136,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='RTOR_V'
 INCLUDE 'mkl_vml.f90'
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 l_n = n
 
 #if defined(VMASS)
@@ -156,7 +151,7 @@ DO i = 1, n
 END DO
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE rtor_v
 
@@ -173,9 +168,7 @@ INTEGER :: n
 INTEGER (KIND=integer_32) :: l_n
 INTEGER :: i
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SQRT_V'
 
@@ -184,7 +177,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='SQRT_V'
 INCLUDE 'mkl_vml.f90'
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 l_n = n
 
 
@@ -200,7 +193,7 @@ DO i = 1, n
 END DO
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE sqrt_v
 
@@ -217,13 +210,11 @@ INTEGER :: n
 INTEGER (KIND=integer_32) :: l_n
 INTEGER :: i
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_5
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ONEOVER_V'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
 l_n = n
 
 #if defined(VMASS)
@@ -234,7 +225,7 @@ DO i = 1, n
   y(i) = 1 / x(i)
 END DO
 #endif
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_5)
 RETURN
 END SUBROUTINE oneover_v
 
@@ -251,9 +242,7 @@ INTEGER :: n
 INTEGER (KIND=integer_32) :: l_n
 INTEGER :: i
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_6
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='LOG_V'
 
@@ -262,7 +251,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='LOG_V'
 INCLUDE 'mkl_vml.f90'
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_6, ModuleName//':'//RoutineName)
 l_n = n
 
 #if defined(VMASS)
@@ -277,7 +266,7 @@ DO i = 1, n
 END DO
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_6)
 RETURN
 END SUBROUTINE log_v
 
@@ -294,9 +283,7 @@ INTEGER :: n
 INTEGER (KIND=integer_32) :: l_n
 INTEGER :: i
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_7
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SIN_V'
 
@@ -305,7 +292,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='SIN_V'
 INCLUDE 'mkl_vml.f90'
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_7, ModuleName//':'//RoutineName)
 l_n = n
 
 #if defined(VMASS)
@@ -320,7 +307,7 @@ DO i = 1, n
 END DO
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_7)
 RETURN
 END SUBROUTINE sin_v
 
@@ -337,9 +324,7 @@ INTEGER :: n
 INTEGER (KIND=integer_32) :: l_n
 INTEGER :: i
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_8
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='COS_V'
 
@@ -348,7 +333,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='COS_V'
 INCLUDE 'mkl_vml.f90'
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_8, ModuleName//':'//RoutineName)
 l_n = n
 
 #if defined(VMASS)
@@ -363,7 +348,7 @@ DO i = 1, n
 END DO
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_8)
 RETURN
 END SUBROUTINE cos_v
 
@@ -379,13 +364,11 @@ INTEGER :: n
 INTEGER (KIND=integer_32) :: l_n
 INTEGER :: i
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_9
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ACOS_V'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_9, ModuleName//':'//RoutineName)
 l_n = n
 
 #if defined(VMASS)
@@ -396,7 +379,7 @@ DO i = 1, n
 END DO
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_9)
 RETURN
 END SUBROUTINE acos_v
 
@@ -413,9 +396,7 @@ INTEGER :: n
 INTEGER (KIND=integer_32) :: l_n
 INTEGER :: i
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_10
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ASIN_V'
 
@@ -424,7 +405,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='ASIN_V'
 INCLUDE 'mkl_vml.f90'
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_10, ModuleName//':'//RoutineName)
 l_n = n
 
 #if defined(VMASS)
@@ -439,7 +420,7 @@ DO i = 1, n
 END DO
 #endif
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_10)
 RETURN
 END SUBROUTINE asin_v
 

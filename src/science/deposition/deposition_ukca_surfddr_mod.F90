@@ -134,7 +134,8 @@ USE jules_surface_types_mod, ONLY:                                             &
 USE c_rmol,                  ONLY: rmol       ! Universal gas constant
 USE missing_data_mod,        ONLY: imdi
 USE parkind1,                ONLY: jprb, jpim
-USE yomhook,                 ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -291,14 +292,12 @@ INTEGER  :: n_nosurf
 ! l_ukca_dry_dep_so2wet, l_ukca_ddepo3_ocean, l_ukca_emsdrvn_ch4
 ! This is to avoid the use of UKCA-based modules in JULES.
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER   :: RoutineName='DEPOSITION_UKCA_SURFDDR'
 
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Set logical for surface types
 DO n = 1, ntype
@@ -1305,7 +1304,7 @@ DO m = 1, ndepd_jules
 
 END DO  ! End of DO m = 1, ndepd_jules
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE deposition_ukca_surfddr

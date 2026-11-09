@@ -27,7 +27,8 @@ USE jules_soil_mod, ONLY:                                                      &
   l_vg_soil
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE jules_print_mgr, ONLY:                                                     &
   jules_message,                                                               &
   jules_print
@@ -109,14 +110,12 @@ REAL(KIND=real_jlslsm) ::                                                      &
   qbase_min(npnts)
     ! Residual base flow at zw_max (kg/m2/s).
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CALC_BASEFLOW_JULES'
 
 !-----------------------------------------------------------------------------
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 
 !-----------------------------------------------------------------------
@@ -282,7 +281,7 @@ IF (fail_count > max_print) THEN
   CALL jules_print('calc_baseflow_jules',jules_message)
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE calc_baseflow_jules
 END MODULE calc_baseflow_jules_mod

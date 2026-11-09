@@ -27,7 +27,8 @@ USE update_irrig_variables_mod, ONLY: update_irrig_variables
 USE jules_soil_mod, ONLY: sm_levels
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook,  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 !USE in instances of the JULES TYPES
 USE atm_fields_mod, ONLY: psparms,crop_vars,ainfo
@@ -39,14 +40,12 @@ LOGICAL,  INTENT(IN) :: smc_updated
 REAL,     INTENT(IN) :: dz_soil(sm_levels) !IN soil level thicknesses
 
 !Local variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SURF_COUPLE_ANCIL_UPDATE'
 
 !End of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Update vegetation parameters
 CALL update_veg()
@@ -63,7 +62,7 @@ IF ( l_irrig_dmd ) THEN
   CALL update_irrig_variables(crop_vars,psparms,ainfo)
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE surf_couple_ancil_update
 END MODULE surf_couple_ancil_update_mod

@@ -99,7 +99,8 @@ USE jules_sea_seaice_mod,     ONLY: nice
 USE theta_field_sizes,        ONLY: t_i_length, t_j_length
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 !-----------------------------------------------------------------------
@@ -411,13 +412,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
 
 REAL(KIND=real_jlslsm) ::tmp1, tmp2
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='JULES_GRIDDIAG_SF_EXPLICIT'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 
 !
@@ -763,7 +762,7 @@ DO n = 1, nsurft
   END IF
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 END SUBROUTINE jules_griddiag_sf_explicit

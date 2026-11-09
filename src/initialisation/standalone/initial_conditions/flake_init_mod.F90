@@ -52,7 +52,8 @@ USE model_grid_mod, ONLY: latitude
 
 USE theta_field_sizes,    ONLY: t_i_length
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 
 USE ancil_info, ONLY: ainfo_type
@@ -108,13 +109,11 @@ INTEGER                              :: j    ! work variable
 CHARACTER(LEN=*), PARAMETER  :: RoutineName='FLAKE_INIT'
 
 !Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 !-----------------------------------------------------------------------------
 !End of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !==============================================================================
 ! *NOTICE REGARDING SOIL TILING**
@@ -267,7 +266,7 @@ lake_vars%lake_fetch_gb(:) = lake_fetch_0
 lake_vars%lake_shape_factor_gb(:) = lake_shape_0
 lake_vars%g_dt_gb(:) = g_dt_0
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE flake_init
 END MODULE flake_init_mod

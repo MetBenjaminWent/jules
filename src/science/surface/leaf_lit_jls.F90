@@ -24,7 +24,8 @@ SUBROUTINE leaf_lit (land_pts,veg_pts,veg_index,n,fsmc,tstar                   &
 USE pftparm, ONLY: tleaf_of,fsmc_of,g_leaf_0,dgl_dm, dgl_dt
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 IMPLICIT NONE
 
 INTEGER, INTENT(IN) ::                                                         &
@@ -55,16 +56,14 @@ REAL(KIND=real_jlslsm) ::                                                      &
 INTEGER ::                                                                     &
  j,l                        ! Loop counters
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='LEAF_LIT'
 
 !-----------------------------------------------------------------------
 ! Calculate the leaf turnover rate
 !-----------------------------------------------------------------------
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEL DO                                                              &
 !$OMP SCHEDULE(STATIC)                                                         &
@@ -89,7 +88,7 @@ DO j = 1,veg_pts
 END DO
 !$OMP END PARALLEL DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE leaf_lit

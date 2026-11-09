@@ -91,7 +91,8 @@ USE jules_water_tracers_mod, ONLY: l_wtrac_jls, wtrac_calc_ratio_fn_jules
 USE sf_diags_mod, ONLY: strnewsfdiag
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -318,15 +319,13 @@ REAL(KIND=real_jlslsm) ::                                                      &
   win_wtrac(n_wtrac_jls)
     ! Water tracer entering layer (kg/m2).
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SNOWPACK'
 
 !-----------------------------------------------------------------------------
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Set logicals:
 flake_tile = (( l_flake_model ) .AND. (surft_n == lake ))
@@ -910,7 +909,7 @@ DO k = 1,surft_pts
 END DO  !  k (points)
 !$OMP END DO
 !$OMP END PARALLEL
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE snowpack

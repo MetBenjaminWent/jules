@@ -26,7 +26,8 @@ USE ereport_mod,             ONLY: ereport
 USE jules_print_mgr,         ONLY: jules_print, jules_format, jules_message
 USE parkind1,                ONLY: jprb, jpim
 USE um_types,                ONLY: real_jlslsm
-USE yomhook,                 ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -47,12 +48,10 @@ CHARACTER(LEN=10), INTENT(IN) :: output(n_output) ! Output to be printed
 INTEGER                       :: i, j, n_times
 
 CHARACTER(LEN=*), PARAMETER   :: RoutineName='DEPOSITION_OUTPUT_ARRAY_CHAR'
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 !-------------------------------------------------------------------------------
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 jules_format = '(10A10)'
 n_times = INT(n_output/10)
@@ -64,7 +63,7 @@ END DO
 WRITE(jules_message, jules_format) (output(j), j=10*n_times+1, n_output)
 CALL jules_print(RoutineName, jules_message)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 
@@ -82,12 +81,10 @@ INTEGER, INTENT(IN)           :: output(n_output) ! Output to be printed
 INTEGER                       :: i, j, n_times
 
 CHARACTER(LEN=*), PARAMETER   :: RoutineName='DEPOSITION_OUTPUT_ARRAY_INT'
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 !-------------------------------------------------------------------------------
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 jules_format = '(10I10)'
 n_times = INT(n_output/10)
@@ -99,7 +96,7 @@ END DO
 WRITE(jules_message, jules_format) (output(j), j=10*n_times+1, n_output)
 CALL jules_print(RoutineName, jules_message)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 
 RETURN
 
@@ -117,12 +114,10 @@ REAL(KIND=real_jlslsm), INTENT(IN) :: output(n_output) ! Output to be printed
 INTEGER                       :: i, j, n_times
 
 CHARACTER(LEN=*), PARAMETER   :: RoutineName='DEPOSITION_OUTPUT_ARRAY_REAL'
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 !-------------------------------------------------------------------------------
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 jules_format = '(10(1PE16.8))'
 n_times = INT(n_output/10)
@@ -134,7 +129,7 @@ END DO
 WRITE(jules_message, jules_format) (output(j), j=10*n_times+1, n_output)
 CALL jules_print(RoutineName, jules_message)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 
 RETURN
 

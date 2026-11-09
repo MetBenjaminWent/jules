@@ -32,7 +32,8 @@ USE jules_radiation_mod,      ONLY:                                            &
   l_partition_albsoil, ratio_albsoil, swdn_frac_albsoil, l_hapke_soil
 
 USE parkind1,                 ONLY: jprb, jpim
-USE yomhook,                  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE calc_direct_albsoil_mod, ONLY: calc_direct_albsoil
 
@@ -64,15 +65,13 @@ INTEGER  ::                                                                    &
   l
                                       !Loop index
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SET_SOIL_ALB_COMPONENTS'
 
 
 !End of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEl DEFAULT(NONE)                                                   &
 !$OMP PRIVATE(l)                                                               &
@@ -141,7 +140,7 @@ ELSE
 END IF
 
 !$OMP END PARALLEl
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE set_soil_alb_components
 END MODULE set_soil_alb_components_mod

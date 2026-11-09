@@ -28,7 +28,8 @@ SUBROUTINE init_a2t_4a(a_realhd, xpa, xua, xva, ypa, yua, yva)
 !  -------------------------------------------------------------------
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE nlsizes_namelist_mod, ONLY: a_len_realhd, aocpl_row_length, aocpl_p_rows
 
@@ -54,13 +55,11 @@ REAL(KIND=real_jlslsm), INTENT(OUT) :: yva(0:aocpl_p_rows)
 
 INTEGER :: i,j
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='INIT_A2T_4A'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! This would be the "correct" ENDGame grid, assuming that array
 ! index 1 refers to
@@ -120,7 +119,7 @@ DO j = 0,aocpl_p_rows
   yva(j) = a_realhd(3) + (j) * a_realhd(2)
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 !----------------------------------------------------------------------
 END SUBROUTINE init_a2t_4a

@@ -25,7 +25,8 @@ USE jules_hydrology_mod,  ONLY: zw_max
 USE jules_soil_mod,       ONLY: dzsoil
 
 USE parkind1,             ONLY: jprb, jpim
-USE yomhook,              ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -101,13 +102,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
   psisat(nshyd)
     !Saturated soil water pressure (m) (negative).
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CALC_ZW'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 zdepth(:) = 0.0
 DO n=1,nshyd
@@ -199,7 +198,7 @@ DO j = 1,soil_pts
 END DO
 !$OMP END PARALLEL DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE calc_zw

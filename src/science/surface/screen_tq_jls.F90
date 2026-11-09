@@ -46,7 +46,8 @@ USE csigma, ONLY: sbcon
 USE qsat_mod, ONLY: qsat, qsat_mix
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 IMPLICIT NONE
 
 INTEGER ::                                                                     &
@@ -243,9 +244,7 @@ i,j                                                                            &
 INTEGER :: i_ind(land_pts)
 INTEGER :: j_ind(land_pts)
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SCREEN_TQ'
 
@@ -267,7 +266,7 @@ REAL(KIND=real_jlslsm) :: term_numx,term_denx
 REAL(KIND=real_jlslsm), PARAMETER :: term_denx_minlim = -1.0e-3
 
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 
 !-----------------------------------------------------------------------
@@ -978,7 +977,7 @@ IF (sf_diag%st1p5 .OR. (IScrnTDiag == IP_ScrnDecpl2)                           &
 
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE screen_tq
 END MODULE screen_tq_mod

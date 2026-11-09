@@ -25,7 +25,8 @@ USE conversions_mod, ONLY: zerodegc
 
 USE ereport_mod, ONLY: Ereport
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -109,11 +110,9 @@ INTEGER                  :: errorstatus
 
 REAL(KIND=real_jlslsm) :: tiny_0, small_value
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 tiny_0 = TINY(0.0)
 small_value = EPSILON(0.0)
 
@@ -180,7 +179,7 @@ DO n = 1,nshyd
 
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE freeze_soil
 END MODULE freeze_soil_mod

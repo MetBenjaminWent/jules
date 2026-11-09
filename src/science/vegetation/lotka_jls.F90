@@ -34,7 +34,8 @@ USE trif, ONLY: crop, g_area
 USE compete_mod, ONLY: compete
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -129,16 +130,14 @@ REAL(KIND=real_jlslsm) ::                                                      &
     ! Area disturbance.
 
 ! Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='LOTKA'
 
 !-----------------------------------------------------------------------------
 !end of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Initialiase frac variables.
@@ -369,7 +368,7 @@ CALL compete (land_pts, trif_pts, trif_index, dom,                             &
               forw, r_gamma, b, db_dfrac, nosoil,                              &
               frac_agric, frac_nofire, dfrac_nofire)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 END SUBROUTINE lotka

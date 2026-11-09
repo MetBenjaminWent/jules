@@ -60,7 +60,8 @@ USE jules_water_tracers_mod, ONLY: l_wtrac_jls
 USE ancil_info,        ONLY: nsoilt
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook,  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -239,14 +240,12 @@ REAL(KIND=real_jlslsm), ALLOCATABLE ::                                         &
     ! Water flux reaching the soil surface which is stored for water tracer
     ! calculations if l_pdm=T or l_top=T
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SURF_HYD'
 
 !-----------------------------------------------------------------------------
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Allocate water tracer fields
 IF (l_wtrac_jls) THEN
@@ -811,7 +810,7 @@ DEALLOCATE(tot_tfall_gb_wtrac)
 DEALLOCATE(can_cond_wtrac)
 DEALLOCATE(surf_roff_surft_wtrac)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE surf_hyd
 END MODULE surf_hyd_mod

@@ -52,7 +52,8 @@ USE theta_field_sizes,        ONLY: t_i_length
 USE jules_water_tracers_mod,  ONLY: min_q_ratio
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -113,13 +114,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
              ! Ratio of water tracer flux to normal water flux from
              ! explicit calculation
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SF_SSI_IMP_WTRAC'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Initialise fields
 !$OMP PARALLEL DO SCHEDULE(STATIC) DEFAULT(NONE)                               &
@@ -178,7 +177,7 @@ DO k = 1,sea_pts
 END DO
 !$OMP END PARALLEL DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 END SUBROUTINE sf_ssi_imp_wtrac

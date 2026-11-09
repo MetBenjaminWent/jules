@@ -50,7 +50,8 @@ USE UM_ParCore,              ONLY: mype
 USE umPrintMgr,              ONLY: PrintStatus, PrStatus_Normal,               &
                                    umPrint, umMessage
 
-USE yomhook,  ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -60,13 +61,11 @@ CHARACTER(LEN=*), PARAMETER  :: routinename='WTRAC_INIT_JLS'
 TYPE(wtrac_type), INTENT(IN) :: wtrac(n_wtrac)
 
 !DrHook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 INTEGER :: i_wt
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Set up water tracer info needed by JULES from UM information
 IF (l_wtrac_jls) THEN
@@ -112,7 +111,7 @@ CALL set_surface_type_wtrac_ids()
 CALL set_ml_snow_type_wtrac_ids()
 CALL set_seaice_wtrac_ids()
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 END SUBROUTINE wtrac_init_jls
 
 END MODULE wtrac_init_jls_mod

@@ -232,7 +232,8 @@ SUBROUTINE ancil_info_alloc(land_pts,t_i_length,t_j_length,                    &
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -242,15 +243,13 @@ INTEGER, INTENT(IN) :: land_pts,t_i_length,t_j_length,                         &
 
 TYPE(ainfo_data_type), INTENT(IN OUT) :: ainfo_data
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ANCIL_INFO_ALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ALLOCATE(ainfo_data%l_lice_surft(ntype))
 ALLOCATE(ainfo_data%soilt_pts(nsoilt))
@@ -319,7 +318,7 @@ ainfo_data%latitude(:,:)               = 0.0
 ainfo_data%longitude(:,:)              = 0.0
 ainfo_data%non_irrig_frac(:)           = 1.0
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE ancil_info_alloc
 
@@ -328,22 +327,21 @@ SUBROUTINE ancil_info_dealloc(ainfo_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
 !Arguments
 TYPE(ainfo_data_type), INTENT(IN OUT) :: ainfo_data
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ANCIL_INFO_DEALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 !Allocatables held in the TYPE
 DEALLOCATE(ainfo_data%l_lice_surft)
@@ -381,7 +379,7 @@ DEALLOCATE(ainfo_data%latitude)
 DEALLOCATE(ainfo_data%longitude)
 DEALLOCATE(ainfo_data%non_irrig_frac)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 END SUBROUTINE ancil_info_dealloc
 
 !==============================================================================
@@ -389,7 +387,8 @@ SUBROUTINE ancil_info_assoc(ainfo,ainfo_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -400,15 +399,13 @@ TYPE(ainfo_data_type), INTENT(IN OUT), TARGET :: ainfo_data
   !Instance of the data type we are associtating to
 
 !Local variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ANCIL_INFO_ASSOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL ancil_info_nullify(ainfo)
 
@@ -447,7 +444,7 @@ ainfo%latitude => ainfo_data%latitude
 ainfo%longitude => ainfo_data%longitude
 ainfo%non_irrig_frac => ainfo_data%non_irrig_frac
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE ancil_info_assoc
 
@@ -457,7 +454,8 @@ SUBROUTINE ancil_info_nullify(ainfo)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -465,15 +463,13 @@ TYPE(ainfo_type), INTENT(IN OUT) :: ainfo
   !Instance of the pointer type we are nullifying
 
 !Local variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ANCIL_INFO_NULLIFY'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(ainfo%l_lice_surft)
 NULLIFY(ainfo%soilt_pts)
@@ -510,7 +506,7 @@ NULLIFY(ainfo%latitude)
 NULLIFY(ainfo%longitude)
 NULLIFY(ainfo%non_irrig_frac)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE ancil_info_nullify
 

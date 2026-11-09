@@ -575,7 +575,8 @@ SUBROUTINE trif_vars_alloc(land_pts,                                           &
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -589,15 +590,13 @@ TYPE(trif_vars_data_type), INTENT(IN OUT) :: trif_vars_data
 !Local variables
 INTEGER :: land_pts_dim,npft_dim,dim_cslayer_dim,nsoilt_dim,dim_cs1_dim
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='TRIF_VARS_ALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ALLOCATE(trif_vars_data%resp_l_pft(land_pts,npft))
 ALLOCATE(trif_vars_data%resp_r_pft(land_pts,npft))
@@ -886,7 +885,7 @@ trif_vars_data%harvest_biocrop_n_pft(:,:)   = 0.0
 trif_vars_data%harvest_biocrop_n_gb(:)      = 0.0
 trif_vars_data%harvest_doy(:,:)             = 0
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE trif_vars_alloc
 
@@ -897,22 +896,21 @@ SUBROUTINE trif_vars_dealloc(trif_vars_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
 !Arguments
 TYPE(trif_vars_data_type), INTENT(IN OUT) :: trif_vars_data
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='TRIF_VARS_DEALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DEALLOCATE(trif_vars_data%resp_l_pft)
 DEALLOCATE(trif_vars_data%resp_r_pft)
@@ -1051,7 +1049,7 @@ DEALLOCATE(trif_vars_data%harvest_biocrop_n_pft)
 DEALLOCATE(trif_vars_data%harvest_biocrop_n_gb)
 DEALLOCATE(trif_vars_data%harvest_doy)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE trif_vars_dealloc
 
@@ -1061,7 +1059,8 @@ SUBROUTINE trif_vars_assoc(trif_vars, trif_vars_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -1069,15 +1068,13 @@ IMPLICIT NONE
 TYPE(trif_vars_type), INTENT(IN OUT) :: trif_vars
 TYPE(trif_vars_data_type), INTENT(IN OUT), TARGET :: trif_vars_data
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='TRIF_VARS_ASSOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL trif_vars_nullify(trif_vars)
 
@@ -1218,7 +1215,7 @@ trif_vars%harvest_biocrop_n_pft => trif_vars_data%harvest_biocrop_n_pft
 trif_vars%harvest_biocrop_n_gb => trif_vars_data%harvest_biocrop_n_gb
 trif_vars%harvest_doy => trif_vars_data%harvest_doy
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE trif_vars_assoc
 
@@ -1229,22 +1226,21 @@ SUBROUTINE trif_vars_nullify(trif_vars)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
 !Arguments
 TYPE(trif_vars_type), INTENT(IN OUT) :: trif_vars
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='TRIF_VARS_NULLIFY'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(trif_vars%resp_l_pft)
 NULLIFY(trif_vars%resp_r_pft)
@@ -1384,7 +1380,7 @@ NULLIFY(trif_vars%harvest_biocrop_n_pft)
 NULLIFY(trif_vars%harvest_biocrop_n_gb)
 NULLIFY(trif_vars%harvest_doy)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE trif_vars_nullify
 

@@ -29,7 +29,8 @@ USE jules_soil_mod,       ONLY:                                                &
   dzsoil     !  Thicknesses of the soil layers (m)
 
 USE parkind1,             ONLY: jprb, jpim
-USE yomhook,              ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -123,13 +124,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
     ! to produce saturation excess runoff, So/Smax in PDM formulation
     ! (calculated as a function of slope when l_spdmvar is on).
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='PDM'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Calculate the slope-dependent S_PDM field from terrain slope data.
@@ -251,7 +250,7 @@ DO j = 1,soil_pts
 END DO
 
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE pdm
 END MODULE pdm_mod

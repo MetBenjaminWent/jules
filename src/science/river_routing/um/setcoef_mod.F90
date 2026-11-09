@@ -31,7 +31,8 @@ CONTAINS
 SUBROUTINE setcoef(nx, ny, rlen, rvel, ratmed, rc, jmax)
 
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 IMPLICIT NONE
 !
@@ -45,15 +46,12 @@ IMPLICIT NONE
 INTEGER :: nx, ny, i, j, jmax
 REAL(KIND=real_jlslsm) :: rlen(nx, ny), rvel(nx, ny), ratmed, rc(nx, ny)
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SETCOEF'
 
 !
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,                 &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 DO i= 1, nx
   DO j = 1, ny
     IF (rlen(i,j) >  0.0) THEN
@@ -63,8 +61,7 @@ DO i= 1, nx
     END IF
   END DO
 END DO
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,                &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE setcoef
 END MODULE setcoef_mod

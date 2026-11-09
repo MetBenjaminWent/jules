@@ -28,7 +28,8 @@ USE planet_constants_mod, ONLY: repsilon, rv
 USE qsat_mod, ONLY: qsat_wat
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 IMPLICIT NONE
 
 INTEGER :: p_field         ! IN Size of field arrays.
@@ -66,9 +67,7 @@ REAL(KIND=real_jlslsm) ::                                                      &
 INTEGER ::                                                                     &
  i                      ! LOCAL loop variable.
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='DEWPNT'
 
@@ -77,7 +76,7 @@ PARAMETER ( rl1 = -2.73e3 )
 !----------------------------------------------------------------------
 !  Calculate P in HPa.
 !----------------------------------------------------------------------
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 !$OMP PARALLEL DO SCHEDULE(STATIC) DEFAULT(NONE) PRIVATE(i)                    &
 !$OMP  SHARED(p_field,p,rl,t,v_pres,q,p1,REPSILON)
 DO i = 1,p_field
@@ -108,7 +107,7 @@ DO i = 1,p_field
   END IF
 END DO
 !$OMP END PARALLEL DO
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE dewpnt
 END MODULE dewpnt_mod

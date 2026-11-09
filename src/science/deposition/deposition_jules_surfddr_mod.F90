@@ -93,7 +93,8 @@ USE jules_print_mgr,         ONLY: jules_print, jules_message
 USE missing_data_mod,        ONLY: imdi
 USE c_rmol,                  ONLY: rmol       ! Universal gas constant
 USE parkind1,                ONLY: jprb, jpim
-USE yomhook,                 ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE ereport_mod,             ONLY: ereport
 
 IMPLICIT NONE
@@ -234,15 +235,13 @@ LOGICAL :: microb(row_length,rows)
 INTEGER :: errcode
   ! error code
 
-INTEGER(KIND=jpim), PARAMETER     :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER     :: zhook_out = 1
-REAL(KIND=jprb)                   :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER       :: RoutineName='DEPOSITION_JULES_SURFDDR'
 
 ! ------------------------------------------------------------------------------
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Set logical todo for surface types
 DO n = 1, ntype
@@ -1235,7 +1234,7 @@ DO m = 1, ndry_dep_species
 
 END DO  ! End of DO loop over ndry_dep_species
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE deposition_jules_surfddr

@@ -101,7 +101,8 @@ USE conversions_mod, ONLY:                                                     &
 !      imported scalar parameters
        pi_over_180
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 !-----------------------------------------------------------------------
 !
@@ -205,9 +206,7 @@ REAL(KIND=real_jlslsm)  ::                                                     &
    ,SUM
                             ! sum of weights
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='PRE_AREAVER'
 
@@ -215,8 +214,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='PRE_AREAVER'
 !
 !     1.1  Produce in TEMP_SRCE a monotonically increasing set of angles
 !     equivalent to LAMBDA_SRCE i.e. equal under modulo 360.
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,                 &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF (cyclic_srce) THEN
   lines_lambda_srce = gaps_lambda_srce
@@ -403,8 +401,7 @@ DO iy2 = 1,gaps_phi_targ
 END DO
 maxl = ip
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,                &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE pre_areaver
@@ -486,7 +483,8 @@ USE riv_concerns, ONLY: runoff_recv_concern
 USE jules_print_mgr, ONLY: jules_print
 #endif
 
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 !
 IMPLICIT NONE
@@ -567,9 +565,7 @@ REAL(KIND=real_jlslsm) ::                                                      &
 LOGICAL :: found, not_within
 #endif
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='DO_AREAVER'
 
@@ -580,8 +576,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='DO_AREAVER'
 !     lists. COUNT_TARG indicates how many consecutive entries in these
 !     lists apply to each target box.
 !
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,                 &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DO iy2 = 1,gaps_phi_targ
   DO ix2 = 1,gaps_lambda_targ
@@ -659,8 +654,7 @@ DO iy2 = 1,gaps_phi_targ
   END DO
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,                &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE do_areaver

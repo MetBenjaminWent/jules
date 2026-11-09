@@ -35,7 +35,8 @@ SUBROUTINE wrtWBlog(iy, im, id, ih, ndev                                       &
 USE jules_print_mgr, ONLY:                                                     &
    jules_print, jules_message,                                                 &
    PrintStatus, PrDiag
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE parkind1, ONLY: jprb, jpim
 IMPLICIT NONE
 !
@@ -53,17 +54,14 @@ INTEGER :: iy, im, id, ih, ndev
 REAL(KIND=real_jlslsm) :: rorder, stoall, sto2all, dinall, doutall             &
      , drunall, drivall, dt
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WRTWBLOG'
 
 
 DATA rorder / 1.0e12 /
 !
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,                 &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF (PrintStatus >= PrDiag) THEN
   CALL jules_print('wrtwblog',                                                 &
@@ -105,8 +103,7 @@ IF (PrintStatus >= PrDiag) THEN
   CALL jules_print('wrtwblog',jules_message)
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,                &
-                        zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE wrtWBlog

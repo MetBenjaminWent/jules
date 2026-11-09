@@ -20,7 +20,8 @@ SUBROUTINE calc_air_dens(l_mr_physics,qv_star,rhostar,rhostar_mom)
 USE atm_fields_bounds_mod, ONLY: tdims
 USE planet_constants_mod, ONLY: repsilon
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -47,13 +48,11 @@ REAL(KIND=real_jlslsm), INTENT(IN OUT) ::                                      &
 INTEGER ::                                                                     &
  i,j                  ! WORK Loop counters
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CALC_AIR_DENS'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEL DEFAULT(NONE) PRIVATE(i,j)                                      &
 !$OMP SHARED(tdims,l_mr_physics,rhostar,rhostar_mom,repsilon,qv_star)
@@ -87,7 +86,7 @@ ELSE
 END IF
 !$OMP END PARALLEL
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE calc_air_dens
 

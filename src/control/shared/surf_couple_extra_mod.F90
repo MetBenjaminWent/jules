@@ -280,7 +280,8 @@ USE theta_field_sizes,        ONLY: t_i_length, t_j_length
 
 !Technical modules
 USE parkind1,                    ONLY: jprb, jpim
-USE yomhook,                     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE ereport_mod,                 ONLY: ereport
 USE jules_print_mgr,             ONLY: jules_message, jules_print
 USE jules_model_environment_mod, ONLY: lsm_id, jules, cable
@@ -506,13 +507,11 @@ INTEGER                      :: errorstatus
 CHARACTER(LEN=*), PARAMETER  :: RoutineName = 'SURF_COUPLE_EXTRA'
 
 !Dr Hook variables
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 !===============================================================================
 !End of header
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !CABLE_LSM: implement switching based on lsm_id
 SELECT CASE( lsm_id )
@@ -1429,7 +1428,7 @@ CASE DEFAULT
 
 END SELECT
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE surf_couple_extra
 END MODULE surf_couple_extra_mod

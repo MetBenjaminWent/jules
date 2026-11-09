@@ -216,7 +216,8 @@ SUBROUTINE soil_ecosse_vars_alloc(land_pts,                                    &
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -227,15 +228,13 @@ INTEGER, INTENT(IN) :: land_pts,                                               &
 INTEGER, INTENT(IN) :: soil_bgc_model,soil_model_ecosse
 TYPE(soil_ecosse_vars_data_type), INTENT(IN OUT) :: soil_ecosse_vars_data
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SOIL_ECOSSE_VARS_ALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF ( soil_bgc_model == soil_model_ecosse ) THEN
   ! Note that at present we allocate all ECOSSE variables even if this
@@ -335,7 +334,7 @@ ELSE
 
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE soil_ecosse_vars_alloc
 
@@ -344,7 +343,8 @@ SUBROUTINE soil_ecosse_vars_dealloc(soil_ecosse_vars_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -354,15 +354,13 @@ TYPE(soil_ecosse_vars_data_type), INTENT(IN OUT) :: soil_ecosse_vars_data
 
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SOIL_ECOSSE_VARS_DEALLOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! ECOSSE prognostics.
 DEALLOCATE(soil_ecosse_vars_data%n_soil_pool_soilt)
@@ -394,7 +392,7 @@ DEALLOCATE(soil_ecosse_vars_data%plant_input_n_gb)
 DEALLOCATE(soil_ecosse_vars_data%soil_c_add)
 DEALLOCATE(soil_ecosse_vars_data%soil_n_add)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE soil_ecosse_vars_dealloc
@@ -404,7 +402,8 @@ SUBROUTINE soil_ecosse_vars_assoc(soil_ecosse_vars,soil_ecosse_vars_data)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -418,15 +417,13 @@ TYPE(soil_ecosse_vars_type), INTENT(IN OUT) :: soil_ecosse_vars
 
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SOIL_ECOSSE_VARS_ASSOC'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL soil_ecosse_vars_nullify(soil_ecosse_vars)
 
@@ -466,7 +463,7 @@ soil_ecosse_vars%plant_input_n_gb => soil_ecosse_vars_data%plant_input_n_gb
 soil_ecosse_vars%soil_c_add => soil_ecosse_vars_data%soil_c_add
 soil_ecosse_vars%soil_n_add => soil_ecosse_vars_data%soil_n_add
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE soil_ecosse_vars_assoc
 
@@ -475,7 +472,8 @@ SUBROUTINE soil_ecosse_vars_nullify(soil_ecosse_vars)
 
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
-USE yomhook,     ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -486,15 +484,13 @@ TYPE(soil_ecosse_vars_type), INTENT(IN OUT) :: soil_ecosse_vars
 
 !Local variables
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SOIL_ECOSSE_VARS_NULLIFY'
 
 !End of header
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 ! ECOSSE prognostics.
 NULLIFY(soil_ecosse_vars%n_soil_pool_soilt)
@@ -526,7 +522,7 @@ NULLIFY(soil_ecosse_vars%plant_input_n_gb)
 NULLIFY(soil_ecosse_vars%soil_c_add)
 NULLIFY(soil_ecosse_vars%soil_n_add)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE soil_ecosse_vars_nullify
 

@@ -43,7 +43,8 @@ SUBROUTINE soil_hyd_wtrac (npnts, nshyd, soil_pts, i_wt, timestep, l_top,      &
 USE jules_water_tracers_mod, ONLY: wtrac_calc_ratio_fn_jules
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 IMPLICIT NONE
 
@@ -144,13 +145,11 @@ REAL(KIND=real_jlslsm) ::                                                      &
   smclu_wtrac(npnts,nshyd)
     ! Unfrozen soil moisture contents of each layer (kg/m2).
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SOIL_HYD_WTRAC'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !----------------------------------------------------------------------------
 ! Calculate the water tracer to water ratio of the unfrozen soil moisture
@@ -333,7 +332,7 @@ END DO
 !$OMP END DO
 !$OMP END PARALLEL
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE soil_hyd_wtrac
 END MODULE soil_hyd_wtrac_mod

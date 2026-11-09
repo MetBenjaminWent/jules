@@ -9,15 +9,14 @@ MODULE Jin11_osa_mod
 USE errormessagelength_mod, ONLY: errormessagelength
 USE ereport_mod, ONLY: ereport
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
 IMPLICIT NONE
 
 CHARACTER(LEN=*), PARAMETER, PRIVATE :: ModuleName='JIN11_OSA_MOD'
-INTEGER(KIND=jpim), PARAMETER, PRIVATE :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER, PRIVATE :: zhook_out = 1
 
 CONTAINS
 
@@ -181,10 +180,10 @@ INTEGER :: ipt, ibd, iwl
 ! Error code and message:
 INTEGER ::              errcode
 CHARACTER(LEN=errormessagelength) :: ERRMSG
-REAL(KIND=jprb)   :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*), PARAMETER :: RoutineName='JIN11_OSA'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! quick subroutine that checks the values of the inputs:
 CALL Jin11_check_inputs(nd_points, cosz_in, ws_10m_in, chloro_in,              &
@@ -471,7 +470,7 @@ DEALLOCATE(ind_band_wls)
 DEALLOCATE(refm)
 DEALLOCATE(wl)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 END SUBROUTINE Jin11_osa
 !---------------------------------------------------------------------
@@ -604,10 +603,10 @@ INTEGER :: ii, jj
 ! Error code and message:
 INTEGER ::              errcode
 CHARACTER(LEN=errormessagelength) :: ERRMSG
-REAL(KIND=jprb)   :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_2
 CHARACTER(LEN=*), PARAMETER :: RoutineName='JIN11_LIN_INTERP_REAL'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! differences of x and y input:
 DO jj = 1, nd_in - 1
@@ -638,7 +637,7 @@ DO ii = 1, nd_out
 
 END DO ! ends loop over x_out
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
 END SUBROUTINE Jin11_lin_interp_real
 !---------------------------------------------------------------------
 !
@@ -673,10 +672,10 @@ INTEGER :: ipt
 ! Error code and message:
 INTEGER ::              errcode
 CHARACTER(LEN=errormessagelength) :: ERRMSG
-REAL(KIND=jprb)   :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_3
 CHARACTER(LEN=*), PARAMETER :: RoutineName='JIN11_REGR_EQ4'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 IF (nd_cosz == 1) THEN
   ! calculating the regression function with a variable wind speeed
@@ -705,7 +704,7 @@ ELSE
                 p(10) * sigma(ipt) + p(11) * cosz(ipt) * sigma(ipt) )
   END DO
 END IF
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
 END SUBROUTINE Jin11_regr_eq4
 !---------------------------------------------------------------------
 !
@@ -747,10 +746,10 @@ REAL(KIND=real_jlslsm) :: refm_lu(nd_lu)
 ! loop vars:
 INTEGER :: iwl
 
-REAL(KIND=jprb)   :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_4
 CHARACTER(LEN=*), PARAMETER :: RoutineName='JIN11_GET_REFM'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 ! ! wavelengths of the lookup table:
 wl_lu(1:nd_lu)=[200.0e-9, 210.0e-9, 220.0e-9, 230.0e-9, 240.0e-9,              &
@@ -929,7 +928,7 @@ IF (l_limit_refm) THEN
   END DO
 END IF
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
 
 END SUBROUTINE Jin11_get_refm
 !---------------------------------------------------------------------
@@ -997,10 +996,10 @@ INTEGER :: ipt
 INTEGER :: errcode
 CHARACTER(LEN=errormessagelength) :: ERRMSG
 
-REAL(KIND=jprb)   :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_5
 CHARACTER(LEN=*), PARAMETER :: RoutineName='JIN11_GET_R0'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
 
 ! Consistency check
 ! This routine has been written with the assumption that nd_cosz == 1 or
@@ -1159,7 +1158,7 @@ DO ipt = 1, nd_points
   r0(ipt) = f(ipt) * (0.5 * bw(1) + bbp(ipt)) / (aw(1) + ap(ipt))
 END DO
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_5)
 
 END SUBROUTINE Jin11_get_r0
 !---------------------------------------------------------------------

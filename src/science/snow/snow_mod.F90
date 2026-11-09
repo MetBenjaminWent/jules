@@ -89,7 +89,8 @@ USE wtrac_snow_mod,          ONLY: wtrac_sn_type, wtrac_alloc_snow,            &
                                    wtrac_dealloc_snow
 
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 
 USE um_types, ONLY: real_jlslsm
 
@@ -372,14 +373,12 @@ REAL(KIND=real_jlslsm) :: snow_ratio    ! Ratio of water tracer to water
 TYPE(wtrac_sn_type) :: wtrac_sn         ! Water tracer working arrays
 
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SNOW'
 
 !-----------------------------------------------------------------------------
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Allocate water tracer arrays and initialise GBM fields
 CALL wtrac_alloc_snow(land_pts, nsurft, nsmax, n_wtrac_jls, wtrac_sn)
@@ -1245,7 +1244,7 @@ END IF
 ! Deallocate water tracer working arrays
 CALL wtrac_dealloc_snow(wtrac_sn)
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 

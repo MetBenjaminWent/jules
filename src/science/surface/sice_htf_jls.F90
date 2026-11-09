@@ -36,7 +36,8 @@ USE c_kappai, ONLY: kappai
 USE water_constants_mod, ONLY: tm, tfs
 USE sf_diags_mod, ONLY: strnewsfdiag
 USE parkind1, ONLY: jprb, jpim
-USE yomhook, ONLY: lhook, dr_hook
+USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
+USE vernier_timing_mod, ONLY: LPROF_JULES
 USE timestep_mod, ONLY: timestep
 USE jules_print_mgr, ONLY:                                                     &
     jules_message,                                                             &
@@ -102,13 +103,11 @@ INTEGER :: i,j,n             ! Loop Counter; horizontal field index.
 
 LOGICAL :: write_message ! a warning message may have to be triggered
 
-INTEGER(KIND=jpim), PARAMETER :: zhook_in  = 0
-INTEGER(KIND=jpim), PARAMETER :: zhook_out = 1
-REAL(KIND=jprb)               :: zhook_handle
+INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SICE_HTF'
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_in,zhook_handle)
+IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 write_message = .FALSE.
 
@@ -228,7 +227,7 @@ IF (write_message) THEN
 END IF
 
 
-IF (lhook) CALL dr_hook(ModuleName//':'//RoutineName,zhook_out,zhook_handle)
+IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE sice_htf
 END MODULE sice_htf_mod
