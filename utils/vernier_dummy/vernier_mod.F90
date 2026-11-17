@@ -1,4 +1,4 @@
-#if ! defined(VERNIER)
+#if ! defined(VERNIER_BUILD)
 ! *****************************COPYRIGHT*******************************
 ! (C) Crown copyright Met Office. All rights reserved.
 ! For further details please refer to the file COPYRIGHT.txt
@@ -13,13 +13,14 @@ MODULE vernier_mod
 
   INTEGER, PARAMETER :: vik = c_long
 
-  PUBLIC :: vernier_start, vernier_stop
+  PUBLIC :: vernier_start, vernier_stop, vik
 
 CONTAINS
 
-  SUBROUTINE vernier_start(hash_out, region_name)
+  SUBROUTINE vernier_start(hash_in, region_name)
+
     CHARACTER(LEN=*), INTENT(IN) :: region_name
-    INTEGER(KIND=vik), INTENT(OUT) :: hash_out
+    INTEGER(KIND=vik), INTENT(IN) :: hash_in
 
     RETURN
   END SUBROUTINE vernier_start
