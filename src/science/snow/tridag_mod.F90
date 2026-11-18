@@ -21,7 +21,7 @@ CONTAINS
 SUBROUTINE tridag(nvec, nmax, a, b, c, r, s)
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 
 USE um_types, ONLY: real_jlslsm
@@ -76,7 +76,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*), PARAMETER :: RoutineName='TRIDAG'
 !-----------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 beta = b(1)
 s(1) = r(1) / beta
@@ -91,7 +91,7 @@ DO n = nvec - 1,1,-1
   s(n) = s(n) - gamm(n+1) * s(n+1)
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE tridag

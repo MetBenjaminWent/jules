@@ -253,7 +253,7 @@ USE model_domain_mod, ONLY: model_type, mt_single_column, mt_lfric
 USE nlsizes_namelist_mod, ONLY: ntiles
 USE stash_array_mod, ONLY: sf
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -266,7 +266,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ALLOC_SF_EXPL'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! set the logical switches for whether diagnostic is requested
 SELECT CASE (model_type)
@@ -557,7 +557,7 @@ ELSE
   ALLOCATE(sf_diag%tau_surft(1,1))
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE alloc_sf_expl
@@ -625,7 +625,7 @@ USE model_domain_mod, ONLY: model_type, mt_single_column, mt_lfric
 USE nlsizes_namelist_mod, ONLY: ntiles
 USE stash_array_mod, ONLY: sf
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -640,7 +640,7 @@ INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ALLOC_SF_IMP'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! set the logical switches for whether diagnostic is requested
 SELECT CASE (model_type)
@@ -851,7 +851,7 @@ ELSE
   ALLOCATE( sf_diag%lh_ssi(1,1))
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE alloc_sf_imp

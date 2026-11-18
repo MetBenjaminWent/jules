@@ -40,7 +40,7 @@ USE ancil_info, ONLY: dim_cslayer
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 IMPLICIT NONE
 
 TYPE (strnewsfdiag), INTENT(IN OUT) :: sf_diag
@@ -127,7 +127,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='MICROBE'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, modulename//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, modulename//':'//RoutineName)
 
 ! initialise INTENT(OUT) variable
 resp_s(:,:,:) = 0.0
@@ -332,7 +332,7 @@ IF (sf_diag%l_fprf) THEN
 END IF
 
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE microbe

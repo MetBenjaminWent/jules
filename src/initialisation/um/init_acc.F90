@@ -27,7 +27,7 @@ USE atm_fields_mod, ONLY:                                                      &
 USE umPrintMgr, ONLY: umPrint, umMessage
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1,   ONLY: jprb, jpim
 
 USE um_types, ONLY: real_jlslsm
@@ -76,7 +76,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='INIT_ACC'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 WRITE(umMessage,*)                                                             &
  'INIT_ACC: setting accumulation prognostics to zero'
 CALL umPrint(umMessage,src='init_acc')
@@ -104,7 +104,7 @@ IF (l_layeredc) THEN
   END DO
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE init_acc
 END MODULE init_acc_mod

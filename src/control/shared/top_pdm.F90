@@ -127,7 +127,7 @@ SUBROUTINE top_pdm_alloc(land_pts,nsoilt, top_pdm_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -143,7 +143,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='TOP_PDM_ALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ALLOCATE(top_pdm_data%a_fsat_soilt(land_pts,nsoilt))
 ALLOCATE(top_pdm_data%a_fwet_soilt(land_pts,nsoilt))
@@ -197,7 +197,7 @@ top_pdm_data%inlandout_atm_gb(:)        = 0.0
 ! from pdm_vars_alloc
 top_pdm_data%slope_gb(:)                = 0.0
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE top_pdm_alloc
 
@@ -208,7 +208,7 @@ SUBROUTINE top_pdm_dealloc(top_pdm_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -224,7 +224,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='TOP_PDM_DEALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DEALLOCATE(top_pdm_data%a_fsat_soilt)
 DEALLOCATE(top_pdm_data%a_fwet_soilt)
@@ -252,7 +252,7 @@ DEALLOCATE(top_pdm_data%inlandout_atm_gb)
 ! from pdm_vars_alloc
 DEALLOCATE(top_pdm_data%slope_gb)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE top_pdm_dealloc
@@ -263,7 +263,7 @@ SUBROUTINE top_pdm_assoc(top_pdm,top_pdm_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -282,7 +282,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='TOP_PDM_ASSOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL top_pdm_nullify(top_pdm)
 
@@ -312,7 +312,7 @@ top_pdm%inlandout_atm_gb => top_pdm_data%inlandout_atm_gb
 ! from pdm_vars_alloc
 top_pdm%slope_gb => top_pdm_data%slope_gb
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE top_pdm_assoc
 
@@ -322,7 +322,7 @@ SUBROUTINE top_pdm_nullify(top_pdm)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -339,7 +339,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='TOP_PDM_NULLIFY'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(top_pdm%a_fsat_soilt)
 NULLIFY(top_pdm%a_fwet_soilt)
@@ -367,7 +367,7 @@ NULLIFY(top_pdm%inlandout_atm_gb)
 ! from pdm_vars_alloc
 NULLIFY(top_pdm%slope_gb)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE top_pdm_nullify
 

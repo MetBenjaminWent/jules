@@ -18,7 +18,7 @@ USE ancil_info, ONLY:                                                          &
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 !-----------------------------------------------------------------------------
 ! Description:
@@ -317,7 +317,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Add layer zero with thickness=0.
@@ -533,7 +533,7 @@ IF ( l_soil_N ) THEN
 
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE ecosse_prepare
 
@@ -645,7 +645,7 @@ INTEGER(KIND=vik) :: vnr_handle_2
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Calculate the vertical distribution of inputs.
@@ -713,7 +713,7 @@ IF ( l_soil_N ) THEN
         SUM( plant_input_n_dpm + plant_input_n_rpm, 2 ) / dt_input
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE distribute_plant_inputs
@@ -786,7 +786,7 @@ INTEGER(KIND=vik) :: vnr_handle_3
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Initialise outputs.
@@ -863,7 +863,7 @@ ELSE
 
 END IF  !  number of layers
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 
 END SUBROUTINE profile_plant_inputs
@@ -923,7 +923,7 @@ INTEGER(KIND=vik) :: vnr_handle_4
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 ! Initialisation.
 resp_frac_soil(:,:) = 0.0
@@ -942,7 +942,7 @@ DO j = 1,vs_pts
   END DO  !  layers
 END DO  !  points
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 
 END SUBROUTINE calc_decomp_frac
@@ -1016,7 +1016,7 @@ INTEGER(KIND=vik) :: vnr_handle_5
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Calculate differences.
@@ -1052,7 +1052,7 @@ DO j = 1,vs_pts
   END DO  !  layers
 END DO  !  points
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_5)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_5)
 RETURN
 
 END SUBROUTINE stable_n_c

@@ -48,7 +48,7 @@ USE jules_vegetation_mod, ONLY: l_triffid, l_red
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -61,7 +61,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*),   PARAMETER :: RoutineName='SURF_COUPLE_READ_NAMELISTS'
 
 !End of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !Call in UM, reconfiguration and scm
 CALL read_jules_model_environment(shared_unit)
@@ -94,7 +94,7 @@ IF (call_type == "UM") THEN
   END IF
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE surf_couple_read_namelists
 

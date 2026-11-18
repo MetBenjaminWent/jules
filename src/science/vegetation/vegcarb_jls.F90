@@ -44,7 +44,7 @@ USE CN_utils_mod, ONLY: calc_n_comps_triffid
 USE plant_growth_n_mod, ONLY: plant_growth_n
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -192,7 +192,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='VEGCARB'
 !-----------------------------------------------------------------------------
 !end of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 DO t = 1,trif_pts
   l = trif_index(t)
@@ -358,7 +358,7 @@ DO t = 1,trif_pts
 
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE vegcarb
 

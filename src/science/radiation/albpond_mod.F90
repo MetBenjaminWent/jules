@@ -14,7 +14,7 @@ USE jules_sea_seaice_mod, ONLY: albpondv_cice
 
 USE parkind1,             ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE um_types, ONLY: real_jlslsm
 
@@ -104,7 +104,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ALBPOND_MAL'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Calculate the sin of transmitted angle (Snell's law)
 angle_air = ACOS(cos_zenith_angle)
@@ -175,7 +175,7 @@ pond_albedo(4) = rfd + f_out**2 * bottom_albedo(4) /                           &
 ! Apply limits to the diffuse_albedo
 IF (pond_albedo(4) > bottom_albedo(4)) pond_albedo(4) = bottom_albedo(4)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 END SUBROUTINE albpond_mal
 

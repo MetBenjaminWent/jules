@@ -37,7 +37,7 @@ USE UM_ParCore,       ONLY:                                                    &
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -62,7 +62,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_ELEVATE'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_elevate(unitnumber)
 
@@ -70,7 +70,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
   CALL print_nlist_jules_elevate()
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE read_jules_elevate
 
@@ -93,7 +93,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_2
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_HYDROLOGY'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_hydrology(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -101,7 +101,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_hydrology()
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE read_jules_hydrology
 
@@ -124,7 +124,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_3
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_DEPOSITION'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_deposition(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -132,7 +132,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_deposition()
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE read_jules_deposition
 
@@ -163,7 +163,7 @@ INTEGER             :: errorstatus
 INTEGER(KIND=vik) :: vnr_handle_4
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_DEPOSITION_SPECIES'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 errorstatus = dry_dep_model
 SELECT CASE ( dry_dep_model )
@@ -187,7 +187,7 @@ CASE DEFAULT
 
 END SELECT
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE read_jules_deposition_species
 
@@ -210,7 +210,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_5
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_INFERNO'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_inferno(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -218,7 +218,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_inferno()
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_5)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_5)
 RETURN
 END SUBROUTINE read_jules_inferno
 
@@ -240,11 +240,11 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_6
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_NVEGPARM'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_6, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_6, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_nvegparm(unitnumber)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_6)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_6)
 RETURN
 END SUBROUTINE read_jules_nvegparm
 
@@ -267,7 +267,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_7
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_OVERBANK'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_7, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_7, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_overbank(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -275,7 +275,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_overbank()
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_7)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_7)
 RETURN
 END SUBROUTINE read_jules_overbank
 
@@ -297,11 +297,11 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_8
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_PFTPARM'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_8, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_8, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_pftparm(unitnumber)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_8)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_8)
 RETURN
 END SUBROUTINE read_jules_pftparm
 
@@ -323,7 +323,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_9
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_RED'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_9, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_9, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_red(unitnumber)
 
@@ -331,7 +331,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
   CALL print_nlist_jules_red()
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_9)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_9)
 RETURN
 END SUBROUTINE read_jules_red
 
@@ -354,7 +354,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_10
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_RADIATION'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_10, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_10, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_radiation(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -362,7 +362,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_radiation()
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_10)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_10)
 RETURN
 END SUBROUTINE read_jules_radiation
 
@@ -385,7 +385,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_11
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_RIVERS'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_11, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_11, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_rivers(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -393,7 +393,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_rivers()
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_11)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_11)
 RETURN
 END SUBROUTINE read_jules_rivers
 
@@ -416,7 +416,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_12
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_SEA_SEAICE'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_12, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_12, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_sea_seaice(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -424,7 +424,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_sea_seaice()
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_12)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_12)
 RETURN
 END SUBROUTINE read_jules_sea_seaice
 
@@ -449,7 +449,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_13
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_SNOW'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_13, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_13, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_snow(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -459,7 +459,7 @@ CALL check_jules_snow()
 ! Sets multilayer snow indices for headers
 CALL set_ml_snow_type_ids()
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_13)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_13)
 RETURN
 END SUBROUTINE read_jules_snow
 
@@ -482,14 +482,14 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_14
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_SOIL'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_14, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_14, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_soil(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
   CALL print_nlist_jules_soil()
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_14)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_14)
 RETURN
 END SUBROUTINE read_jules_soil
 
@@ -512,7 +512,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_15
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_SOIL_BIOGEOCHEM'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_15, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_15, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_soil_biogeochem(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -520,7 +520,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_soil_biogeochem()
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_15)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_15)
 RETURN
 END SUBROUTINE read_jules_soil_biogeochem
 
@@ -543,7 +543,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_16
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_SURFACE'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_16, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_16, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_surface(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -551,7 +551,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_surface()
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_16)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_16)
 RETURN
 END SUBROUTINE read_jules_surface
 
@@ -577,7 +577,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_17
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_SURFACE_TYPES'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_17, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_17, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_surface_types(unitnumber)
 CALL set_derived_variables_jules_surface_types()
@@ -588,7 +588,7 @@ END IF
 CALL set_surface_type_ids()
 CALL check_jules_surface_types()
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_17)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_17)
 RETURN
 END SUBROUTINE read_jules_surface_types
 
@@ -610,7 +610,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_18
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_TRIFFID'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_18, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_18, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_triffid(unitnumber)
 
@@ -618,7 +618,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
   CALL print_nlist_jules_triffid()
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_18)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_18)
 RETURN
 END SUBROUTINE read_jules_triffid
 
@@ -641,7 +641,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_19
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_VEGETATION'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_19, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_19, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_vegetation(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -649,7 +649,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_vegetation()
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_19)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_19)
 RETURN
 END SUBROUTINE read_jules_vegetation
 
@@ -673,7 +673,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_20
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_URBAN'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_20, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_20, ModuleName//':'//RoutineName)
 
 IF ( l_urban2t ) CALL read_nml_jules_urban(unitnumber)
 
@@ -682,7 +682,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_urban()
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_20)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_20)
 RETURN
 END SUBROUTINE read_jules_urban
 
@@ -705,7 +705,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_21
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_IRRIGATION'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_21, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_21, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_irrig(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -713,7 +713,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_irrig()
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_21)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_21)
 RETURN
 END SUBROUTINE read_jules_irrigation
 
@@ -737,7 +737,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_22
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_MODEL_ENVIRONMENT'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_22, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_22, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_model_environment(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -745,7 +745,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_model_environment()
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_22)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_22)
 RETURN
 END SUBROUTINE read_jules_model_environment
 
@@ -770,7 +770,7 @@ INTEGER, INTENT(IN) :: unitnumber
 INTEGER(KIND=vik) :: vnr_handle_23
 CHARACTER(LEN=*), PARAMETER :: RoutineName='READ_JULES_WATER_RESOURCES'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_23, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_23, ModuleName//':'//RoutineName)
 
 CALL read_nml_jules_water_resources(unitnumber)
 IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
@@ -778,7 +778,7 @@ IF (PrintStatus >= PrStatus_Oper .AND. mype == 0) THEN
 END IF
 CALL check_jules_water_resources( l_top )
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_23)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_23)
 RETURN
 END SUBROUTINE read_jules_water_resources
 

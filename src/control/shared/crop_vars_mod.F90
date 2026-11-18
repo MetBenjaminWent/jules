@@ -232,7 +232,7 @@ SUBROUTINE crop_vars_alloc(land_pts, t_i_length, t_j_length,                   &
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -251,7 +251,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='CROP_VARS_ALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !  ====crop_vars_mod module common====
 ! Irrigation variables
@@ -376,7 +376,7 @@ ELSE
 END IF
 
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE crop_vars_alloc
 
@@ -386,7 +386,7 @@ SUBROUTINE crop_vars_dealloc( crop_vars_data )
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -399,7 +399,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='CROP_VARS_DEALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 !  ====crop_vars_mod module common====
 DEALLOCATE(crop_vars_data%sthu_irr_soilt)
@@ -446,7 +446,7 @@ DEALLOCATE(crop_vars_data%tt_rep_cpft)
 DEALLOCATE(crop_vars_data%latestharv_date_cpft)
 
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE crop_vars_dealloc
 
@@ -456,7 +456,7 @@ SUBROUTINE crop_vars_assoc(crop_vars, crop_vars_data )
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -470,7 +470,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='CROP_VARS_ASSOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL crop_vars_nullify(crop_vars)
 
@@ -518,7 +518,7 @@ crop_vars%tt_veg_cpft => crop_vars_data%tt_veg_cpft
 crop_vars%tt_rep_cpft => crop_vars_data%tt_rep_cpft
 crop_vars%latestharv_date_cpft => crop_vars_data%latestharv_date_cpft
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE crop_vars_assoc
 
@@ -528,7 +528,7 @@ SUBROUTINE crop_vars_nullify(crop_vars)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -541,7 +541,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='CROP_VARS_NULLIFY'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 !  ====crop_vars_mod module common====
 NULLIFY(crop_vars%sthu_irr_soilt)
@@ -586,7 +586,7 @@ NULLIFY(crop_vars%sow_date_cpft)
 NULLIFY(crop_vars%tt_veg_cpft)
 NULLIFY(crop_vars%tt_rep_cpft)
 NULLIFY(crop_vars%latestharv_date_cpft)
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE crop_vars_nullify
 END MODULE crop_vars_mod

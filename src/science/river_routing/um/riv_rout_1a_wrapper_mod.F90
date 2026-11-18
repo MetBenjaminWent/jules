@@ -44,7 +44,7 @@ USE errormessagelength_mod, ONLY: errormessagelength
 USE riv_rout_mod_1A, ONLY: riv_rout_1a
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -149,7 +149,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='RIV_ROUT_1A_WRAPPER'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 DO j = 1,rows
   DO i = 1,row_length
@@ -180,7 +180,7 @@ CALL riv_rout_1a(global_row_length, global_rows, surf_runoff_ij,               &
 WHERE (flandg == 1.0) riverout_atmos = 0.0
 
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE riv_rout_1a_wrapper
 END MODULE riv_rout_1a_wrapper_mod

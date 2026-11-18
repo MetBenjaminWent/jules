@@ -47,7 +47,7 @@ SUBROUTINE wtrac_correct_sno(land_pts, nsurft, nsmax, n_wtrac_jls,             &
 
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 
 IMPLICIT NONE
@@ -82,7 +82,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Canopy snow
 CALL wtrac_correct_tiles(land_pts, nsurft, 1, n_wtrac_jls, surft_pts,          &
@@ -100,7 +100,7 @@ CALL wtrac_correct_tiles(land_pts, nsurft, nsmax, n_wtrac_jls, surft_pts,      &
 CALL wtrac_correct_tiles(land_pts, nsurft, nsmax, n_wtrac_jls, surft_pts,      &
                          surft_index, sliq_surft, sliq_surft_wtrac)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE wtrac_correct_sno
 
@@ -121,7 +121,7 @@ SUBROUTINE wtrac_correct_hyd(land_pts, nsurft, nsoilt, sm_levels, n_wtrac_jls, &
 
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 
 IMPLICIT NONE
@@ -168,7 +168,7 @@ INTEGER(KIND=vik) :: vnr_handle_2
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! Set up 'tiled' soil points index (assuming nsoilt=1) so that the routine
 ! wtrac_correct_tiles can be used for testing soil fields
@@ -199,7 +199,7 @@ CALL wtrac_correct_tiles(land_pts, nsoilt, 1, n_wtrac_jls, soilt_pts,          &
                          soilt_index, sthzw_soilt, sthzw_soilt_wtrac)
 
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE wtrac_correct_hyd
 
@@ -213,7 +213,7 @@ SUBROUTINE wtrac_correct_tiles(land_pts, nsurft, nlayer, n_wtrac_jls,          &
 !   Generic routine to apply correction to tiled fields
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -244,7 +244,7 @@ INTEGER(KIND=vik) :: vnr_handle_3
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WTRAC_CORRECT_TILES'
 
 ! End of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEL DEFAULT(NONE)                                                   &
 !$OMP PRIVATE(n,k,i,ilyr,i_wt,diff_q,q_wtrac_norm,ratio_q)                     &
@@ -303,7 +303,7 @@ DO n = 1,nsurft
 END DO
 !$OMP END PARALLEL
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 
 RETURN
 END SUBROUTINE wtrac_correct_tiles
@@ -318,7 +318,7 @@ SUBROUTINE wtrac_correct_grid(row_length, rows, n_wtrac_jls, q, q_wtrac)
 USE missing_data_mod, ONLY: rmdi
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -345,7 +345,7 @@ INTEGER(KIND=vik) :: vnr_handle_4
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WTRAC_CORRECT_GRID'
 
 ! End of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEL DO SCHEDULE(STATIC) DEFAULT(NONE)                               &
 !$OMP PRIVATE(i,j,i_wt,diff_q,q_wtrac_norm,ratio_q)                            &
@@ -394,7 +394,7 @@ DO j = 1, rows
 END DO
 !$OMP END PARALLEL DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 
 RETURN
 END SUBROUTINE wtrac_correct_grid

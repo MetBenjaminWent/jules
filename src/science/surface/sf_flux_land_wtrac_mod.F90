@@ -62,7 +62,7 @@ USE jules_water_tracers_mod, ONLY: n_evap_srce, wtrac_lake_fixed_ratio,        &
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -140,7 +140,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SF_FLUX_LAND_WTRAC'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEL DO IF(surft_pts > 1)                                            &
 !$OMP SCHEDULE(STATIC)                                                         &
@@ -227,7 +227,7 @@ DO k = 1,surft_pts
 END DO  ! tile points
 !$OMP END PARALLEL DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 END SUBROUTINE sf_flux_land_wtrac
@@ -258,7 +258,7 @@ USE ereport_mod, ONLY: ereport
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -339,7 +339,7 @@ INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SF_FLUX_LAND_CHECK_WTRAC'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! Compare water tracer flux to normal water flux and find largest error.
 
@@ -423,7 +423,7 @@ IF (ABS(largest_error) > max_diff_warning) THEN
 
 END IF  ! Test on largest error size
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE sf_flux_land_check_wtrac

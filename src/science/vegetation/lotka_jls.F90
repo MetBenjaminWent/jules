@@ -35,7 +35,7 @@ USE compete_mod, ONLY: compete
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -137,7 +137,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='LOTKA'
 !-----------------------------------------------------------------------------
 !end of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Initialiase frac variables.
@@ -368,7 +368,7 @@ CALL compete (land_pts, trif_pts, trif_index, dom,                             &
               forw, r_gamma, b, db_dfrac, nosoil,                              &
               frac_agric, frac_nofire, dfrac_nofire)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 END SUBROUTINE lotka

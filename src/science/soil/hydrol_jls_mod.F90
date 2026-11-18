@@ -107,7 +107,7 @@ USE update_mod,     ONLY: l_imogen
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -525,7 +525,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*), PARAMETER :: RoutineName='HYDROL'
 
 ! End of header---------------------------------------------------------------
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Set up water tracer working arrays
 CALL wtrac_alloc_hyd(land_pts, nsoilt, sm_levels, n_wtrac_jls, wtrac_hy)
@@ -1263,7 +1263,7 @@ DEALLOCATE(sthf_soilt_old)
 DEALLOCATE(sthu_soilt_old)
 
 !-----------------------------------------------------------------------------
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE hydrol
 END MODULE hydrol_mod

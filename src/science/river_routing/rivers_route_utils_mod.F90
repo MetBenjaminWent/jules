@@ -7,7 +7,7 @@ USE conversions_mod, ONLY: pi_over_180
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE um_types, ONLY: real_jlslsm
 
@@ -96,7 +96,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*), PARAMETER :: RoutineName='GET_RIVERS_LEN_RP'
 !------------------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Note that it is assumed that rivers_dx and rivers_dy are increments of
 ! latitude and longitude (not some other coordinate system).
@@ -131,7 +131,7 @@ DO ip = 1,np_rivers
 
 END DO ! np_rivers
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 END SUBROUTINE get_rivers_len_rp
 !###############################################################################
@@ -175,7 +175,7 @@ INTEGER(KIND=vik) :: vnr_handle_2
 CHARACTER(LEN=*), PARAMETER :: RoutineName='RIVERS_EARTH_AREA'
 !-------------------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! Calculate SIN(latitudes)
 esinlat1 = eccen * SIN(lat1d * pi_over_180)
@@ -193,7 +193,7 @@ val3 = pi_over_180 * planet_eq_radius * planet_eq_radius *                     &
 
 area = ABS(lon2d - lon1d) * val3 * ( val2 - val1 )
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 
 END FUNCTION rivers_earth_area
 !###############################################################################
@@ -234,7 +234,7 @@ INTEGER(KIND=vik) :: vnr_handle_3
 CHARACTER(LEN=*), PARAMETER :: RoutineName='GIVELENGTH'
 !-------------------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 dlon = ABS( lon2 - lon1 )
 IF ( dlon >= 180.0 ) THEN
@@ -265,7 +265,7 @@ ELSE
   END IF
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 
 END FUNCTION givelength
 
@@ -299,14 +299,14 @@ INTEGER(KIND=vik) :: vnr_handle_4
 CHARACTER(LEN=*), PARAMETER :: RoutineName='GIVELATLENGTH'
 !-------------------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 esinlat = eccen * SIN ( lat * pi_over_180 )
 
 latlen = pi_over_180 * planet_eq_radius * ( 1 - eccensq)                       &
          / (SQRT(1.0 - ( esinlat * esinlat )))**3
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 
 END FUNCTION givelatlength
 !###############################################################################
@@ -338,14 +338,14 @@ INTEGER(KIND=vik) :: vnr_handle_5
 CHARACTER(LEN=*), PARAMETER :: RoutineName='GIVELONLENGTH'
 !-------------------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
 
 esinlat = eccen * SIN ( lat * pi_over_180 )
 
 lonlen = pi_over_180 * planet_eq_radius * COS(lat * pi_over_180)               &
          / SQRT(1.0 - (esinlat * esinlat))
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_5)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_5)
 
 END FUNCTION givelonlength
 !###############################################################################
@@ -380,7 +380,7 @@ INTEGER(KIND=vik) :: vnr_handle_6
 CHARACTER(LEN=*), PARAMETER :: RoutineName='GIVEEARTHRADIUS'
 !-------------------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_6, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_6, ModuleName//':'//RoutineName)
 
 esinlat  = eccen * SIN(lat * pi_over_180)
 esinlat2 = esinlat * esinlat
@@ -389,7 +389,7 @@ rn = planet_eq_radius / SQRT(1.0 - esinlat2)
 radius = rn * SQRT(1.0-2.0 * eccen * esinlat +                                 &
                    eccensq * esinlat2)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_6)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_6)
 
 END FUNCTION giveearthradius
 !###############################################################################

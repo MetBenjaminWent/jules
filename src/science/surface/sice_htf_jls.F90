@@ -37,7 +37,7 @@ USE water_constants_mod, ONLY: tm, tfs
 USE sf_diags_mod, ONLY: strnewsfdiag
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE timestep_mod, ONLY: timestep
 USE jules_print_mgr, ONLY:                                                     &
     jules_message,                                                             &
@@ -107,7 +107,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SICE_HTF'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 write_message = .FALSE.
 
@@ -227,7 +227,7 @@ IF (write_message) THEN
 END IF
 
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE sice_htf
 END MODULE sice_htf_mod

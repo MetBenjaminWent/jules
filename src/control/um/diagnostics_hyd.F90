@@ -117,7 +117,7 @@ SUBROUTINE diagnostics_hyd(                                                    &
 
 USE mask_compression, ONLY:  expand_from_mask
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 
 USE stash_array_mod, ONLY:                                                     &
@@ -295,7 +295,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 ! Section 1.  Initialisation.
 ! ----------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 im_index = 1
 
 ! row_length * rows is calculated ~50 times
@@ -2528,7 +2528,7 @@ IF ( l_inferno ) THEN
 
 END IF ! if l_inferno
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE diagnostics_hyd
 END MODULE diagnostics_hyd_mod

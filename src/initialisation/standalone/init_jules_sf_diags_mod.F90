@@ -48,7 +48,7 @@ USE sf_diags_mod, ONLY: sf_diag
 ! Non-science modules.
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -62,7 +62,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='SET_SF_DIAG_SWITCHES'
 
 !End of header
 !-----------------------------------------------------------------------------
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF ( l_crop ) THEN
   ! Set flags needed to provide variables to the crop code.
@@ -89,7 +89,7 @@ IF ( i_sea_alb_method == 3 ) THEN
   sf_diag % sv10 = .TRUE.
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 END SUBROUTINE set_sf_diag_switches
@@ -117,7 +117,7 @@ USE theta_field_sizes, ONLY: t_i_length, t_j_length
 ! Non-science modules.
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE ereport_mod, ONLY: ereport
 
 IMPLICIT NONE
@@ -140,7 +140,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='ALLOCATE_SF_DIAGS'
 
 !End of header
 !-----------------------------------------------------------------------------
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! Set the value reported for the error code and initialise sum of error
 ! values.
@@ -776,7 +776,7 @@ ELSE
                 errcode, " Check " // TRIM(RoutineName) )
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 
 RETURN
 END SUBROUTINE allocate_sf_diags

@@ -37,7 +37,7 @@ USE planet_constants_mod, ONLY: g
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE um_types, ONLY: real_jlslsm
 
 IMPLICIT NONE
@@ -81,7 +81,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*), PARAMETER :: RoutineName='VGRAV'
 
 ! Calculate viscosity of air (Pruppacher & Klett p.323)
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 DO j = tdims%j_start,tdims%j_end
   DO i = tdims%i_start,tdims%i_end
@@ -107,7 +107,7 @@ DO j = tdims%j_start,tdims%j_end
   END DO !ROW_LENGTH
 END DO !ROWS
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE vgrav
 END MODULE vgrav_mod

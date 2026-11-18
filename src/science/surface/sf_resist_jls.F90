@@ -35,7 +35,7 @@ USE jules_vegetation_mod, ONLY: can_model
 USE jules_irrig_mod, ONLY: l_soil_evap_irrig_separate
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 IMPLICIT NONE
 
 INTEGER, INTENT(IN) ::                                                         &
@@ -132,7 +132,7 @@ REAL(KIND=real_jlslsm)        :: gc_nir_surft(land_pts)
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SF_RESIST'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------
 !     Evaporation over land surfaces without snow is limited by
@@ -295,7 +295,7 @@ IF ( .NOT. l_aggregate .AND. can_model == 4) THEN
   END IF
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE sf_resist
 END MODULE sf_resist_mod

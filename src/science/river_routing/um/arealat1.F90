@@ -36,7 +36,7 @@ REAL(KIND=real_jlslsm) FUNCTION arealat1(ilat)
 !This file belongs in section: River Routing
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -141,7 +141,7 @@ DATA area/                                                                     &
       326.56,                                                                  &
       108.87 /
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF ((ilat <= 90) .AND. (ilat >= 1)) THEN
   arealat1 = area(ilat)
@@ -151,7 +151,7 @@ ELSE
   arealat1 = 0.0
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END FUNCTION arealat1

@@ -114,7 +114,7 @@ USE sf_flux_ssi_wtrac_mod,   ONLY: sf_flux_ssi_wtrac
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 !-----------------------------------------------------------------------
@@ -692,7 +692,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='JULES_SSI_SF_EXPLICIT'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------
 ! Sea and sea-ice surface calculations
@@ -2382,7 +2382,7 @@ IF (sf_diag%su10 .OR. sf_diag%sv10 .OR. sf_diag%sq1p5 .OR.                     &
 
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 END SUBROUTINE jules_ssi_sf_explicit

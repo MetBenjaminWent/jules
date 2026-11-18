@@ -35,7 +35,7 @@ SUBROUTINE initial0(nx, ny, jmax, rmiss, igrcn, iseq                           &
 , nseqmax, inextx, inexty, rlen, area, offset_nx, offset_ny)
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 IMPLICIT NONE
 !
@@ -84,7 +84,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='INITIAL0'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! get the maximum river sequence in this river subdomain
 nseqmax = 0
@@ -109,7 +109,7 @@ CALL setlen (nx, ny, igrcn, inextx, inexty, rlen, jmax                         &
 CALL setarea(nx, ny, area, jmax, offset_ny)
 
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE initial0

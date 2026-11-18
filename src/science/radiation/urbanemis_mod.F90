@@ -14,7 +14,7 @@ SUBROUTINE urbanemis(hwr, emisr, emiss, emisw, sigmalw)
 USE matinv_mod,       ONLY: matinv
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1,         ONLY: jprb, jpim
 
 USE jules_print_mgr,  ONLY: jules_message, jules_print, PrNorm
@@ -54,7 +54,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='URBANEMIS'
 
 !-----------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 aa = (1.0 + hwr**2.0)**(0.5) - hwr
 bb = (1.0 + (1.0 / hwr)**2.0)**(0.5) - (1.0 / hwr)
@@ -100,7 +100,7 @@ IF ( ABS( sigmat + sigmalw ) > 1.0e-03 ) THEN
   CALL jules_print('urbanemis',jules_message,level = PrNorm)
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE urbanemis

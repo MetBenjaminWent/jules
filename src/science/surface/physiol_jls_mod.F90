@@ -145,7 +145,7 @@ USE jules_water_tracers_mod, ONLY: l_wtrac_jls, wtrac_calc_ratio_fn_jules
 !Dr Hook
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -638,7 +638,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='PHYSIOL'
 
 CHARACTER(LEN=80) :: ERRMSG
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------
 ! Initialisations
@@ -2298,7 +2298,7 @@ IF (l_irrig_dmd) THEN
 
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE physiol
 END MODULE physiol_mod

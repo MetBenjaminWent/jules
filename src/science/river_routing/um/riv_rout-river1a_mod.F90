@@ -36,7 +36,7 @@ SUBROUTINE riv_rout_1a(global_row_length, global_rows,                         &
      global_land_frac,first, cmessage)
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 USE conversions_mod, ONLY: rsec_per_day
 USE riv_directions, ONLY: open_sea_dirs, river_outflow_dir,                    &
@@ -256,7 +256,7 @@ INTEGER :: icode
 INTEGER(KIND=vik) :: vnr_handle_1
 
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 inlandout = 0.0
 inlandout_trip = 0.0
@@ -639,7 +639,7 @@ DO j = 1,river_rows
   END DO
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE riv_rout_1a
 

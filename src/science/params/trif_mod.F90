@@ -83,7 +83,7 @@ SUBROUTINE trif_alloc(npft,                                                    &
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -98,7 +98,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='TRIF_ALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !  ====trif module common====
 ! TRIFFID variables - only needed if TRIFFID and/or phenology is selected.
@@ -142,7 +142,7 @@ IF ( l_triffid .OR. l_phenol ) THEN
 
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE trif_alloc
 

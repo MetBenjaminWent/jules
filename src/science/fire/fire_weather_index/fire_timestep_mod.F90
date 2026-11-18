@@ -14,7 +14,7 @@ USE fire_calc_daily_mod, ONLY: fire_calc_daily
 
 USE parkind1,       ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 !  Statements we'd like to use but can't because of the UM
 !  USE datetime_mod,   ONLY : datetime
@@ -54,7 +54,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*), PARAMETER :: RoutineName='FIRE_TIMESTEP'
 
 ! End of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !---------------------------------------------------
 !Perform tasks that happen every timestep
@@ -69,7 +69,7 @@ IF ( current_time < NINT(timestep) ) THEN
       current_month, land_pts)
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE fire_timestep
 END MODULE fire_timestep_mod

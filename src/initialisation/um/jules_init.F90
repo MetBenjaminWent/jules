@@ -66,7 +66,7 @@ USE ancil_info,               ONLY: nsoilt, ainfo_type
 
 USE parkind1,                 ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 !TYPE definitions
 USE p_s_parms, ONLY: psparms_type
@@ -100,7 +100,7 @@ CHARACTER(LEN=*),   PARAMETER :: RoutineName='JULES_INIT'
 ! START OF EXECUTABLE CODE
 
 ! Dimension the JULES fields.
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 #if ! defined(SCMA)
 ! Initialise JULES arrays.
@@ -171,7 +171,7 @@ DO j = 1,t_j_length
   END DO
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE jules_init

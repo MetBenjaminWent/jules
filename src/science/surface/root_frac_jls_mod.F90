@@ -18,7 +18,7 @@ CONTAINS
 SUBROUTINE root_frac (ft,nlayer,dz,rootd,f_root)
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 USE pftparm, ONLY: fsmc_mod
 IMPLICIT NONE
@@ -68,7 +68,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ROOT_FRAC'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 z2 = 0.0
 ztot = 0.0
 ftot = 0.0
@@ -104,7 +104,7 @@ ELSE
   END DO
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE root_frac
 

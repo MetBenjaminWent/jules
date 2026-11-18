@@ -51,7 +51,7 @@ USE umPrintMgr,              ONLY: PrintStatus, PrStatus_Normal,               &
                                    umPrint, umMessage
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -65,7 +65,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 INTEGER :: i_wt
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Set up water tracer info needed by JULES from UM information
 IF (l_wtrac_jls) THEN
@@ -111,7 +111,7 @@ CALL set_surface_type_wtrac_ids()
 CALL set_ml_snow_type_wtrac_ids()
 CALL set_seaice_wtrac_ids()
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 END SUBROUTINE wtrac_init_jls
 
 END MODULE wtrac_init_jls_mod

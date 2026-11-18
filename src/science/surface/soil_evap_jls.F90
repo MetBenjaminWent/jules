@@ -28,7 +28,7 @@ SUBROUTINE soil_evap (npnts,nshyd,surft_pts,surft_index,                       &
 
 USE jules_irrig_mod, ONLY: l_irrig_dmd, l_soil_evap_irrig_separate
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 IMPLICIT NONE
 
@@ -96,7 +96,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SOIL_EVAP'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !CDIR NODEP - order independent so can vectorise
 
@@ -210,7 +210,7 @@ IF (l_soil_evap_irrig_separate) THEN
 END IF
 
 !$OMP END PARALLEL
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE soil_evap
 END MODULE soil_evap_mod

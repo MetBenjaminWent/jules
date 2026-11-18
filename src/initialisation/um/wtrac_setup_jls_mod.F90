@@ -54,7 +54,7 @@ USE umPrintMgr,              ONLY: PrintStatus, PrStatus_Normal,               &
                                    umPrint, umMessage
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -66,7 +66,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 INTEGER :: n_wtrac_jls_sum
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Starting point: There are no water tracers going through JULES
 l_wtrac_jls     = .FALSE.
@@ -111,7 +111,7 @@ ELSE IF (n_wtrac_jls /= n_wtrac) THEN
   i_wtrac_start_non_jls = n_wtrac_jls + 1
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 END SUBROUTINE wtrac_setup_jls
 
 END MODULE wtrac_setup_jls_mod

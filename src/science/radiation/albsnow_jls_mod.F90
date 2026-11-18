@@ -22,7 +22,7 @@ USE jules_surface_mod,        ONLY: l_aggregate
 
 USE parkind1,                 ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE um_types, ONLY: real_jlslsm
 
@@ -78,7 +78,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='ALBSNOW'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !Pre-calculate for optimisation purposes
 sqrt_r0 = SQRT(r0)
@@ -155,7 +155,7 @@ IF ( l_aggregate ) THEN
   END DO
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE albsnow
 END MODULE albsnow_mod

@@ -47,7 +47,7 @@ USE qsat_mod, ONLY: qsat, qsat_mix
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 IMPLICIT NONE
 
 INTEGER ::                                                                     &
@@ -266,7 +266,7 @@ REAL(KIND=real_jlslsm) :: term_numx,term_denx
 REAL(KIND=real_jlslsm), PARAMETER :: term_denx_minlim = -1.0e-3
 
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 
 !-----------------------------------------------------------------------
@@ -977,7 +977,7 @@ IF (sf_diag%st1p5 .OR. (IScrnTDiag == IP_ScrnDecpl2)                           &
 
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE screen_tq
 END MODULE screen_tq_mod

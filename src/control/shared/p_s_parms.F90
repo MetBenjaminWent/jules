@@ -141,7 +141,7 @@ SUBROUTINE psparms_alloc(land_pts,t_i_length,t_j_length,                       &
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -161,7 +161,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='PSPARMS_ALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ALLOCATE(psparms_data%bexp_soilt(land_pts,nsoilt,sm_levels))
 ALLOCATE(psparms_data%sathh_soilt(land_pts,nsoilt,sm_levels))
@@ -233,7 +233,7 @@ ELSE
   ALLOCATE(psparms_data%v_open_pft(1,1,1))
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE psparms_alloc
 
@@ -243,7 +243,7 @@ SUBROUTINE psparms_dealloc(psparms_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -256,7 +256,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='PSPARMS_DEALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DEALLOCATE(psparms_data%bexp_soilt)
 DEALLOCATE(psparms_data%sathh_soilt)
@@ -285,7 +285,7 @@ DEALLOCATE(psparms_data%soil_ph_soilt)
 DEALLOCATE(psparms_data%v_close_pft)
 DEALLOCATE(psparms_data%v_open_pft)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE psparms_dealloc
 
@@ -295,7 +295,7 @@ SUBROUTINE psparms_assoc(psparms,psparms_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -312,7 +312,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='PSPARMS_ASSOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL psparms_nullify(psparms)
 
@@ -343,7 +343,7 @@ psparms%soil_ph_soilt => psparms_data%soil_ph_soilt
 psparms%v_close_pft => psparms_data%v_close_pft
 psparms%v_open_pft => psparms_data%v_open_pft
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE psparms_assoc
 
@@ -354,7 +354,7 @@ SUBROUTINE psparms_nullify(psparms)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -368,7 +368,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='PSPARMS_NULLIFY'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(psparms%bexp_soilt)
 NULLIFY(psparms%sathh_soilt)
@@ -397,7 +397,7 @@ NULLIFY(psparms%soil_ph_soilt)
 NULLIFY(psparms%v_close_pft)
 NULLIFY(psparms%v_open_pft)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE psparms_nullify
 

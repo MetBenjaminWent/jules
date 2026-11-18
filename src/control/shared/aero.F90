@@ -87,7 +87,7 @@ SUBROUTINE aero_alloc(land_pts,t_i_length,t_j_length,                          &
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -103,7 +103,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='AERO_ALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ALLOCATE(aero_data%co2_3d_ij(t_i_length,t_j_length))
 ALLOCATE(aero_data%rho_cd_modv1_ij(t_i_length,t_j_length))
@@ -130,7 +130,7 @@ aero_data%cd_std_dust_ij    = 0.0
 aero_data%u_s_std_surft     = 0.0
 
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE aero_alloc
 
@@ -140,7 +140,7 @@ SUBROUTINE aero_dealloc(aero_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -156,7 +156,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='AERO_DEALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DEALLOCATE(aero_data%co2_3d_ij)
 DEALLOCATE(aero_data%rho_cd_modv1_ij)
@@ -170,7 +170,7 @@ DEALLOCATE(aero_data%r_b_dust_ij)
 DEALLOCATE(aero_data%cd_std_dust_ij)
 DEALLOCATE(aero_data%u_s_std_surft)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE aero_dealloc
@@ -181,7 +181,7 @@ SUBROUTINE aero_assoc(aero,aero_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -200,7 +200,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='AERO_ASSOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL aero_nullify(aero)
 
@@ -216,7 +216,7 @@ aero%r_b_dust_ij => aero_data%r_b_dust_ij
 aero%cd_std_dust_ij => aero_data%cd_std_dust_ij
 aero%u_s_std_surft => aero_data%u_s_std_surft
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE aero_assoc
 
@@ -226,7 +226,7 @@ SUBROUTINE aero_nullify(aero)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -243,7 +243,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='AERO_NULLIFY'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(aero%co2_3d_ij)
 NULLIFY(aero%rho_cd_modv1_ij)
@@ -257,7 +257,7 @@ NULLIFY(aero%r_b_dust_ij)
 NULLIFY(aero%cd_std_dust_ij)
 NULLIFY(aero%u_s_std_surft)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE aero_nullify
 

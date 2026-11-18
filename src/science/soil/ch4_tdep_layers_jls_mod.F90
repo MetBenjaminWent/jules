@@ -30,7 +30,7 @@ USE jules_soil_biogeochem_mod, ONLY:                                           &
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE um_types, ONLY: real_jlslsm
 
@@ -157,7 +157,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CH4_TDEP_LAYERS'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Calculate an effective soil carbon for wetland methane emission.
@@ -299,7 +299,7 @@ DO j = 1,soil_pts
 
 END DO !land_points
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE ch4_tdep_layers
 END MODULE ch4_tdep_layers_mod

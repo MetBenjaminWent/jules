@@ -29,7 +29,7 @@ USE qsat_mod, ONLY: qsat_wat
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 IMPLICIT NONE
 
 INTEGER :: p_field         ! IN Size of field arrays.
@@ -76,7 +76,7 @@ PARAMETER ( rl1 = -2.73e3 )
 !----------------------------------------------------------------------
 !  Calculate P in HPa.
 !----------------------------------------------------------------------
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 !$OMP PARALLEL DO SCHEDULE(STATIC) DEFAULT(NONE) PRIVATE(i)                    &
 !$OMP  SHARED(p_field,p,rl,t,v_pres,q,p1,REPSILON)
 DO i = 1,p_field
@@ -107,7 +107,7 @@ DO i = 1,p_field
   END IF
 END DO
 !$OMP END PARALLEL DO
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE dewpnt
 END MODULE dewpnt_mod

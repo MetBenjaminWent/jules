@@ -281,7 +281,7 @@ USE theta_field_sizes,        ONLY: t_i_length, t_j_length
 !Technical modules
 USE parkind1,                    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE ereport_mod,                 ONLY: ereport
 USE jules_print_mgr,             ONLY: jules_message, jules_print
 USE jules_model_environment_mod, ONLY: lsm_id, jules, cable
@@ -511,7 +511,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 !===============================================================================
 !End of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !CABLE_LSM: implement switching based on lsm_id
 SELECT CASE( lsm_id )
@@ -1428,7 +1428,7 @@ CASE DEFAULT
 
 END SELECT
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE surf_couple_extra
 END MODULE surf_couple_extra_mod

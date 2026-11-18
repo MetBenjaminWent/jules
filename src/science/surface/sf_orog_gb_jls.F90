@@ -38,7 +38,7 @@ USE stochastic_physics_run_mod, ONLY: l_rp2, i_rp_scheme, i_rp2b, rp_idx,      &
                                       orog_drag_param_rp
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 IMPLICIT NONE
 
 INTEGER, INTENT(IN) ::                                                         &
@@ -100,7 +100,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SF_OROG_GB'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF ( l_rp2 .AND. i_rp_scheme == i_rp2b ) THEN
   orog_drag_param = orog_drag_param_rp(rp_idx)
@@ -195,7 +195,7 @@ IF (sf_diag%l_z0h_eff_gb) THEN
 END IF
 !$OMP END PARALLEL
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE sf_orog_gb
 END MODULE sf_orog_gb_mod

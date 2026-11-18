@@ -26,7 +26,7 @@ USE conversions_mod, ONLY: zerodegc
 USE ereport_mod, ONLY: Ereport
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -112,7 +112,7 @@ REAL(KIND=real_jlslsm) :: tiny_0, small_value
 
 INTEGER(KIND=vik) :: vnr_handle_1
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 tiny_0 = TINY(0.0)
 small_value = EPSILON(0.0)
 
@@ -179,7 +179,7 @@ DO n = 1,nshyd
 
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE freeze_soil
 END MODULE freeze_soil_mod

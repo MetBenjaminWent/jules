@@ -57,7 +57,7 @@ USE veg_param,                 ONLY: litc_norm
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE um_types, ONLY: real_jlslsm
 
@@ -103,7 +103,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 PARAMETER(RoutineName='SURF_COUPLE_INITIALISE')
 
 !End of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !Grab the relevant items from inthd and give them a more memorable name
 triffid_period_arg  = a_inthd_arg(22)
@@ -173,7 +173,7 @@ IF ( l_irrig_dmd ) THEN
   CALL update_irrig_variables(crop_vars,psparms,ainfo)
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE surf_couple_initialise
 END MODULE surf_couple_initialise_mod

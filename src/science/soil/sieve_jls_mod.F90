@@ -27,7 +27,7 @@ SUBROUTINE sieve ( npnts, surft_pts, curr_surft, nsurft, n_wtrac_jls,          &
                    can_wcnt_wtrac, tot_tfall_wtrac, tot_tfall_surft_wtrac )
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 
 USE jules_surface_mod, ONLY: l_flake_model
@@ -133,7 +133,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SIEVE'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 !-----------------------------------------------------------------------------
 
 smallestp = TINY(1.0)
@@ -219,7 +219,7 @@ IF (l_wtrac_jls) THEN
   DEALLOCATE(tfall_wtrac)
 END IF ! l_wtrac_jls
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE sieve
 END MODULE sieve_mod

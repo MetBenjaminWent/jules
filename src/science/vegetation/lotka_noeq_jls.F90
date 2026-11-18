@@ -36,7 +36,7 @@ USE jules_vegetation_mod, ONLY: frac_min, frac_seed
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -136,7 +136,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='LOTKA_NOEQ'
 !-----------------------------------------------------------------------------
 !end of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Derive area disturbance.
@@ -461,7 +461,7 @@ DO t = 1,trif_pts
   END IF
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 END SUBROUTINE lotka_noeq

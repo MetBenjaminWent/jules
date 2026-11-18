@@ -11,7 +11,7 @@ SUBROUTINE n_leach(land_pts, asteps_since_triffid, dim_cslayer, timestep,      &
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE jules_hydrology_mod, ONLY: l_top
 USE ancil_info, ONLY: nsoilt
 USE jules_soil_mod, ONLY: sm_levels, dzsoil
@@ -104,7 +104,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='N_LEACH'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !----------------------------------------------------------------------
 
@@ -295,7 +295,7 @@ DO m = 1,nsoilt
   END DO !land_pts
 END DO !nsoilt
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE n_leach
 END MODULE n_leach_mod

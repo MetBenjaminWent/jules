@@ -93,7 +93,7 @@ USE timestep_mod,                 ONLY: timestep
 
 !Dr Hook etc
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 USE errormessagelength_mod, ONLY: errormessagelength
 USE ereport_mod, ONLY: ereport
@@ -262,7 +262,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='VEG_CONTROL'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! initialize carbon conservation diagnostics
 ! otherwise they can be non-zero on non-triffid timesteps
@@ -499,7 +499,7 @@ IF ( soil_bgc_model == soil_model_ecosse ) THEN
 END IF
 #endif
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE veg_control
 END MODULE veg_control_mod

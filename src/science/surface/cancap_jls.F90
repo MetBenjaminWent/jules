@@ -33,7 +33,7 @@ USE crop_utils_mod, ONLY:                                                      &
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE veg3_field_mod, ONLY: veg_state_type
 
@@ -89,7 +89,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CANCAP'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEL                                                                 &
 !$OMP DEFAULT(NONE)                                                            &
@@ -159,7 +159,7 @@ ELSE IF (can_model == 3 .OR. can_model == 4) THEN
 END IF
 !$OMP END PARALLEL
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE cancap
 END MODULE cancap_mod

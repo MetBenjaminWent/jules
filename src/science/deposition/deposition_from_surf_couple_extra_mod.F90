@@ -52,7 +52,7 @@ USE qsat_mod,                ONLY: qsat_wat_mix
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -170,7 +170,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*), PARAMETER   :: RoutineName=                                  &
   'DEPOSITION_FROM_SURF_COUPLE_EXTRA'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF ( .NOT. ALLOCATED(speci_jules) .AND. .NOT. ALLOCATED(nldepd_jules) ) THEN
 
@@ -286,7 +286,7 @@ CALL deposition_jules_ddepctl(a_step, secs_per_step,                           &
   chemvars%nlev_with_ddep, chemvars%dep_vd_gb                                  &
   )
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE deposition_from_surf_couple_extra

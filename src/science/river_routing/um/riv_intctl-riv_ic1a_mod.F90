@@ -72,7 +72,7 @@ acc_lake_evap_wtrac, smcl_wtrac, sthu_wtrac)
 !-----------------------------------------------------------------
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 USE ereport_mod, ONLY: ereport
 USE UM_ParVars,   ONLY: lasize, glsize, gc_all_proc_group
@@ -339,7 +339,7 @@ CHARACTER(LEN=*),PARAMETER :: RoutineName = 'RIV_INTCTL_1A'
 
 INTEGER(KIND=vik) :: vnr_handle_1
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 info = 0
 
 !-------------------------------------------------------------------------
@@ -519,7 +519,7 @@ IF (l_wtrac_jls) THEN
 
 END IF     ! l_wtrac_jls
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE riv_intctl_1a
 END MODULE riv_intctl_mod_1A

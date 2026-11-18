@@ -39,7 +39,7 @@ USE jules_water_tracers_mod, ONLY: wtrac_calc_ratio_fn_jules
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -112,7 +112,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SOIL_HTC_WTRAC'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !----------------------------------------------------------------------------
 ! Calculate the water tracer to water ratio of the unfrozen and frozen
@@ -154,7 +154,7 @@ DO j = 1, soil_pts
   END DO
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE soil_htc_wtrac
 END MODULE soil_htc_wtrac_mod

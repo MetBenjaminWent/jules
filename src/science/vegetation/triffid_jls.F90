@@ -148,7 +148,7 @@ USE jules_vegetation_mod, ONLY: l_veg_compete, l_ht_compete,                   &
 USE parkind1, ONLY: jprb, jpim
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -534,7 +534,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='TRIFFID'
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Initialisation.
@@ -1644,7 +1644,7 @@ DO t = 1,trif_pts
                       burnt_soil(l)
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE triffid
 

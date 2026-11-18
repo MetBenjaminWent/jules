@@ -46,7 +46,7 @@ USE ancil_info,               ONLY: nsoilt
 
 USE parkind1,                 ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -99,7 +99,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='INFILTRATION_RATE'
 
 !End of header
 !-----------------------------------------------------------------------------
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !=============================================================================
 ! *NOTICE REGARDING SOIL TILING**
@@ -190,7 +190,7 @@ ELSE
 
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE infiltration_rate
 END MODULE infiltration_rate_mod

@@ -25,7 +25,7 @@ MODULE ecosse_denitrification_mod
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE um_types, ONLY: real_jlslsm
 
@@ -154,7 +154,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName = 'CALC_DENITRIFICATION'
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Initialise fluxes.
@@ -239,7 +239,7 @@ DO j = 1,vs_pts
   END DO  !  layers
 END DO  !  points
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 END SUBROUTINE calc_denitrification
 
@@ -321,7 +321,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName = 'RATE_MODIFIER_DENITRIFICATION'
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Moisture modification factor.
@@ -363,7 +363,7 @@ DO j = 1,vs_pts
   END DO
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 
 END SUBROUTINE rate_modifier_denitrification
 

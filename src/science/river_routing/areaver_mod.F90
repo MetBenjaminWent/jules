@@ -102,7 +102,7 @@ USE conversions_mod, ONLY:                                                     &
        pi_over_180
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 !-----------------------------------------------------------------------
 !
@@ -214,7 +214,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='PRE_AREAVER'
 !
 !     1.1  Produce in TEMP_SRCE a monotonically increasing set of angles
 !     equivalent to LAMBDA_SRCE i.e. equal under modulo 360.
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF (cyclic_srce) THEN
   lines_lambda_srce = gaps_lambda_srce
@@ -401,7 +401,7 @@ DO iy2 = 1,gaps_phi_targ
 END DO
 maxl = ip
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE pre_areaver
@@ -484,7 +484,7 @@ USE jules_print_mgr, ONLY: jules_print
 #endif
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 !
 IMPLICIT NONE
@@ -576,7 +576,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='DO_AREAVER'
 !     lists. COUNT_TARG indicates how many consecutive entries in these
 !     lists apply to each target box.
 !
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DO iy2 = 1,gaps_phi_targ
   DO ix2 = 1,gaps_lambda_targ
@@ -654,7 +654,7 @@ DO iy2 = 1,gaps_phi_targ
   END DO
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE do_areaver

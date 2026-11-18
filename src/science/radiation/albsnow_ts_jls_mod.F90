@@ -21,7 +21,7 @@ USE jules_science_fixes_mod, ONLY: l_fix_albsnow_ts
 
 USE parkind1,             ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE um_types, ONLY: real_jlslsm
 
@@ -113,7 +113,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ALBSNOW_TS'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! 2-Band scheme, VIS and NIR.
 DO band = 1, 2
@@ -202,7 +202,7 @@ DO band = 1, 2
 !$OMP END PARALLEL DO
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE albsnow_ts
 END MODULE albsnow_ts_mod

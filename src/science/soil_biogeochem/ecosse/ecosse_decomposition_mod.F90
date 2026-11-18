@@ -26,7 +26,7 @@ MODULE ecosse_decomposition_mod
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE um_types, ONLY: real_jlslsm
 
@@ -261,7 +261,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName = 'CALC_SOIL_DECOMPOSITION'
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Initialisation.
@@ -515,7 +515,7 @@ immob_n_gb(:,:,:)         = immob_n(:,:,:)       * dt_to_360d
 resp_s_pot_diag_gb(:,:,:) = resp_s_pot(:,:,:)    * dt_to_360d
 resp_s_diag_gb(:,:,:)     = resp_s(:,:,:)        * dt_to_360d
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 END SUBROUTINE calc_soil_decomposition
 
@@ -615,7 +615,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName = 'RATE_MODIFIER_DECOMPOSITION'
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Crop (vegetation) modification factor.
@@ -679,7 +679,7 @@ DO j = 1,vs_pts
   END DO
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 
 END SUBROUTINE rate_modifier_decomposition
 

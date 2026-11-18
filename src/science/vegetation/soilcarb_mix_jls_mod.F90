@@ -23,7 +23,7 @@ USE jules_soil_mod, ONLY: dzsoil, sm_levels
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE um_types, ONLY: real_jlslsm
 
@@ -93,7 +93,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='SOILCARB_MIX'
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 
 ! Initialisation.
@@ -165,7 +165,7 @@ DO t = 1,trif_pts
 END DO
 
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE soilcarb_mix
 END MODULE soilcarb_mix_mod

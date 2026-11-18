@@ -57,7 +57,7 @@ USE ancil_mod, ONLY: num_ancil_requests, ancil_requests
 USE cancila_mod, ONLY: update
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1,                 ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -78,7 +78,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='UPDATE_VEG'
 
 ! Update vegetation parameters if required
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 field_lai       = 0
 update_lai      = .FALSE.
@@ -127,7 +127,7 @@ IF (update_lai .OR. update_canht .OR. update_z0msoil ) THEN
 
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE update_veg

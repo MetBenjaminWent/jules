@@ -36,7 +36,7 @@ SUBROUTINE sugar(ft, leafc, leafc_bal, woodc, rootc, f_nsc, resp_l,            &
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -99,7 +99,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SUGAR'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !------------------------------------------------------------------------------
 ! Calculate explicit fluxes using previous timestep f_nsc value
@@ -124,7 +124,7 @@ CALL sugar_flux_correction(ft, leafc_bal, leafc, woodc, rootc, df_nsc, resp_l, &
                            resp_w, resp_r, resp_p_m, resp_p_g,                 &
                            resp_p, growth, tstar, gpp)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 END SUBROUTINE sugar
 
@@ -140,7 +140,7 @@ USE conversions_mod, ONLY: zerodegc
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 !------------------------------------------------------------------------------
@@ -210,7 +210,7 @@ INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CALCULATE_SUG_FLUXES'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 !------------------------------------------------------------------------------
 ! Calculate temperature function
@@ -244,7 +244,7 @@ resp_p   = resp_l + resp_w + resp_r
 resp_p_m = (1.0 - sug_yg(ft)) * (grecl + grecw + grecr) / sug_yg(ft)
 resp_p_g = resp_p - resp_p_m
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 
 END SUBROUTINE calculate_sug_fluxes
 
@@ -261,7 +261,7 @@ USE conversions_mod, ONLY: zerodegc
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -342,7 +342,7 @@ INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='UPDATE_NSC_POOL'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 !------------------------------------------------------------------------------
 ! Calculate temperature function
@@ -379,7 +379,7 @@ df_nsc_corr = MAX(-f_nsc,df_nsc_corr)
 !-----------------------------------------------------------------------------
 f_nsc = f_nsc + df_nsc_corr
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 
 END SUBROUTINE update_NSC_pool
 
@@ -397,7 +397,7 @@ USE timestep_mod, ONLY: timestep
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -481,7 +481,7 @@ INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SUGAR_FLUX_CORRECTION'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 !------------------------------------------------------------------------------
 ! Calculate temperature function
@@ -516,7 +516,7 @@ CALL calculate_sug_fluxes(ft, leafc, woodc, rootc, f_nsc_av, resp_l,           &
                           resp_w, resp_r, resp_p_m, resp_p_g,                  &
                           resp_p, growth, tstar)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 
 END SUBROUTINE sugar_flux_correction
 

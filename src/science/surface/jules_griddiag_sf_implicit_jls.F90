@@ -82,7 +82,7 @@ USE parkind1,                 ONLY:                                            &
   jprb, jpim
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 !--------------------------------------------------------------------
@@ -364,7 +364,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='JULES_GRIDDIAG_SF_IMPLICIT'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 
   !-----------------------------------------------------------------------
@@ -591,7 +591,7 @@ ELSE ! L_correct = true: 2nd stage of the scheme
 
 END IF ! IF .NOT. L_correct
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE jules_griddiag_sf_implicit
 END MODULE jules_griddiag_sf_implicit_mod

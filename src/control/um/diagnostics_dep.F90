@@ -59,7 +59,7 @@ USE stash_array_mod, ONLY:                                                     &
 USE atm_fields_bounds_mod,   ONLY: pdims
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -91,7 +91,7 @@ CHARACTER(LEN=*), PARAMETER        ::                                          &
 
 !-------------------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Write to diagnostic stream
 
@@ -206,7 +206,7 @@ DO n = 1, ndry_dep_species
 
 END DO            ! End of loop over deposited species
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 

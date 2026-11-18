@@ -105,7 +105,7 @@ SUBROUTINE forcing_alloc(t_i_length, t_j_length,                               &
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -122,7 +122,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='FORCING_ALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ALLOCATE( forcing_data%qw_1_ij(t_i_length,t_j_length))
 ALLOCATE( forcing_data%tl_1_ij(t_i_length,t_j_length))
@@ -156,7 +156,7 @@ forcing_data%lw_down_ij(:,:)                    = 0.0
 forcing_data%diff_rad_ij(:,:)                   = 0.0
 forcing_data%diurnal_temperature_range_ij(:,:)  = 0.0
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE forcing_alloc
 
@@ -166,7 +166,7 @@ SUBROUTINE forcing_dealloc(forcing_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -178,7 +178,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='FORCING_DEALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DEALLOCATE( forcing_data%qw_1_ij)
 DEALLOCATE( forcing_data%tl_1_ij)
@@ -196,7 +196,7 @@ DEALLOCATE( forcing_data%lw_down_ij)
 DEALLOCATE( forcing_data%diff_rad_ij)
 DEALLOCATE( forcing_data%diurnal_temperature_range_ij)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE forcing_dealloc
 
@@ -206,7 +206,7 @@ SUBROUTINE forcing_assoc(forcing, forcing_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -219,7 +219,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='FORCING_ASSOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL forcing_nullify(forcing)
 
@@ -239,7 +239,7 @@ forcing%lw_down_ij => forcing_data%lw_down_ij
 forcing%diff_rad_ij => forcing_data%diff_rad_ij
 forcing%diurnal_temperature_range_ij=>forcing_data%diurnal_temperature_range_ij
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE forcing_assoc
 
@@ -249,7 +249,7 @@ SUBROUTINE forcing_nullify(forcing)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -261,7 +261,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='FORCING_NULLIFY'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY( forcing%qw_1_ij)
 NULLIFY( forcing%tl_1_ij)
@@ -279,7 +279,7 @@ NULLIFY( forcing%lw_down_ij)
 NULLIFY( forcing%diff_rad_ij)
 NULLIFY( forcing%diurnal_temperature_range_ij)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE forcing_nullify
 

@@ -30,7 +30,7 @@ USE pftparm,  ONLY: dz0v_dh, z0v, catch0, dcatch_dlai
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE um_types, ONLY: real_jlslsm
 
@@ -78,7 +78,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='PFT_SPARM'
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! If l_spec_veg_z0 is true, then all pft z0 values are specifeid.
 ! This means that calling can_drag_z0 is only appropriate if l_spec_veg_z0
@@ -116,7 +116,7 @@ DO j = 1,surft_pts
   catch(l) = catch0(ipft) + dcatch_dlai(ipft) * lai(l)
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE pft_sparm
 END MODULE pft_sparm_mod

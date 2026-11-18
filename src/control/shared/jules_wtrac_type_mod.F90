@@ -476,7 +476,7 @@ SUBROUTINE wtrac_jls_alloc(land_pts, t_i_length, t_j_length,                   &
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -498,7 +498,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='WTRAC_JLS_ALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !For multilayer snow variables, only allocate to full size if the scheme is
 !being used, ie nsmax > 0
@@ -677,7 +677,7 @@ wtrac_jls_data%ext_soilt(:,:,:,:)        = 0.0
 wtrac_jls_data%surf_roff_gb(:,:)         = 0.0
 wtrac_jls_data%sub_surf_roff_gb(:,:)     = 0.0
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE wtrac_jls_alloc
 
@@ -687,7 +687,7 @@ SUBROUTINE wtrac_jls_dealloc(wtrac_jls_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -701,7 +701,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='WTRAC_JLS_DEALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DEALLOCATE(wtrac_jls_data%snow_surft)
 DEALLOCATE(wtrac_jls_data%snow_grnd_surft)
@@ -755,7 +755,7 @@ DEALLOCATE(wtrac_jls_data%ext_soilt)
 DEALLOCATE(wtrac_jls_data%surf_roff_gb)
 DEALLOCATE(wtrac_jls_data%sub_surf_roff_gb)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE wtrac_jls_dealloc
 
@@ -765,7 +765,7 @@ SUBROUTINE wtrac_jls_assoc(wtrac_jls,wtrac_jls_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -782,7 +782,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='WTRAC_JLS_ASSOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL wtrac_jls_nullify(wtrac_jls)
 
@@ -838,7 +838,7 @@ wtrac_jls%ext_soilt           => wtrac_jls_data%ext_soilt
 wtrac_jls%surf_roff_gb        => wtrac_jls_data%surf_roff_gb
 wtrac_jls%sub_surf_roff_gb    => wtrac_jls_data%sub_surf_roff_gb
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE wtrac_jls_assoc
 
@@ -849,7 +849,7 @@ SUBROUTINE wtrac_jls_nullify(wtrac_jls)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -863,7 +863,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='WTRAC_JLS_NULLIFY'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(wtrac_jls%snow_surft)
 NULLIFY(wtrac_jls%snow_grnd_surft)
@@ -917,7 +917,7 @@ NULLIFY(wtrac_jls%ext_soilt)
 NULLIFY(wtrac_jls%surf_roff_gb)
 NULLIFY(wtrac_jls%sub_surf_roff_gb)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE wtrac_jls_nullify
 !=============================================================================

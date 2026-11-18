@@ -28,7 +28,7 @@ USE ancil_info, ONLY: dim_cslayer, dim_cs1
 USE jules_soil_mod, ONLY: dzsoil
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -123,7 +123,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='SOILCARB_TRACER_AGE'
 
 !-----------------------------------------------------------------------------
 ! End of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 
 ! See eq. 72 & 73 in Clark et al. (2011); doi:10.5194/gmd-4-701-2011
@@ -270,7 +270,7 @@ DO t = 1,trif_pts
 
 END DO ! land points.
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE soilcarb_tracer_age
 END MODULE soilcarb_tracer_age_mod

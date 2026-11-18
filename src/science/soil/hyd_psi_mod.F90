@@ -14,7 +14,7 @@ USE jules_soil_mod, ONLY: l_vg_soil
 ! If l_vg_soil=True, uses van Genuchten relation.
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 
 USE um_types, ONLY: real_jlslsm

@@ -35,7 +35,7 @@ USE jules_soil_mod, ONLY: dzsoil
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE um_types, ONLY: real_jlslsm
 
@@ -169,7 +169,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CH4_WETL'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Calculate an effective soil carbon for wetland methane emission.
@@ -348,7 +348,7 @@ ELSE IF ( ch4_substrate == ch4_substrate_soil_resp ) THEN
   fch4_wetl(:) = 1.0e9 * fch4_wetl_resps(:)
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE ch4_wetl
 END MODULE ch4_wetl_mod

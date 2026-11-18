@@ -33,7 +33,7 @@ SUBROUTINE setarea(nx, ny, area, jmax, offset_ny)
 USE arealat1_mod, ONLY: arealat1
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 USE ereport_mod, ONLY: ereport
 USE jules_rivers_mod, ONLY: trip_globe_shape, globe_spherical, globe_ellipsoidal
@@ -61,7 +61,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='SETAREA'
 
 j_offset = offset_ny
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 SELECT CASE ( trip_globe_shape )
 
@@ -99,7 +99,7 @@ CASE DEFAULT
      "Unsupported trip_globe_shape")
 END SELECT
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE setarea

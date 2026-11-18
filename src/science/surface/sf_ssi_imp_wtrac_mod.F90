@@ -53,7 +53,7 @@ USE jules_water_tracers_mod,  ONLY: min_q_ratio
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -118,7 +118,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SF_SSI_IMP_WTRAC'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Initialise fields
 !$OMP PARALLEL DO SCHEDULE(STATIC) DEFAULT(NONE)                               &
@@ -177,7 +177,7 @@ DO k = 1,sea_pts
 END DO
 !$OMP END PARALLEL DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 END SUBROUTINE sf_ssi_imp_wtrac

@@ -22,7 +22,7 @@ USE jules_surface_types_mod, ONLY: ntype, ice, elev_ice, elev_rock
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE um_types, ONLY: real_jlslsm
 
 IMPLICIT NONE
@@ -51,7 +51,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='TILEPTS'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------
 ! Create the surft_index array of land points with each surface type
@@ -106,7 +106,7 @@ DO n = 1,ntype
 END DO
 !$OMP END PARALLEL DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE tilepts
 END MODULE tilepts_mod

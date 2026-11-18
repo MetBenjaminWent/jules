@@ -23,7 +23,7 @@ MODULE vectlib_mod
 ! This file belongs in section: Misc
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 IMPLICIT NONE
 
@@ -51,7 +51,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='EXP_V'
 INCLUDE 'mkl_vml.f90'
 #endif
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 l_n = n
 
 #if defined(VMASS)
@@ -66,7 +66,7 @@ DO i = 1, n
 END DO
 #endif
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE exp_v
 
@@ -91,7 +91,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='POWR_V'
 INCLUDE 'mkl_vml.f90'
 #endif
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 l_n = n
 
 #if defined(VMASS)
@@ -110,7 +110,7 @@ DO i = 1, n
 END DO
 #endif
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE powr_v
 
@@ -136,7 +136,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='RTOR_V'
 INCLUDE 'mkl_vml.f90'
 #endif
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 l_n = n
 
 #if defined(VMASS)
@@ -151,7 +151,7 @@ DO i = 1, n
 END DO
 #endif
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE rtor_v
 
@@ -177,7 +177,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='SQRT_V'
 INCLUDE 'mkl_vml.f90'
 #endif
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 l_n = n
 
 
@@ -193,7 +193,7 @@ DO i = 1, n
 END DO
 #endif
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE sqrt_v
 
@@ -214,7 +214,7 @@ INTEGER(KIND=vik) :: vnr_handle_5
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ONEOVER_V'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
 l_n = n
 
 #if defined(VMASS)
@@ -225,7 +225,7 @@ DO i = 1, n
   y(i) = 1 / x(i)
 END DO
 #endif
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_5)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_5)
 RETURN
 END SUBROUTINE oneover_v
 
@@ -251,7 +251,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='LOG_V'
 INCLUDE 'mkl_vml.f90'
 #endif
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_6, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_6, ModuleName//':'//RoutineName)
 l_n = n
 
 #if defined(VMASS)
@@ -266,7 +266,7 @@ DO i = 1, n
 END DO
 #endif
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_6)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_6)
 RETURN
 END SUBROUTINE log_v
 
@@ -292,7 +292,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='SIN_V'
 INCLUDE 'mkl_vml.f90'
 #endif
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_7, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_7, ModuleName//':'//RoutineName)
 l_n = n
 
 #if defined(VMASS)
@@ -307,7 +307,7 @@ DO i = 1, n
 END DO
 #endif
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_7)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_7)
 RETURN
 END SUBROUTINE sin_v
 
@@ -333,7 +333,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='COS_V'
 INCLUDE 'mkl_vml.f90'
 #endif
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_8, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_8, ModuleName//':'//RoutineName)
 l_n = n
 
 #if defined(VMASS)
@@ -348,7 +348,7 @@ DO i = 1, n
 END DO
 #endif
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_8)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_8)
 RETURN
 END SUBROUTINE cos_v
 
@@ -368,7 +368,7 @@ INTEGER(KIND=vik) :: vnr_handle_9
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='ACOS_V'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_9, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_9, ModuleName//':'//RoutineName)
 l_n = n
 
 #if defined(VMASS)
@@ -379,7 +379,7 @@ DO i = 1, n
 END DO
 #endif
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_9)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_9)
 RETURN
 END SUBROUTINE acos_v
 
@@ -405,7 +405,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='ASIN_V'
 INCLUDE 'mkl_vml.f90'
 #endif
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_10, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_10, ModuleName//':'//RoutineName)
 l_n = n
 
 #if defined(VMASS)
@@ -420,7 +420,7 @@ DO i = 1, n
 END DO
 #endif
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_10)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_10)
 RETURN
 END SUBROUTINE asin_v
 

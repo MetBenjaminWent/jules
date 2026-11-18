@@ -27,7 +27,7 @@ USE um_types, ONLY: real_jlslsm
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -155,7 +155,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 !------------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !------------------------------------------------------------------------------
 ! Calculate the target for the fraction of demand to be met from surface
@@ -246,7 +246,7 @@ IF ( l_water_irrigation ) THEN
   END DO
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE water_resources_drive
 
@@ -320,7 +320,7 @@ INTEGER(KIND=vik) :: vnr_handle_2
 
 !------------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DO l = 1, global_land_pts
   surface_water = sfc_water_factor * SUM(sw_avail(l,:))
@@ -333,7 +333,7 @@ DO l = 1, global_land_pts
   END IF
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE calc_target_split
 
@@ -406,7 +406,7 @@ INTEGER(KIND=vik) :: vnr_handle_3
 
 !------------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 !------------------------------------------------------------------------------
 ! Set surface water fraction for each sector.
@@ -464,7 +464,7 @@ ELSE
   demand_sw(:,:) = 0.0
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE split_demands
 
@@ -538,7 +538,7 @@ INTEGER(KIND=vik) :: vnr_handle_4
 
 !------------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 ! Initialise conveyance losses.
 conveyance_loss(:)       = 0.0
@@ -568,7 +568,7 @@ DO i = 1, nwater_use
 
 END DO  !  water uses
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE calc_conveyance_loss
 
@@ -650,7 +650,7 @@ INTEGER(KIND=vik) :: vnr_handle_5
 
 !------------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
 
 ! Initialise return flows and water removed.
 return_flow_gw(:)    = 0.0
@@ -707,7 +707,7 @@ DO i = 1, nwater_use
 
 END DO  !  water uses
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_5)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_5)
 RETURN
 END SUBROUTINE calc_return_flow
 

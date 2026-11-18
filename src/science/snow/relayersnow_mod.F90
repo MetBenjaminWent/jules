@@ -56,7 +56,7 @@ USE jules_water_tracers_mod, ONLY: l_wtrac_jls
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE um_types, ONLY: real_jlslsm
 
@@ -208,7 +208,7 @@ CHARACTER(LEN=80) :: ERRMSG             ! Error message
 
 !-----------------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Allocate water tracer working arrays
 IF (l_wtrac_jls) THEN
@@ -576,7 +576,7 @@ END DO  !  K (points)
 DEALLOCATE(w_wtrac)
 DEALLOCATE(s_wtrac)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE relayersnow

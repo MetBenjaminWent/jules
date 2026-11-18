@@ -33,7 +33,7 @@ SUBROUTINE mmd2kgs(rin, igrcn, din, area, nx, ny, rmiss, jmax)
 USE conversions_mod, ONLY: rc => rsec_per_day
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 IMPLICIT NONE
 !
@@ -49,7 +49,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='MMD2KGS'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 DO j = 1, jmax
   DO i = 1, nx
@@ -61,7 +61,7 @@ DO j = 1, jmax
     END IF
   END DO
 END DO
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE mmd2kgs
 END MODULE mmd2kgs_mod

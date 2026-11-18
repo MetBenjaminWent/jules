@@ -53,7 +53,7 @@ USE jules_surface_types_mod, ONLY: ntype, npft
 USE parkind1,                ONLY: jprb, jpim
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE um_types,                ONLY: real_jlslsm
 
@@ -101,7 +101,7 @@ CHARACTER(LEN=*), PARAMETER   ::                                               &
 
 !-------------------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Set all arrays to zero
 dep_loss_rate_ij(:,:,:)  = 0.0
@@ -197,7 +197,7 @@ DO m = 1, ndry_dep_species
   END DO        ! End of DO loop over rows
 END DO          ! End of DO loop over deposited atmospheric species
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 

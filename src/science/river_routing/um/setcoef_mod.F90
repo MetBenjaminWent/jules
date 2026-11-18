@@ -32,7 +32,7 @@ SUBROUTINE setcoef(nx, ny, rlen, rvel, ratmed, rc, jmax)
 
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 IMPLICIT NONE
 !
@@ -51,7 +51,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SETCOEF'
 
 !
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 DO i= 1, nx
   DO j = 1, ny
     IF (rlen(i,j) >  0.0) THEN
@@ -61,7 +61,7 @@ DO i= 1, nx
     END IF
   END DO
 END DO
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE setcoef
 END MODULE setcoef_mod

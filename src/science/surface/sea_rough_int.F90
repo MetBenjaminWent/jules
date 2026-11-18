@@ -57,7 +57,7 @@ USE jules_sea_seaice_mod, ONLY:                                                &
 USE theta_field_sizes, ONLY: t_i_length
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -122,7 +122,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SEA_ROUGH_INT'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 SELECT CASE(i_high_wind_drag)
 CASE (ip_hwdrag_limited)
@@ -258,7 +258,7 @@ CASE (ip_ss_surf_div_int_coupled)
   !
 END SELECT
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE sea_rough_int
 END MODULE sea_rough_int_mod

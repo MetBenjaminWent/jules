@@ -87,7 +87,7 @@ SUBROUTINE progs_cbl_vars_alloc(land_pts, nsurft, sm_levels, lsm_id, cable,    &
 !Common Non-science modules
 USE parkind1,                 ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE jules_print_mgr,          ONLY: jules_message, jules_print, PrNorm
 USE ereport_mod,              ONLY: ereport
 
@@ -125,7 +125,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='PROGS_CBL_VARS_ALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! CABLE vars to be initialized via JULES i/o
 IF ( lsm_id == cable ) THEN
@@ -236,7 +236,7 @@ progs_cbl_vars_data%snowOsurft(:,:)             = 0.0
 progs_cbl_vars_data%ThreeLayerSnowFlag_CABLE(:,:) = 0.0
 progs_cbl_vars_data%OneLyrSnowDensity_CABLE(:,:)  = 0.0
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE progs_cbl_vars_alloc
 
@@ -249,7 +249,7 @@ SUBROUTINE progs_cbl_vars_dealloc(progs_cbl_vars_data )
   !Common Non-science modules
 USE parkind1,                 ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -265,7 +265,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='PROGS_CBL_VARS_DEALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 
 ! CABLE vars to be initialized via JULES i/o
@@ -281,7 +281,7 @@ DEALLOCATE( progs_cbl_vars_data%FrozenSoilFrac_CABLE)
 DEALLOCATE( progs_cbl_vars_data%SoilMoisture_CABLE)
 DEALLOCATE( progs_cbl_vars_data%SoilTemp_CABLE)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE progs_cbl_vars_dealloc
 
@@ -294,7 +294,7 @@ SUBROUTINE progs_cbl_vars_assoc(progs_cbl_vars, progs_cbl_vars_data )
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -308,7 +308,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='PROGS_CBL_VARS_ASSOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL progs_cbl_vars_nullify(progs_cbl_vars)
 
@@ -329,7 +329,7 @@ progs_cbl_vars%ThreeLayerSnowFlag_CABLE  =>                                    &
 progs_cbl_vars%OneLyrSnowDensity_CABLE   =>                                    &
         progs_cbl_vars_data%OneLyrSnowDensity_CABLE
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE progs_cbl_vars_assoc
 
@@ -342,7 +342,7 @@ SUBROUTINE progs_cbl_vars_nullify(progs_cbl_vars)
   !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -355,7 +355,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='PROGS_CBL_VARS_NULLIFY'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(progs_cbl_vars%SoilTemp_CABLE)
 NULLIFY(progs_cbl_vars%SoilMoisture_CABLE)
@@ -369,7 +369,7 @@ NULLIFY(progs_cbl_vars%snowOsurft)
 NULLIFY(progs_cbl_vars%ThreeLayerSnowFlag_CABLE)
 NULLIFY(progs_cbl_vars%OneLyrSnowDensity_CABLE)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 
 END SUBROUTINE progs_cbl_vars_nullify

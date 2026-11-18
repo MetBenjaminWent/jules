@@ -152,7 +152,7 @@ SUBROUTINE lake_alloc(land_pts, l_flake_model, lake_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 !Except this one for now
 USE atm_fields_bounds_mod,    ONLY: tdims
@@ -174,7 +174,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='LAKE_ALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !  ====lake_mod module UM====
 IF ( l_flake_model ) THEN
@@ -233,7 +233,7 @@ lake_data%hcon_lake(:)            = 0.0
 lake_data%lake_snow_melt(:)       = 0.0
 lake_data%non_lake_frac(:)        = 0.0
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE lake_alloc
 
@@ -244,7 +244,7 @@ SUBROUTINE lake_dealloc(lake_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 
 IMPLICIT NONE
@@ -260,7 +260,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='LAKE_DEALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DEALLOCATE(lake_data%surf_ht_flux_lake_ij)
 DEALLOCATE(lake_data%surf_ht_flux_lk_gb)
@@ -286,7 +286,7 @@ DEALLOCATE(lake_data%hcon_lake)
 DEALLOCATE(lake_data%lake_snow_melt)
 DEALLOCATE(lake_data%non_lake_frac)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE lake_dealloc
@@ -297,7 +297,7 @@ SUBROUTINE lake_assoc(lake_vars,lake_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -316,7 +316,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='LAKE_ASSOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL lake_nullify(lake_vars)
 
@@ -344,7 +344,7 @@ lake_vars%hcon_lake => lake_data%hcon_lake
 lake_vars%lake_snow_melt => lake_data%lake_snow_melt
 lake_vars%non_lake_frac => lake_data%non_lake_frac
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE lake_assoc
 
@@ -354,7 +354,7 @@ SUBROUTINE lake_nullify(lake_vars)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -371,7 +371,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='LAKE_NULLIFY'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(lake_vars%surf_ht_flux_lake_ij)
 NULLIFY(lake_vars%surf_ht_flux_lk_gb)
@@ -397,7 +397,7 @@ NULLIFY(lake_vars%hcon_lake)
 NULLIFY(lake_vars%lake_snow_melt)
 NULLIFY(lake_vars%non_lake_frac)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE lake_nullify
 

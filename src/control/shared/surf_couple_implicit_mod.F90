@@ -132,7 +132,7 @@ USE jules_model_environment_mod, ONLY:                                         &
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 ! for testing LSM switch
 USE jules_print_mgr,          ONLY: jules_message, jules_print
@@ -398,7 +398,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='SURF_COUPLE_IMPLICIT'
 !-----------------------------------------------------------------------------
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Set JULES logical to control water tracer calculations in the implicit
 ! scheme (they only need to be done on the final dynamics loop in UMJULES)
@@ -614,7 +614,7 @@ CASE DEFAULT
 
 END SELECT
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE surf_couple_implicit
 

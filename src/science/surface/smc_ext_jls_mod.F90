@@ -6,7 +6,7 @@
 MODULE smc_ext_mod
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 
 USE um_types, ONLY: real_jlslsm
@@ -144,7 +144,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='SMC_EXT'
 !----------------------------------------------------------------------
 ! Initialisations
 !----------------------------------------------------------------------
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEL                                                                 &
 !$OMP DEFAULT(NONE)                                                            &
@@ -291,7 +291,7 @@ ELSE
 !$OMP END PARALLEL
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE smc_ext
 
@@ -332,7 +332,7 @@ REAL(KIND=real_jlslsm) :: norm_weights(npnts,nshyd)         ! Normalised weights
 INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CALC_NORM_WEIGHTS'
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 norm_weights(:, :) = 0.0
 norm_factor = 0.0
@@ -349,7 +349,7 @@ DO n = 1,nshyd
   END DO
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END FUNCTION calc_norm_weights
 
@@ -389,7 +389,7 @@ REAL(KIND=real_jlslsm) :: weighted_mean(npnts)
 INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CALC_WEIGHTED_MEAN'
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 weighted_mean(:)=0.0
 
@@ -403,7 +403,7 @@ DO n = 1,nshyd
   END DO
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END FUNCTION calc_weighted_mean
 
@@ -455,7 +455,7 @@ INTEGER :: i,j
 INTEGER(KIND=vik) :: vnr_handle_4
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='FSMC_LAYER'
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEL DO                                                              &
 !$OMP SCHEDULE(STATIC)                                                         &
@@ -493,7 +493,7 @@ DO j = 1,surft_pts
 END DO
 !$OMP END PARALLEL DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 END FUNCTION fsmc_layer
 

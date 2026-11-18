@@ -143,7 +143,7 @@ USE theta_field_sizes, ONLY: t_i_length, t_j_length
 
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -160,7 +160,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='IMGN_DRIVE_ALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF (l_daily_metdata_climatol) THEN
   mdused = md
@@ -238,7 +238,7 @@ imgn_drive_data%pstar_ij_drive(:,:,:,:,:) = rmdi
 imgn_drive_data%swdown_ij_drive(:,:,:,:,:) = rmdi
 imgn_drive_data%lwdown_ij_drive(:,:,:,:,:) = rmdi
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE imgn_drive_alloc
 
@@ -248,7 +248,7 @@ SUBROUTINE imgn_drive_dealloc(imgn_drive_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -260,7 +260,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='IMGN_DRIVE_DEALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DEALLOCATE( imgn_drive_data%tl1_ij_clim)
 DEALLOCATE( imgn_drive_data%ql1_ij_clim)
@@ -297,7 +297,7 @@ DEALLOCATE( imgn_drive_data%pstar_ij_drive)
 DEALLOCATE( imgn_drive_data%swdown_ij_drive)
 DEALLOCATE( imgn_drive_data%lwdown_ij_drive)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE imgn_drive_dealloc
 
@@ -307,7 +307,7 @@ SUBROUTINE imgn_drive_assoc(imgn_drive, imgn_drive_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -320,7 +320,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='IMGN_DRIVE_ASSOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL imgn_drive_nullify(imgn_drive)
 
@@ -359,7 +359,7 @@ imgn_drive%pstar_ij_drive => imgn_drive_data%pstar_ij_drive
 imgn_drive%swdown_ij_drive => imgn_drive_data%swdown_ij_drive
 imgn_drive%lwdown_ij_drive => imgn_drive_data%lwdown_ij_drive
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE imgn_drive_assoc
 
@@ -369,7 +369,7 @@ SUBROUTINE imgn_drive_nullify(imgn_drive)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -381,7 +381,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='IMGN_DRIVE_NULLIFY'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY( imgn_drive%tl1_ij_clim)
 NULLIFY( imgn_drive%ql1_ij_clim)
@@ -418,7 +418,7 @@ NULLIFY( imgn_drive%pstar_ij_drive)
 NULLIFY( imgn_drive%swdown_ij_drive)
 NULLIFY( imgn_drive%lwdown_ij_drive)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE imgn_drive_nullify
 

@@ -176,7 +176,7 @@ USE atm_land_sea_mask, ONLY: atmos_number_of_landpts
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -194,7 +194,7 @@ INTEGER             :: i            ! Looper
 INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*), PARAMETER   :: RoutineName='SURF_COUPLE_ALLOCATE'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !Set sizes of dimensions
 
@@ -433,7 +433,7 @@ CALL check_jules_red_parms()
 CALL c_z0h_z0m_check(ntype)
 CALL check_compatible_options()
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE surf_couple_allocate
 

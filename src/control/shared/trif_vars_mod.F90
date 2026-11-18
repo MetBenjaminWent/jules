@@ -576,7 +576,7 @@ SUBROUTINE trif_vars_alloc(land_pts,                                           &
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -596,7 +596,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='TRIF_VARS_ALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ALLOCATE(trif_vars_data%resp_l_pft(land_pts,npft))
 ALLOCATE(trif_vars_data%resp_r_pft(land_pts,npft))
@@ -885,7 +885,7 @@ trif_vars_data%harvest_biocrop_n_pft(:,:)   = 0.0
 trif_vars_data%harvest_biocrop_n_gb(:)      = 0.0
 trif_vars_data%harvest_doy(:,:)             = 0
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE trif_vars_alloc
 
@@ -897,7 +897,7 @@ SUBROUTINE trif_vars_dealloc(trif_vars_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -910,7 +910,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='TRIF_VARS_DEALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DEALLOCATE(trif_vars_data%resp_l_pft)
 DEALLOCATE(trif_vars_data%resp_r_pft)
@@ -1049,7 +1049,7 @@ DEALLOCATE(trif_vars_data%harvest_biocrop_n_pft)
 DEALLOCATE(trif_vars_data%harvest_biocrop_n_gb)
 DEALLOCATE(trif_vars_data%harvest_doy)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE trif_vars_dealloc
 
@@ -1060,7 +1060,7 @@ SUBROUTINE trif_vars_assoc(trif_vars, trif_vars_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -1074,7 +1074,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='TRIF_VARS_ASSOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL trif_vars_nullify(trif_vars)
 
@@ -1215,7 +1215,7 @@ trif_vars%harvest_biocrop_n_pft => trif_vars_data%harvest_biocrop_n_pft
 trif_vars%harvest_biocrop_n_gb => trif_vars_data%harvest_biocrop_n_gb
 trif_vars%harvest_doy => trif_vars_data%harvest_doy
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE trif_vars_assoc
 
@@ -1227,7 +1227,7 @@ SUBROUTINE trif_vars_nullify(trif_vars)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -1240,7 +1240,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='TRIF_VARS_NULLIFY'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(trif_vars%resp_l_pft)
 NULLIFY(trif_vars%resp_r_pft)
@@ -1380,7 +1380,7 @@ NULLIFY(trif_vars%harvest_biocrop_n_pft)
 NULLIFY(trif_vars%harvest_biocrop_n_gb)
 NULLIFY(trif_vars%harvest_doy)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE trif_vars_nullify
 

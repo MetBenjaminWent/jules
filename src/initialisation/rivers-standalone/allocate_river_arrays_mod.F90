@@ -72,7 +72,7 @@ USE jules_wtrac_type_mod, ONLY: jls_wtrac_data_type
 
 USE parkind1,      ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -102,7 +102,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='ALLOCATE_RIVER_ARRAYS'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !Any dimension sizes should be set before we get here. Some special cases for
 !UM mode can be found in surf_couple_allocate.
@@ -165,7 +165,7 @@ CALL wtrac_jls_alloc(land_pts, t_i_length, t_j_length, nsurft, nsoilt,         &
                      n_evap_srce, river_row_length_dum, river_rows_dum,        &
                      l_wtrac_jls, wtrac_jls_data)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE allocate_river_arrays
 

@@ -28,7 +28,7 @@ USE jules_soil_mod, ONLY: sm_levels
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 !USE in instances of the JULES TYPES
 USE atm_fields_mod, ONLY: psparms,crop_vars,ainfo
@@ -45,7 +45,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SURF_COUPLE_ANCIL_UPDATE'
 
 !End of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Update vegetation parameters
 CALL update_veg()
@@ -62,7 +62,7 @@ IF ( l_irrig_dmd ) THEN
   CALL update_irrig_variables(crop_vars,psparms,ainfo)
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE surf_couple_ancil_update
 END MODULE surf_couple_ancil_update_mod

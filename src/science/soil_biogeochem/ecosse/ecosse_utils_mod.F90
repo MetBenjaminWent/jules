@@ -26,7 +26,7 @@ MODULE ecosse_utils_mod
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE um_types, ONLY: real_jlslsm
 
@@ -135,7 +135,7 @@ REAL(KIND=real_jlslsm) ::                                                      &
 INTEGER(KIND=vik) :: vnr_handle_1
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF ( l_interp ) THEN
   ! Interpolate.
@@ -171,7 +171,7 @@ ELSE
 
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END FUNCTION transfer_layers
@@ -244,7 +244,7 @@ INTEGER(KIND=vik) :: vnr_handle_2
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Loop over input layers, adding to accumulations if any of this layer
@@ -276,7 +276,7 @@ DO j = 1,np_index
   outval(i) = sumVal(i) / dzOut
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE depth_average
@@ -341,7 +341,7 @@ INTEGER(KIND=vik) :: vnr_handle_3
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 DO izOut = 1,nzOut
   !-------------------------------------------------------------------------
@@ -381,7 +381,7 @@ DO izOut = 1,nzOut
 
 END DO  !  izOut (output layers)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 
 END SUBROUTINE linear_interp
@@ -448,7 +448,7 @@ INTEGER(KIND=vik) :: vnr_handle_4
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Initialise.
@@ -463,7 +463,7 @@ DO j = 1,vs_pts
   residual_n(i,:) = min_n_conc * dz_soilc(:)
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 
 END SUBROUTINE get_residual_n
@@ -571,7 +571,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName = 'ADJUST_SOIL'
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
 
 DO i = 1,vs_pts
   l = vs_index(i)
@@ -698,7 +698,7 @@ IF ( initial_call ) THEN
 
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_5)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_5)
 
 END SUBROUTINE adjust_soil
 

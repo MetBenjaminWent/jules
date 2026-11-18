@@ -16,7 +16,7 @@ SUBROUTINE init_min(land_pts,frac,cs)
 
 USE jules_surface_types_mod, ONLY: ntype, npft, soil
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 USE jules_soil_mod, ONLY: cs_min
 USE jules_vegetation_mod, ONLY: frac_min
@@ -89,7 +89,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='INIT_MIN'
 ! Local parameters
 !----------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 DO l = 1,land_pts
   tot_frac_need(l) = 0.0
   tot_frac_avail(l) = 0.0
@@ -160,7 +160,7 @@ DO l = 1,land_pts
 
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE init_min
 END MODULE init_min_mod

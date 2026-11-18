@@ -51,7 +51,7 @@ USE jules_science_fixes_mod, ONLY: l_dtcanfix
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 IMPLICIT NONE
 
 LOGICAL ::                                                                     &
@@ -291,7 +291,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='IM_SF_PT2'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !JULES standalone never knew about ENDGAME so no offset.
 offset = 0
@@ -938,7 +938,7 @@ END IF ! L_CORRECT
 
 !$OMP END PARALLEL
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE im_sf_pt2
 END MODULE im_sf_pt2_mod

@@ -29,7 +29,7 @@ USE jules_soil_mod, ONLY: l_vg_soil
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE um_types, ONLY: real_jlslsm
 
@@ -71,7 +71,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='HYD_CON_IC'
 
 !-----------------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF ( l_vg_soil ) THEN
   ! van Genuchten model
@@ -81,7 +81,7 @@ ELSE
   CALL hyd_con_ch( npnts, soil_pts, soil_index, b, ks, thetak, k, dk_dthk )
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE hyd_con_ic
 END MODULE hyd_con_ic_mod

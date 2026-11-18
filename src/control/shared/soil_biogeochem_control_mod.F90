@@ -31,7 +31,7 @@ USE ancil_info, ONLY:                                                          &
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE um_types, ONLY: real_jlslsm
 
@@ -249,7 +249,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Work out if the soil model is to be called this timestep.
@@ -327,7 +327,7 @@ CALL increment_soil_drivers( call_after, land_pts, nstep, l_run_model,         &
                              ! TYPES
                              soilecosse)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE soil_biogeochem_control
 
@@ -423,7 +423,7 @@ INTEGER(KIND=vik) :: vnr_handle_2
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 IF ( call_type == call_initial ) THEN
 
@@ -574,7 +574,7 @@ ELSE
 
 END IF  !  call_type
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE increment_soil_drivers
 

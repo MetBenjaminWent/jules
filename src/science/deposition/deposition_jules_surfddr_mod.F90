@@ -94,7 +94,7 @@ USE missing_data_mod,        ONLY: imdi
 USE c_rmol,                  ONLY: rmol       ! Universal gas constant
 USE parkind1,                ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE ereport_mod,             ONLY: ereport
 
 IMPLICIT NONE
@@ -241,7 +241,7 @@ CHARACTER(LEN=*), PARAMETER       :: RoutineName='DEPOSITION_JULES_SURFDDR'
 
 ! ------------------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Set logical todo for surface types
 DO n = 1, ntype
@@ -1234,7 +1234,7 @@ DO m = 1, ndry_dep_species
 
 END DO  ! End of DO loop over ndry_dep_species
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE deposition_jules_surfddr

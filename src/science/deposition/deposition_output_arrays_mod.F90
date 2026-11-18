@@ -27,7 +27,7 @@ USE jules_print_mgr,         ONLY: jules_print, jules_format, jules_message
 USE parkind1,                ONLY: jprb, jpim
 USE um_types,                ONLY: real_jlslsm
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -51,7 +51,7 @@ CHARACTER(LEN=*), PARAMETER   :: RoutineName='DEPOSITION_OUTPUT_ARRAY_CHAR'
 INTEGER(KIND=vik) :: vnr_handle_1
 !-------------------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 jules_format = '(10A10)'
 n_times = INT(n_output/10)
@@ -63,7 +63,7 @@ END DO
 WRITE(jules_message, jules_format) (output(j), j=10*n_times+1, n_output)
 CALL jules_print(RoutineName, jules_message)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 
@@ -84,7 +84,7 @@ CHARACTER(LEN=*), PARAMETER   :: RoutineName='DEPOSITION_OUTPUT_ARRAY_INT'
 INTEGER(KIND=vik) :: vnr_handle_2
 !-------------------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 jules_format = '(10I10)'
 n_times = INT(n_output/10)
@@ -96,7 +96,7 @@ END DO
 WRITE(jules_message, jules_format) (output(j), j=10*n_times+1, n_output)
 CALL jules_print(RoutineName, jules_message)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 
 RETURN
 
@@ -117,7 +117,7 @@ CHARACTER(LEN=*), PARAMETER   :: RoutineName='DEPOSITION_OUTPUT_ARRAY_REAL'
 INTEGER(KIND=vik) :: vnr_handle_3
 !-------------------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 jules_format = '(10(1PE16.8))'
 n_times = INT(n_output/10)
@@ -129,7 +129,7 @@ END DO
 WRITE(jules_message, jules_format) (output(j), j=10*n_times+1, n_output)
 CALL jules_print(RoutineName, jules_message)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 
 RETURN
 

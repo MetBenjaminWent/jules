@@ -78,7 +78,7 @@ SUBROUTINE calc_ignitions(                                                     &
 !    Language:  Fortran 90
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1,     ONLY: jprb
 USE jules_vegetation_mod, ONLY: ignition_constant, ignition_vary_natural,      &
                                 ignition_vary_natural_human
@@ -119,7 +119,7 @@ REAL(KIND=real_jlslsm),    PARAMETER        ::                                 &
 INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*),  PARAMETER :: RoutineName = "CALC_IGNITIONS"
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF (ignition_method == ignition_constant) THEN
   nat_ign_l   = 2.7 / s_in_month / m2_in_km2 / 12.0 * 0.75
@@ -157,7 +157,7 @@ ELSE IF (ignition_method == ignition_vary_natural_human) THEN
   ignitions_l =  ignitions_l * tune_MODIS
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE  calc_ignitions
 
@@ -170,7 +170,7 @@ SUBROUTINE calc_flam(                                                          &
   flam_l)
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1,     ONLY: jprb
 
 IMPLICIT NONE
@@ -252,7 +252,7 @@ REAL(KIND=real_jlslsm)                      ::                                 &
 INTEGER(KIND=vik) :: vnr_handle_2
 CHARACTER(LEN=*),  PARAMETER :: RoutineName = "CALC_FLAM"
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 TsbyT_l   =  Ts / temp_l
 
@@ -284,7 +284,7 @@ cr = -flam_rain_const / s_in_day
 flam_l    = MAX(MIN(10.0**Z_l * f_rhum_l * fuel_l * f_sm_l                     &
                      * EXP( cr * rain_rate) ,1.0) ,0.0)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE calc_flam
 
@@ -307,7 +307,7 @@ SUBROUTINE calc_burnt_area(                                                    &
 !   Language: Fortran 90
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1,     ONLY: jprb
 
 IMPLICIT NONE
@@ -327,11 +327,11 @@ REAL(KIND=real_jlslsm)  ,    INTENT(OUT)    ::                                 &
 INTEGER(KIND=vik) :: vnr_handle_3
 CHARACTER(LEN=*),  PARAMETER :: RoutineName = "CALC_BURNT_AREA"
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 burnt_area_i_l = flam_l * ignitions_l * avg_ba_i
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE calc_burnt_area
 
@@ -353,7 +353,7 @@ SUBROUTINE calc_emitted_carbon(                                                &
 !
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1,     ONLY: jprb
 
 IMPLICIT NONE
@@ -387,7 +387,7 @@ INTEGER                   :: l      ! landpoints loop counter
 INTEGER(KIND=vik) :: vnr_handle_4
 CHARACTER(LEN=*),  PARAMETER :: RoutineName = "CALC_EMITTED_CARBON"
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 ! Initialise to no emitted carbon
 emitted_carbon_i(:) = 0.0
@@ -399,7 +399,7 @@ DO l = 1, land_pts
 
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE calc_emitted_carbon
 
@@ -424,7 +424,7 @@ USE jules_inferno_mod, ONLY: ccdpm_min, ccdpm_max,                             &
                 ccrpm_min, ccrpm_max
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1,     ONLY: jprb
 
 IMPLICIT NONE
@@ -452,7 +452,7 @@ INTEGER                   :: l      ! landpoint loop counter
 INTEGER(KIND=vik) :: vnr_handle_5
 CHARACTER(LEN=*),  PARAMETER :: RoutineName = "CALC_EMITTED_CARBON_SOIL"
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
 
 DO l = 1,land_pts
   emitted_carbon_DPM(l) = MAX(burnt_area(l) * ( dpm_fuel(l) * (ccdpm_min +     &
@@ -461,7 +461,7 @@ DO l = 1,land_pts
                           (ccrpm_max - ccrpm_min) * (1.0 - sm(l)))) ,0.0)
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_5)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_5)
 RETURN
 END SUBROUTINE calc_emitted_carbon_soil
 
@@ -492,7 +492,7 @@ SUBROUTINE calc_emission(                                                      &
 !
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1,     ONLY: jprb
 
 IMPLICIT NONE
@@ -570,7 +570,7 @@ REAL(KIND=real_jlslsm) ,   PARAMETER        ::                                 &
 INTEGER(KIND=vik) :: vnr_handle_6
 CHARACTER(LEN=*),  PARAMETER :: RoutineName = "CALC_EMISSION"
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_6, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_6, ModuleName//':'//RoutineName)
 
 ! Initialise the output fields
 emission_CO2(:)  = 0.0
@@ -604,7 +604,7 @@ emission_MeCHO(:)= ctob * emitted_carbon_i(:) * fef_mecho_i * gtokg
 emission_NH3(:)  = ctob * emitted_carbon_i(:) * fef_nh3_i   * gtokg
 emission_DMS(:)  = ctob * emitted_carbon_i(:) * fef_dms_i   * gtokg
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_6)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_6)
 RETURN
 END SUBROUTINE calc_emission
 

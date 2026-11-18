@@ -32,7 +32,7 @@ USE jules_print_mgr,         ONLY: jules_print
 USE um_types,                ONLY: real_jlslsm
 USE parkind1,                ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -300,7 +300,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 !-------------------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Initialise variables on grid to cover deposition to ocean and cryosphere
 z0tile_ij(:,:,:)       =  0.0
@@ -530,7 +530,7 @@ DO j = 1, rows
   END DO     ! row_length
 END DO       ! rows
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 

@@ -28,7 +28,7 @@ SUBROUTINE routedbl(runoff, ru, ratmed, ndev, dt, nx, ny                       &
      , offset_ny)
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 USE mpl, ONLY: mpl_integer, mpl_max, mpl_real, mpl_sum
 USE global_2d_sums_mod, ONLY: global_2d_sums
@@ -210,7 +210,7 @@ LOGICAL, SAVE :: first = .TRUE.
 ! first time entered routine
 
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 info = 1
 CALL gc_get_communicator(my_comm,info)
@@ -489,7 +489,7 @@ DO j = 1, jmax
   END DO
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 END SUBROUTINE routedbl

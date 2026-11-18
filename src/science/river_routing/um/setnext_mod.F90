@@ -31,7 +31,7 @@ SUBROUTINE setnext(nx, ny, igrcn, inextx, inexty)
 
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 IMPLICIT NONE
 !
@@ -53,7 +53,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='SETNEXT'
 DATA dx / 0, 1, 1, 1, 0, -1, -1, -1, 0, 0 /
 DATA dy / 1, 1, 0, -1, -1, -1, 0, 1, 0, 0 /
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 DO j = 1, ny
   DO i = 1, nx
 
@@ -68,7 +68,7 @@ DO j = 1, ny
 
   END DO
 END DO
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE setnext
 END MODULE setnext_mod

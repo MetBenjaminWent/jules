@@ -25,7 +25,7 @@ USE dust_param,               ONLY: z0_soil
 
 USE parkind1,                 ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE um_types, ONLY: real_jlslsm
 
@@ -64,7 +64,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='NVG_SPARM'
 !-----------------------------------------------------------------------------
 !end of header
 !-----------------------------------------------------------------------------
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! It would be nice to not have to set the catch_surft and z0_surft to the
 ! namelist values whenever sparm is called, however something initialises them
@@ -119,7 +119,7 @@ END IF
 
 z0_soil = z0_nvg(soil - npft)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE nvg_sparm
 END MODULE nvg_sparm_mod

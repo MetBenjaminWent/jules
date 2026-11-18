@@ -46,7 +46,7 @@ USE missing_data_mod,        ONLY: rmdi
 USE um_types,                ONLY: real_jlslsm
 USE parkind1,                ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -395,7 +395,7 @@ CHARACTER(LEN=*), PARAMETER   ::                                               &
 ! Ereport variables
 INTEGER :: icode
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Define -cp/(vkman*g)
 cp_vkman_g = -cp / (vkman * gg)
@@ -414,7 +414,7 @@ DO m = 1, ndry_dep_species
   END IF
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 
@@ -437,7 +437,7 @@ CHARACTER(LEN=*), PARAMETER   ::                                               &
 ! Ereport variables
 INTEGER :: icode
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! Define -cp/(vkman*g)
 cp_vkman_g = -cp / (vkman * gg)
@@ -787,7 +787,7 @@ DO m = 1, ndry_dep_species
   END IF
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 
 RETURN
 

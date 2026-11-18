@@ -130,7 +130,7 @@ SUBROUTINE urban_param_alloc(land_pts,                                         &
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -146,7 +146,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='URBAN_PARAM_ALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF ( l_urban2t .OR. l_moruses ) THEN
   ALLOCATE(urban_param_data%wrr_gb(land_pts))
@@ -180,7 +180,7 @@ ELSE
   ALLOCATE(urban_param_data%emisr_gb(1))
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE urban_param_alloc
 
@@ -190,7 +190,7 @@ SUBROUTINE urban_param_dealloc(urban_param_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -203,7 +203,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='URBAN_PARAM_DEALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DEALLOCATE(urban_param_data%wrr_gb)
 DEALLOCATE(urban_param_data%hgt_gb)
@@ -216,7 +216,7 @@ DEALLOCATE(urban_param_data%emisw_gb)
 DEALLOCATE(urban_param_data%emisr_gb)
 
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE urban_param_dealloc
 
@@ -226,7 +226,7 @@ SUBROUTINE urban_param_assoc(urban_param, urban_param_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -240,7 +240,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='URBAN_PARAM_ASSOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL urban_param_nullify(urban_param)
 
@@ -255,7 +255,7 @@ urban_param%emisw_gb => urban_param_data%emisw_gb
 urban_param%emisr_gb => urban_param_data%emisr_gb
 
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE urban_param_assoc
 
@@ -265,7 +265,7 @@ SUBROUTINE urban_param_nullify(urban_param)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -278,7 +278,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='URBAN_PARAM_NULLIFY'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(urban_param%wrr_gb)
 NULLIFY(urban_param%hgt_gb)
@@ -290,7 +290,7 @@ NULLIFY(urban_param%albrd_gb)
 NULLIFY(urban_param%emisw_gb)
 NULLIFY(urban_param%emisr_gb)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE urban_param_nullify
 

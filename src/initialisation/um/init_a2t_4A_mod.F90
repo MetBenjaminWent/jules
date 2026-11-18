@@ -29,7 +29,7 @@ SUBROUTINE init_a2t_4a(a_realhd, xpa, xua, xva, ypa, yua, yva)
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE nlsizes_namelist_mod, ONLY: a_len_realhd, aocpl_row_length, aocpl_p_rows
 
@@ -59,7 +59,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='INIT_A2T_4A'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! This would be the "correct" ENDGame grid, assuming that array
 ! index 1 refers to
@@ -119,7 +119,7 @@ DO j = 0,aocpl_p_rows
   yva(j) = a_realhd(3) + (j) * a_realhd(2)
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 !----------------------------------------------------------------------
 END SUBROUTINE init_a2t_4a

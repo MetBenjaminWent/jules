@@ -279,7 +279,7 @@ SUBROUTINE prognostics_alloc(land_pts, t_i_length, t_j_length,                 &
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -304,7 +304,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='PROGNOSTICS_ALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !seed_rain is allocated elsewhere
 
@@ -497,7 +497,7 @@ progs_data%snow_grnd_surft(:,:)       = 0.0
 progs_data%snow_mass_ij(:,:)          = 0.0
 progs_data%snow_mass_sea_sicat(:,:,:) = 0.0
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE prognostics_alloc
 
@@ -507,7 +507,7 @@ SUBROUTINE prognostics_dealloc(progs_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -521,7 +521,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='PROGNOSTICS_DEALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 !  ====prognostics module common====
 DEALLOCATE(progs_data%nsnow_surft)
@@ -600,7 +600,7 @@ DEALLOCATE(progs_data%snow_mass_ij)
 DEALLOCATE(progs_data%snow_mass_sea_sicat)
 DEALLOCATE(progs_data%plantNumDensity)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE prognostics_dealloc
 
@@ -610,7 +610,7 @@ SUBROUTINE prognostics_assoc(progs,progs_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -627,7 +627,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='PROGNOSTICS_ASSOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL prognostics_nullify(progs)
 
@@ -693,7 +693,7 @@ IF (ALLOCATED(progs_data%seed_rain)) THEN
 END IF
 
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE prognostics_assoc
 
@@ -704,7 +704,7 @@ SUBROUTINE prognostics_nullify(progs)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -718,7 +718,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='PROGNOSTICS_NULLIFY'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(progs%nsnow_surft)
 NULLIFY(progs%rho_snow_grnd_surft)
@@ -778,7 +778,7 @@ NULLIFY(progs%t_home_gb)
 NULLIFY(progs%t_growth_gb)
 NULLIFY(progs%f_nsc_pft)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE prognostics_nullify
 

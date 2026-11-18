@@ -58,7 +58,7 @@ USE jules_surface_types_mod, ONLY: ntype, npft
 USE um_types,                ONLY: real_jlslsm
 USE parkind1,                ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE jules_print_mgr,         ONLY: jules_message, jules_print
 USE ereport_mod,             ONLY: ereport
 
@@ -151,7 +151,7 @@ INTEGER :: icode
 
 !-------------------------------------------------------------------------------
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Calculate air density, rho-air.
 ! Set ustar to minimum value
@@ -332,7 +332,7 @@ DO n = 1, ndry_dep_species
   END IF
 END DO          ! End of DO loop over deposited atmospheric species
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 RETURN
 

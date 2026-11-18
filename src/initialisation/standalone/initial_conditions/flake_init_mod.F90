@@ -53,7 +53,7 @@ USE model_grid_mod, ONLY: latitude
 USE theta_field_sizes,    ONLY: t_i_length
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 
 USE ancil_info, ONLY: ainfo_type
@@ -113,7 +113,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 !-----------------------------------------------------------------------------
 !End of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !==============================================================================
 ! *NOTICE REGARDING SOIL TILING**
@@ -266,7 +266,7 @@ lake_vars%lake_fetch_gb(:) = lake_fetch_0
 lake_vars%lake_shape_factor_gb(:) = lake_shape_0
 lake_vars%g_dt_gb(:) = g_dt_0
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE flake_init
 END MODULE flake_init_mod

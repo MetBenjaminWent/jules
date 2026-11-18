@@ -297,7 +297,7 @@ SUBROUTINE fluxes_alloc(land_pts, t_i_length, t_j_length,                      &
 !No USE statements other than error reporting and Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -316,7 +316,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='FLUXES_ALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ALLOCATE(fluxes_data%l_emis_surft_set(nsurft))
 
@@ -422,7 +422,7 @@ fluxes_data%rflow_gb(:)                  = 0.0
 fluxes_data%rrun_gb(:)                   = 0.0
 fluxes_data%lake_evap(:)                 = rmdi
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE fluxes_alloc
 
@@ -432,7 +432,7 @@ SUBROUTINE fluxes_dealloc(fluxes_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -445,7 +445,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='FLUXES_DEALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 DEALLOCATE(fluxes_data%l_emis_surft_set)
 DEALLOCATE(fluxes_data%surf_ht_store_surft)
@@ -497,7 +497,7 @@ DEALLOCATE(fluxes_data%rflow_gb)
 DEALLOCATE(fluxes_data%rrun_gb)
 DEALLOCATE(fluxes_data%lake_evap)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE fluxes_dealloc
 
@@ -507,7 +507,7 @@ SUBROUTINE fluxes_assoc(fluxes,fluxes_data)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -524,7 +524,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='FLUXES_ASSOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL fluxes_nullify(fluxes)
 
@@ -578,7 +578,7 @@ fluxes%rflow_gb => fluxes_data%rflow_gb
 fluxes%rrun_gb => fluxes_data%rrun_gb
 fluxes%lake_evap => fluxes_data%lake_evap
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE fluxes_assoc
 
@@ -589,7 +589,7 @@ SUBROUTINE fluxes_nullify(fluxes)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -603,7 +603,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='FLUXES_NULLIFY'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY(fluxes%l_emis_surft_set)
 NULLIFY(fluxes%surf_ht_store_surft)
@@ -655,7 +655,7 @@ NULLIFY(fluxes%rflow_gb)
 NULLIFY(fluxes%rrun_gb)
 NULLIFY(fluxes%lake_evap)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 END SUBROUTINE fluxes_nullify
 

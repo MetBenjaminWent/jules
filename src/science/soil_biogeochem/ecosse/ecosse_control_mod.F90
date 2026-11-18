@@ -120,7 +120,7 @@ USE soil_ecosse_vars_mod, ONLY:                                                &
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 !TYPES
@@ -347,7 +347,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName = 'ECOSSE_CONTROL'
 
 !-----------------------------------------------------------------------------
 !end of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! ECOSSE is coded assuming a single soil tile.
@@ -505,7 +505,7 @@ IF ( l_soil_N ) THEN
   n_soil_pool_soilt(:,s,:,6) = n_nit(:,:,nt)
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE ecosse_control

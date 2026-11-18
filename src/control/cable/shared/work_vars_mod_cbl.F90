@@ -81,7 +81,7 @@ SUBROUTINE alloc_work_vars_cbl(land_pts, nsurft, sm_levels, lsm_id, cable,     &
 !Common Non-science modules
 USE parkind1,                 ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE jules_print_mgr,          ONLY: jules_message, jules_print, PrNorm
 USE ereport_mod,              ONLY: ereport
 
@@ -119,7 +119,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='ALLOC_WORK_VARS_CBL'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! CABLE vars to be initialized
 IF ( lsm_id == cable ) THEN
@@ -162,7 +162,7 @@ work_data_cbl% surf_roff      (:)         = 0.0
 work_data_cbl% sub_surf_roff  (:)         = 0.0
 work_data_cbl% tot_tfall      (:)         = 0.0
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE alloc_work_vars_cbl
 
@@ -175,7 +175,7 @@ SUBROUTINE dealloc_work_vars_cbl(work_data_cbl )
 !Common Non-science modules
 USE parkind1,                 ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -191,7 +191,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='DEALLOC_WORK_VARS_CBL'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! CABLE vars to be initialized via JULES i/o
 DEALLOCATE( work_data_cbl %snow_tile     )
@@ -200,7 +200,7 @@ DEALLOCATE( work_data_cbl %surf_roff     )
 DEALLOCATE( work_data_cbl %sub_surf_roff )
 DEALLOCATE( work_data_cbl %tot_tfall     )
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE dealloc_work_vars_cbl
 
@@ -213,7 +213,7 @@ SUBROUTINE assoc_work_vars_cbl(work_cbl, work_data_cbl )
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -227,7 +227,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='ASSOC_WORK_VARS_CBL'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 CALL nullify_assoc_work_vars_cbl(work_cbl)
 
@@ -237,7 +237,7 @@ work_cbl% surf_roff     => work_data_cbl% surf_roff
 work_cbl% sub_surf_roff => work_data_cbl% sub_surf_roff
 work_cbl% tot_tfall     => work_data_cbl% tot_tfall
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE assoc_work_vars_cbl
 
@@ -250,7 +250,7 @@ SUBROUTINE nullify_assoc_work_vars_cbl(work_cbl)
   !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -263,7 +263,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='NULLIFY_ASSOC_WORK_VARS_CBL'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 NULLIFY( work_cbl% snow_tile      )
 NULLIFY( work_cbl% lying_snow     )
@@ -271,7 +271,7 @@ NULLIFY( work_cbl% surf_roff      )
 NULLIFY( work_cbl% sub_surf_roff  )
 NULLIFY( work_cbl% tot_tfall      )
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 
 END SUBROUTINE nullify_assoc_work_vars_cbl

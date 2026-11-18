@@ -96,7 +96,7 @@ USE conversions_mod, ONLY: pi
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -163,7 +163,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CAN_DRAG_Z0'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF ( .NOT. l_hyperbolic_done ) THEN
   ! Precalculation of hyperbolic functions using the addition formulae
@@ -201,7 +201,7 @@ DO k = 1,surft_pts
 END DO
 !$OMP END PARALLEL DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE can_drag_z0
 
@@ -217,7 +217,7 @@ USE jules_vegetation_mod, ONLY: l_rsl_scalar
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -324,7 +324,7 @@ INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CAN_DRAG_PHI_M_H'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEL DO DEFAULT(NONE) SCHEDULE(STATIC)                               &
 !$OMP  PRIVATE(k,l,j,i,l_c,recip_l_mo_limit,sc,usuh,zdt,l_vor,psi_m_rsl,       &
@@ -411,7 +411,7 @@ DO k = 1,surft_pts
 END DO
 !$OMP END PARALLEL DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE can_drag_phi_m_h
 
@@ -429,7 +429,7 @@ USE jules_vegetation_mod, ONLY: l_rsl_scalar, stanton_leaf
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE jules_print_mgr, ONLY: jules_message, jules_print
 
@@ -582,7 +582,7 @@ INTEGER(KIND=vik) :: vnr_handle_3
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='CAN_DRAG_PHI_M_H_VOL'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 pi_2 = 0.5 * pi
 
@@ -838,7 +838,7 @@ DO k = 1,surft_pts
 END DO
 !$OMP END PARALLEL DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 END SUBROUTINE can_drag_phi_m_h_vol
 

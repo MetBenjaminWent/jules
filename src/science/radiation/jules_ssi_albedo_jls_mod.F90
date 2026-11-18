@@ -75,7 +75,7 @@ USE water_constants_mod, ONLY: tm, tfs
 USE c_kappai, ONLY: kappai,kappai_snow,rhosnow
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE Jin11_osa_mod, ONLY: Jin11_osa
 USE errormessagelength_mod, ONLY: errormessagelength
 USE ereport_mod, ONLY: ereport
@@ -306,7 +306,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='JULES_SSI_ALBEDO'
 INTEGER ::              errcode                ! Error code
 CHARACTER(LEN=errormessagelength) :: ERRMSG    ! Error message text
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 fhtan = ATAN(ahmax * 4.0)
 
@@ -934,7 +934,7 @@ ELSE
 END IF
 
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE jules_ssi_albedo
 END MODULE jules_ssi_albedo_mod

@@ -8,7 +8,7 @@ MODULE deposition_ukca_var_mod
 
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE ereport_mod, ONLY: ereport
 
 IMPLICIT NONE
@@ -59,7 +59,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='DEPOSITION_UKCA_VAR_ALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ERROR = 0
 
@@ -77,7 +77,7 @@ IF ( error_sum /= 0 ) THEN
                 "Please check allocation of arrays")
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE deposition_ukca_var_alloc
@@ -122,7 +122,7 @@ CHARACTER(LEN=*), PARAMETER   :: RoutineName='DEPOSITION_CHECK_UKCA_SWITCHES'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! Check l_ukca_ddep_lev1
 error_code = -1
@@ -201,7 +201,7 @@ IF (l_fix_ukca_h2dd_x_jules .NEQV. l_fix_ukca_h2dd_x_ukca) THEN
   CALL ereport(RoutineName, error_code, umMessage)
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE deposition_check_ukca_switches

@@ -33,7 +33,7 @@ USE jules_radiation_mod,      ONLY:                                            &
 
 USE parkind1,                 ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE calc_direct_albsoil_mod, ONLY: calc_direct_albsoil
 
@@ -71,7 +71,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='SET_SOIL_ALB_COMPONENTS'
 
 
 !End of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !$OMP PARALLEl DEFAULT(NONE)                                                   &
 !$OMP PRIVATE(l)                                                               &
@@ -140,7 +140,7 @@ ELSE
 END IF
 
 !$OMP END PARALLEl
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE set_soil_alb_components
 END MODULE set_soil_alb_components_mod

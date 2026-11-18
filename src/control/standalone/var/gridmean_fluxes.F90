@@ -44,7 +44,7 @@ SUBROUTINE gridmean_fluxes_alloc(t_i_length,t_j_length)
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -60,7 +60,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='GRIDMEAN_FLUXES_ALLOC'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ALLOCATE( fqw_1_ij(t_i_length,t_j_length))
 ALLOCATE( ftl_1_ij(t_i_length,t_j_length))
@@ -72,7 +72,7 @@ ftl_1_ij(:,:)                = 0.0
 taux_1_ij(:,:)               = 0.0
 tauy_1_ij(:,:)               = 0.0
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE gridmean_fluxes_alloc
 

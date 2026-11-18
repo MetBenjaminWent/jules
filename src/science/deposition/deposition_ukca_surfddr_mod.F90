@@ -135,7 +135,7 @@ USE c_rmol,                  ONLY: rmol       ! Universal gas constant
 USE missing_data_mod,        ONLY: imdi
 USE parkind1,                ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -297,7 +297,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 CHARACTER(LEN=*), PARAMETER   :: RoutineName='DEPOSITION_UKCA_SURFDDR'
 
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Set logical for surface types
 DO n = 1, ntype
@@ -1304,7 +1304,7 @@ DO m = 1, ndepd_jules
 
 END DO  ! End of DO m = 1, ndepd_jules
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE deposition_ukca_surfddr

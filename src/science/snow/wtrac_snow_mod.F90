@@ -82,7 +82,7 @@ USE jules_water_tracers_mod, ONLY: l_wtrac_jls
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -100,7 +100,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WTRAC_ALLOC_SNOW'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Allocate water tracer arrays
 IF (l_wtrac_jls) THEN
@@ -171,7 +171,7 @@ ELSE
   ALLOCATE(wtrac_sn%infil_ground_ls_gbm(1,1))
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE wtrac_alloc_snow
@@ -188,7 +188,7 @@ SUBROUTINE wtrac_dealloc_snow(wtrac_sn)
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -199,7 +199,7 @@ INTEGER(KIND=vik) :: vnr_handle_2
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WTRAC_DEALLOC_SNOW'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! Deallocate water tracer arrays
 DEALLOCATE(wtrac_sn%infil_ground_ls_gbm)
@@ -215,7 +215,7 @@ DEALLOCATE(wtrac_sn%sice_sl)
 DEALLOCATE(wtrac_sn%snow_can)
 DEALLOCATE(wtrac_sn%snowmass)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE wtrac_dealloc_snow

@@ -44,7 +44,7 @@ USE ancil_info, ONLY: rad_nband
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE ereport_mod, ONLY: ereport
 
@@ -207,7 +207,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='ALBPFT'
 INTEGER ::              errcode            ! Error code
 CHARACTER(LEN=80) :: ERRMSG             ! Error message text
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Check the consistency of the options.
 IF ( albpft_call < 0 .OR. albpft_call > 2) THEN
@@ -599,7 +599,7 @@ END DO  !  pfts
 
 !$OMP END PARALLEL
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE albpft
 END MODULE albpft_mod

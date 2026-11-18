@@ -100,7 +100,7 @@ USE missing_data_mod,         ONLY: rmdi, imdi
 
 USE parkind1,                 ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE um_types, ONLY: real_jlslsm
 
@@ -307,7 +307,7 @@ INTEGER ::              errcode                 !Error code
 CHARACTER(LEN=errormessagelength) :: ERRMSG     !Error message text
 
 !End of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !Set appropriate value of l_getprofile for all calls to albpft
 l_getprofile = .FALSE.
@@ -1641,7 +1641,7 @@ END IF
 ! *END NOTICE REGARDING SOIL TILING**
 !==============================================================================
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE jules_land_albedo
 END MODULE jules_land_albedo_mod

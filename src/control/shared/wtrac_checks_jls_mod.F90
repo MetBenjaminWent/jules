@@ -55,7 +55,7 @@ SUBROUTINE wtrac_checks_sno(land_pts, nsurft, nsmax, surft_pts, surft_index,   &
 
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 
 IMPLICIT NONE
@@ -86,7 +86,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Canopy snow
 CALL wtrac_checks_tiles(land_pts, nsurft, 1, surft_pts, surft_index,           &
@@ -104,7 +104,7 @@ CALL wtrac_checks_tiles(land_pts, nsurft, nsmax, surft_pts, surft_index,       &
 CALL wtrac_checks_tiles(land_pts, nsurft, nsmax, surft_pts, surft_index,       &
                             sliq_surft, sliq_surft_wtrac, 'sliq_surft')
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE wtrac_checks_sno
 
@@ -124,7 +124,7 @@ SUBROUTINE wtrac_checks_hyd(land_pts, nsurft, nsoilt, sm_levels, soil_pts,     &
 
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 
 IMPLICIT NONE
@@ -168,7 +168,7 @@ INTEGER(KIND=vik) :: vnr_handle_2
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! Set up 'tiled' soil points index (assuming nsoilt=1) so that the routine
 ! wtrac_check_tiles can be used for testing soil fields
@@ -199,7 +199,7 @@ CALL wtrac_checks_tiles(land_pts, nsoilt, 1, soilt_pts, soilt_index,           &
                             sthzw_soilt, sthzw_soilt_wtrac, 'sthzw_soilt')
 
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE wtrac_checks_hyd
 
@@ -219,7 +219,7 @@ USE Ereport_mod,             ONLY: ereport
 USE jules_print_mgr,         ONLY: jules_message, jules_print, newline
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -259,7 +259,7 @@ INTEGER(KIND=vik) :: vnr_handle_3
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WTRAC_CHECKS_TILES'
 
 ! End of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 largest_error_q   = 0.0
 
@@ -334,7 +334,7 @@ IF (ABS(largest_error_q) > max_diff_warning .AND.                              &
 
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 
 RETURN
 END SUBROUTINE wtrac_checks_tiles
@@ -353,7 +353,7 @@ USE Ereport_mod,             ONLY: ereport
 USE jules_print_mgr,         ONLY: jules_message, jules_print, newline
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -388,7 +388,7 @@ INTEGER(KIND=vik) :: vnr_handle_4
 CHARACTER(LEN=*), PARAMETER :: RoutineName='WTRAC_CHECKS_GRID'
 
 ! End of header
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 largest_error_q   = 0.0
 
@@ -446,7 +446,7 @@ IF (ABS(largest_error_q) > max_diff_warning .AND.                              &
 
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 
 RETURN
 END SUBROUTINE wtrac_checks_grid

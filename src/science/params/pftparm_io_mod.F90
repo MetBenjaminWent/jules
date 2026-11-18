@@ -212,7 +212,7 @@ USE check_iostat_mod, ONLY:  check_iostat
 USE UM_parcore,       ONLY:  mype
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE errormessagelength_mod, ONLY: errormessagelength
 IMPLICIT NONE
 
@@ -349,7 +349,7 @@ END TYPE my_namelist
 
 TYPE (my_namelist) :: my_nml
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 CALL gc_get_communicator(my_comm, icode)
 
@@ -595,7 +595,7 @@ END IF
 
 CALL mpl_type_free(mpl_nml_type,icode)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE read_nml_jules_pftparm
 #endif
@@ -606,7 +606,7 @@ SUBROUTINE init_pftparm_allocated()
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE pftparm, ONLY:                                                             &
 ! namelist variables:
@@ -664,7 +664,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='INIT_PFTPARM_ALLOCATED'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 ! Radiation and albedo parameters.
 albsnc_max(:)   = albsnc_max_io(1:npft)
@@ -808,7 +808,7 @@ sox_p50(:)      = sox_p50_io(1:npft)
 sox_rp_min(:)   = sox_rp_min_io(1:npft)
 
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE init_pftparm_allocated
 

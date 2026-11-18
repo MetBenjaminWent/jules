@@ -62,7 +62,7 @@ USE pftparm,                  ONLY: a_ws, eta_sl, a_wl, b_wl
 
 USE umPrintMgr,               ONLY: umPrint, umMessage
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1,                 ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -111,7 +111,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='INIT_VEG'
 ! If TRIFFID on, call INIT_MIN to ensure PFT fractions are GE minimum
 ! fraction except where vegetation excluded by ice, water or urban
 !-----------------------------------------------------------------------
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 IF (l_triffid) THEN
   CALL init_min(land_pts,frac_surft,soil_carb1)
@@ -213,7 +213,7 @@ IF (l_phenol) THEN
   g_lf_pft_acc(:,:) = 0.0
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE init_veg
 END MODULE init_veg_mod

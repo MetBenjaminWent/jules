@@ -26,7 +26,7 @@ USE jules_surface_mod, ONLY: l_urban2t, l_anthrop_heat_use_wrr
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE urban_param_mod, ONLY: urban_param_type
 
@@ -41,7 +41,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='INIT_URBAN'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! .NOT. l_moruses
 ! Currently only really need wrr for anthrop heat scaling, but they are all in
@@ -68,7 +68,7 @@ IF ( l_urban2t ) THEN
   IF ( ANY( urban_param%wrr_gb(:) > 0.0 ) ) l_anthrop_heat_use_wrr = .TRUE.
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE init_urban
 END MODULE init_urban_mod

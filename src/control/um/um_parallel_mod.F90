@@ -74,7 +74,7 @@ USE scatter_field_mod, ONLY: scatter_field
 
 USE parkind1,     ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -101,7 +101,7 @@ CHARACTER(LEN=*), PARAMETER  :: RoutineName = 'UM_SCATTER_FIELD'
 !Dr Hook variables
 INTEGER(KIND=vik) :: vnr_handle_1
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Initialise output to zero
 DO j = 1, lasize(2,fld_type_p,halo_type_no_halo)
@@ -118,7 +118,7 @@ CALL scatter_field(field_local,field_global,                                   &
  fld_type_p,halo_type_no_halo,                                                 &
  master_task_id)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 
 END SUBROUTINE um_scatter_field
 
@@ -133,7 +133,7 @@ USE atm_land_sea_mask, ONLY: global_land_pts => atmos_number_of_landpts
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 !-----------------------------------------------------------------------------
@@ -173,7 +173,7 @@ CHARACTER(LEN=*), PARAMETER  :: RoutineName = 'SCATTER_LAND_FIELD'
 !Dr Hook variables
 INTEGER(KIND=vik) :: vnr_handle_2
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Scatter global land field to a 2D local grid
@@ -191,7 +191,7 @@ DO l = 1,land_pts
   field_local_land(l) = field_local_2d(i,j)
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE scatter_land_field
@@ -208,7 +208,7 @@ USE atm_land_sea_mask, ONLY: global_land_pts => atmos_number_of_landpts
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 !-----------------------------------------------------------------------------
@@ -248,7 +248,7 @@ CHARACTER(LEN=*), PARAMETER  :: RoutineName = 'SCATTER_LAND2D_FIELD'
 !Dr Hook variables
 INTEGER(KIND=vik) :: vnr_handle_3
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 DO j = 1, t_j_length
@@ -280,7 +280,7 @@ END IF
 !-----------------------------------------------------------------------------
 CALL um_scatter_field(field_global, field_local_2d)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 
 END SUBROUTINE scatter_land2d_field
@@ -297,7 +297,7 @@ USE theta_field_sizes, ONLY: t_i_length, t_j_length
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -322,7 +322,7 @@ CHARACTER(LEN=*), PARAMETER  :: RoutineName = 'UM_GATHER_FIELD'
 !Dr Hook variables
 INTEGER(KIND=vik) :: vnr_handle_4
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_4, ModuleName//':'//RoutineName)
 
 DO i = 1, glsize(1,fld_type_p) * glsize(2,fld_type_p)
   field_global(i) = 0.0
@@ -336,7 +336,7 @@ CALL gather_field(field_local,field_global,                                    &
  fld_type_p,halo_type_no_halo,                                                 &
  master_task_id)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_4)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_4)
 RETURN
 
 END SUBROUTINE um_gather_field
@@ -353,7 +353,7 @@ USE theta_field_sizes, ONLY: t_i_length, t_j_length
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 !-----------------------------------------------------------------------------
@@ -394,7 +394,7 @@ CHARACTER(LEN=*), PARAMETER  :: RoutineName = 'GATHER_LAND_FIELD'
 !Dr Hook variables
 INTEGER(KIND=vik) :: vnr_handle_5
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_5, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Convert the local land point array into a 2d array on the model grid for
@@ -421,7 +421,7 @@ END DO
 CALL gather_land2d_field(field_local_2d, field_global_land,                    &
                          global_land_index)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_5)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_5)
 RETURN
 
 END SUBROUTINE gather_land_field
@@ -437,7 +437,7 @@ USE atm_land_sea_mask, ONLY: global_land_pts => atmos_number_of_landpts
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 !-----------------------------------------------------------------------------
@@ -477,7 +477,7 @@ CHARACTER(LEN=*), PARAMETER  :: RoutineName = 'GATHER_LAND2D_FIELD'
 !Dr Hook variables
 INTEGER(KIND=vik) :: vnr_handle_6
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_6, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_6, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Initialise output variable to zero
@@ -505,7 +505,7 @@ IF ( is_master_task() ) THEN
   END DO
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_6)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_6)
 RETURN
 
 END SUBROUTINE gather_land2d_field

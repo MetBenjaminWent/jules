@@ -39,7 +39,7 @@ SUBROUTINE lake_evap_apply_soil                                                &
 USE umPrintMgr, ONLY: umPrint, umMessage
 
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 USE parkind1, ONLY: jprb, jpim
 
 IMPLICIT NONE
@@ -99,7 +99,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='LAKE_EVAP_APPLY_SOIL'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Set up soil fields on full field arrays.
 
@@ -152,7 +152,7 @@ DO l = 1, land_points
   sthu(l) = sthu_dsm_ij(i,j)
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE lake_evap_apply_soil
 END MODULE lake_evap_apply_soil_mod

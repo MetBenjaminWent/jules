@@ -97,7 +97,7 @@ USE jules_surface_mod, ONLY:                                                   &
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE crop_utils_mod, ONLY:                                                      &
    stemc_from_prognostics,                                                     &
@@ -570,7 +570,7 @@ INTEGER(KIND=vik) :: vnr_handle_1
 
 CHARACTER(LEN=*), PARAMETER :: RoutineName='SF_STOM'
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Initialisation.
@@ -1708,7 +1708,7 @@ IF ( l_fapar_diag ) THEN
   apar_diag(:) = fapar_diag(:) * ipar(:)
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE sf_stom
 
@@ -1733,7 +1733,7 @@ USE pftparm, ONLY: fd, jv25_ratio, neff, vint, vsl
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -1812,7 +1812,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='CALC_PHOTO_PARAMETERS'
 !-----------------------------------------------------------------------------
 !end of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Calculate some constants.
@@ -1933,7 +1933,7 @@ END DO
 !$OMP END DO NOWAIT
 !$OMP END PARALLEL
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 
 END SUBROUTINE calc_photo_parameters
@@ -1947,7 +1947,7 @@ SUBROUTINE calc_electron_flux( land_pts, veg_pts, veg_index, i2, jmax, je )
 
 USE parkind1, ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -2003,7 +2003,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='CALC_ELECTRON_FLUX'
 !-----------------------------------------------------------------------------
 !end of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_3, ModuleName//':'//RoutineName)
 
 !-----------------------------------------------------------------------------
 ! Calculate a constant.
@@ -2022,7 +2022,7 @@ DO m = 1,veg_pts
            ) * recip_denom
 END DO
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_3)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_3)
 RETURN
 
 END SUBROUTINE calc_electron_flux

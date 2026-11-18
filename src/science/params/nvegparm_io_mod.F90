@@ -67,7 +67,7 @@ USE errormessagelength_mod, ONLY: errormessagelength
 
 USE parkind1,         ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 IMPLICIT NONE
 
@@ -106,7 +106,7 @@ END TYPE my_namelist
 
 TYPE (my_namelist) :: my_nml
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 CALL gc_get_communicator(my_comm, icode)
 
@@ -154,7 +154,7 @@ END IF
 
 CALL mpl_type_free(mpl_nml_type,icode)
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 END SUBROUTINE read_nml_jules_nvegparm
 #endif
@@ -164,7 +164,7 @@ SUBROUTINE init_nvegparm_allocated()
 !No USE statements other than Dr Hook
 USE parkind1,    ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 USE nvegparm, ONLY:                                                            &
 ! namelist variables:
@@ -187,7 +187,7 @@ CHARACTER(LEN=*), PARAMETER :: RoutineName='INIT_NVEGPARM_ALLOCATED'
 
 !End of header
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_2, ModuleName//':'//RoutineName)
 
 albsnc_nvg(:)                       = albsnc_nvg_io(1:nnvg)
 albsnf_nvg(:)                       = albsnf_nvg_io(1:nnvg)
@@ -209,7 +209,7 @@ IF ( l_moruses ) THEN
   l_z0_nvg( urban_roof - npft )   = .FALSE.
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_2)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_2)
 RETURN
 END SUBROUTINE init_nvegparm_allocated
 

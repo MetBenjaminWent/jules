@@ -57,7 +57,7 @@ USE c_rmol,                  ONLY: rmol       ! Universal gas constant
 USE um_types,                ONLY: real_jlslsm
 USE parkind1,                ONLY: jprb, jpim
 USE vernier_mod, ONLY: vernier_start, vernier_stop, vik
-USE vernier_timing_mod, ONLY: LPROF_JULES
+USE vernier_timing_mod, ONLY: lprof_jules
 
 
 IMPLICIT NONE
@@ -257,7 +257,7 @@ CHARACTER(LEN=*), PARAMETER ::                                                 &
   RoutineName='DEPOSITION_INITIALISATION_SURFDDR_UKCA'
 
 
-IF (LPROF_JULES) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
+IF (lprof_jules) CALL vernier_start(vnr_handle_1, ModuleName//':'//RoutineName)
 
 ! Set up standard resistance array rsurf
 
@@ -1262,7 +1262,7 @@ IF (ntype ==27) THEN
   END DO
 END IF
 
-IF (LPROF_JULES) CALL vernier_stop(vnr_handle_1)
+IF (lprof_jules) CALL vernier_stop(vnr_handle_1)
 RETURN
 
 END SUBROUTINE deposition_initialisation_surfddr_ukca
